@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "allowSyntheticDefaultImports": true,
+        "module": "commonjs",
+        "target": "es6",
+        "jsx": "react",
+        "lib": ["es2015", "dom"],
+        "types": [
+            "jest",
+            "jquery",
+            "chrome",
+            "node"
+        ],
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}

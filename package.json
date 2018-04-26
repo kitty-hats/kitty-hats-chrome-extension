@@ -1,0 +1,72 @@
+{
+  "name": "kitty-hats",
+  "version": "1.0.0",
+  "description": "Cryptokitty marketplace",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "sync-images": "./bin/syncImages.sh",
+    "test": "jest",
+    "build": "webpack",
+    "lint": "tslint  --force --project .",
+    "build:dev": "webpack -d --watch",
+    "serve": "ws --https -p 8080",
+    "build:staging": "NODE_ENV=staging webpack --env.NODE_ENV=staging",
+    "build:prod": "NODE_ENV=prod webpack --env.NODE_ENV=prod",
+    "bundle": "./bin/createBundle.sh;",
+    "deploy:staging": "s3-deploy './bundle/web/**' --cwd './' --region us-west-2 --bucket kittyhats-stage --deleteRemoved",
+    "deploy:prod": "s3-deploy './bundle/web/**' --cwd './' --region us-west-2 --bucket kittyhats --deleteRemoved",
+    "invalidate:staging": "aws cloudfront create-invalidation --distribution-id E243ZB21EQLBUM --paths '/*'",
+    "invalidate:prod": "aws cloudfront create-invalidation --distribution-id E3PN3NWLWNUZD9 --paths '/*'",
+    "release:staging": "npm run test && npm run build:staging && npm run bundle && npm run deploy:staging",
+    "release:prod": "npm run test && npm run build:prod && npm run bundle && npm run deploy:prod"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "halogenium": "^2.2.3",
+    "history-events": "^1.0.4",
+    "jest": "^21.2.1",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "web3": "^1.0.0-beta.26"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/chrome": "0.0.56",
+    "@types/jest": "^21.1.6",
+    "@types/jquery": "^3.2.17",
+    "@types/lodash": "^4.14.91",
+    "@types/react": "^16.0.19",
+    "@types/react-dom": "^16.0.2",
+    "@types/react-test-renderer": "^16.0.0",
+    "awesome-typescript-loader": "^3.2.3",
+    "local-web-server": "^2.3.0",
+    "ngrok": "^2.2.24",
+    "react-test-renderer": "^16.1.1",
+    "s3-deploy": "^0.8.0",
+    "source-map-loader": "^0.2.3",
+    "style-loader": "^0.19.0",
+    "ts-jest": "^21.2.2",
+    "ts-loader": "^3.2.0",
+    "tslint": "^5.8.0",
+    "tslint-react": "^3.2.0",
+    "tslint-react-recommended": "^1.0.15",
+    "typescript": "^2.5.3",
+    "webpack": "^3.8.1",
+    "xhr-mock": "^1.9.1"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
+  }
+}
