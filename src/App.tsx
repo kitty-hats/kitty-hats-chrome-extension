@@ -73,6 +73,7 @@ export class App extends React.Component<IAppProps, IAppState> {
 		this.giftItemPressed = this.giftItemPressed.bind(this);
 		this.applyPressed = this.applyPressed.bind(this);
 		this.onKittyClicked = this.onKittyClicked.bind(this);
+                this.onCryptoGoodsClicked = this.onCryptoGoodsClicked.bind(this);
 
 		this.startMetamaskAccountPolling = this.startMetamaskAccountPolling.bind(this);
 		this.checkMetamaskLogin = this.checkMetamaskLogin.bind(this);
@@ -122,6 +123,15 @@ export class App extends React.Component<IAppProps, IAppState> {
 			this.emitShowApp(result.data.kitties[0].id, result.data.kitties[0]);
 		}
 	}
+
+        public onCryptoGoodsClicked(event) {
+            var kittyData = this.state.kittyData;
+            (window as any).CryptoGoods.open({
+                payload: {
+                    image_url: kittyData.image_url
+                }
+            });
+        }
 
 	public emitShowApp(id, meta) {
 		window.postMessage({
@@ -507,7 +517,7 @@ export class App extends React.Component<IAppProps, IAppState> {
 			ownerKitties,
 			isInIframe
 		} = this.state;
-		const { fetchKittyCoreOwnership, onKittyClicked } = this;
+		const { fetchKittyCoreOwnership, onKittyClicked, onCryptoGoodsClicked} = this;
 		const previewContainerBgColor = (kittyData && c.BackgroundColor[kittyData.color] ?
 				c.BackgroundColor[kittyData.color].tint : c.BackgroundColor.babyblue.tint);
 		const isSpecial = kittyData && kittyData.fancy_type !== null;
@@ -541,6 +551,13 @@ export class App extends React.Component<IAppProps, IAppState> {
 				</div>
 				<div style={{ display: 'flex', flexDirection: 'row', marginTop: '1vh'}}>
 					<div style={{ ... styles.previewContainer }}>
+                                                {
+				            	    (appliedItems.length > 0) && (
+                                                        <div onClick={onCryptoGoodsClicked} style={{float: 'right', top: '3px', right: '23%', height: '15%', width: '15%', zIndex: 1}} data-tooltip={`Show off your KittyHat in the real world with CryptoGoods`}>
+				            	    	<img style={{width:'100%'}} src='/img/crypto-goods.png'/>
+				                	</div>
+				                    )
+				                }
 						<img
 							// tslint:disable-next-line:max-line-length
 							src={(isNonNull(kittyData) ? kittyData.image_url : 'img/nullcat.svg')}

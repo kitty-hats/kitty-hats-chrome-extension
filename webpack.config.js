@@ -9,6 +9,7 @@ module.exports = {
     entry: {
         applySkins: path.join(__dirname,'src/applySkins.ts'),
         main: path.join(__dirname,'src/main.ts'),
+        cryptoGoods: path.join(__dirname, 'src/cryptoGoods.js'),
     },
 
     output: {
