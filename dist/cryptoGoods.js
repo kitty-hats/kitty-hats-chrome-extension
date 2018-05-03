@@ -66,12 +66,15 @@
 /******/ ({
 
 /***/ 97:
+/*!****************************!*\
+  !*** ./src/cryptoGoods.js ***!
+  \****************************/
+/*! dynamic exports provided */
+/*! all exports used */
 /***/ (function(module, exports) {
 
-window._cg=function e(t){if(window===this)return new e(t);var i=this;return i.parent=document.querySelector(t||"body"),window._cgMessage&&window.removeEventListener("message",window._cgMessage,!1),window.addEventListener("message",window._cgMessage=function(e){try{var t=JSON.parse(e.data);if("_cgcomms"===t.name)switch(t.action){case"closed":i.closed.bind(i)()}}catch(e){}},!1),i},_cg.prototype={open:function(e){return this.iframe=null,this.parent&&(this.iframe=this.parent.querySelector("cryptogoods"),this.iframe||(this.iframe=document.createElement("iframe")),this.iframe.src=location.protocol+"//"+"www.cryptogoods.co"+"/embed?product="+((e||{}).product||"")+"&payload="+JSON.stringify((e||{}).payload||"")+"&token_id="+((e||{}).token_id||"")+"&contract_name="+((e||{}).contract_name||"")+"&contract_address="+((e||{}).contract_address||"")+"&referrer="+((e||{}).referrer||"")+"&brand_color="+encodeURIComponent((e||{}).brand_color||"")+"&adm_test="+encodeURIComponent((e||{}).test||""),this.iframe.style.position="fixed",this.iframe.style.top=0,this.iframe.style.bottom=0,this.iframe.style.left=0,this.iframe.style.right=0,this.iframe.style.width="100%",this.iframe.style.height="100%",this.iframe.style.border=0,this.iframe.style.zIndex=9999,this.iframe.width="100%",this.iframe.height="100%",this.iframe.borderWidth=0,this.parent.appendChild(this.iframe)),this},closed:function(){this.iframe&&setTimeout(function(){this.iframe&&this.iframe.parentNode&&(this.iframe.parentNode.removeChild(this.iframe),this.iframe=null)}.bind(this),750)}},function(e,t){function i(){if(!r){r=!0;for(var e=0;e<n.length;e++)n[e].fn.call(window,n[e].ctx);n=[]}}function o(){"complete"===document.readyState&&i()}e=e||"docReady",t=t||window;var n=[],r=!1,a=!1;t[e]=function(e,t){if("function"!=typeof e)throw new TypeError("callback for docReady(fn) must be a function");return r?void setTimeout(function(){e(t)},1):(n.push({fn:e,ctx:t}),void("complete"===document.readyState?setTimeout(i,1):a||(document.addEventListener?(document.addEventListener("DOMContentLoaded",i,!1),window.addEventListener("load",i,!1)):(document.attachEvent("onreadystatechange",o),window.attachEvent("onload",i)),a=!0)))}}("docReady",window),docReady(function(){window.CryptoGoods=_cg()});
-
+eval("throw new Error(\"Module build failed: Error: ENOENT: no such file or directory, open '/Users/DanielViau/Desktop/stuff/kitty-hats-org/kitty-hats-chrome-extension/src/cryptoGoods.js'\");//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiOTcuanMiLCJzb3VyY2VzIjpbXSwibWFwcGluZ3MiOiIiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///97\n");
 
 /***/ })
 
 /******/ });
-//# sourceMappingURL=cryptoGoods.js.map

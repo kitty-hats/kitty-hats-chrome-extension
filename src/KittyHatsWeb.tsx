@@ -44,7 +44,7 @@ interface IAppProps {
 	// We dont need props since we're interacting through standard window events.
 	// To get a clean seperation of interaface in and out of the app
 }
-export class App extends React.Component<IAppProps, IAppState> {
+export class KittyHatsWeb extends React.Component<IAppProps, IAppState> {
 	private containerElement: JQuery<HTMLElement>;
 	public constructor(props) {
 		// Start listening to the window events and watch for show events
