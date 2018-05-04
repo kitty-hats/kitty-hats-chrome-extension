@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { KittyHatsWeb } from './KittyHatsWeb';
 import { KittyHatsCryptoGoods } from './KittyHatsCryptoGoods';
 
@@ -9,10 +9,10 @@ export function initReactAppInContainer(appContainerId) {
 	ReactDOM.render(
 		(
 			<Router>
-				<div>
+				<Switch>
 					<Route exact path='/' render={(props) => <KittyHatsWeb container={appContainerId} version='1.0.0' />}/>
-					<Route path='/cg/:id' render={(props) => <KittyHatsCryptoGoods container={appContainerId} version='1.0.0' />}/>
-				</div>
+					<Route path='/cg/:id' render={(props) => <KittyHatsCryptoGoods props={props} container={appContainerId} version='1.0.0' />}/>
+				</Switch>
 			</Router>
 		),
 		document.getElementById(appContainerId)

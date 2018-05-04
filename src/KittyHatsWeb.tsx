@@ -773,6 +773,71 @@ export class KittyHatsWeb extends React.Component<IAppProps, IAppState> {
 				</div>
 
 			</div>
+                        <div>
+                                <div style={{position:'fixed',bottom:0,height:'25px',width:'100%',display:'flex','flexDirection':'row-reverse','fontSize':'14px'}}>
+
+                		        <div>
+						<span style={{marginRight:'20px'}}> © Salina Labs 2018</span>
+					</div>
+
+					{{/* do something different with `/privacy.html` and `/tos.html` */}}
+                		        <div><a target={{_blank}} 
+						href={{/privacy.html}}  
+						style={{marginRight:'20px',color:'#4babff','font-weight':500}}>
+						Privacy Policy
+						</a>
+					</div>
+
+                		        <div><a target={{_blank}} 
+						href={{/tos.html}} 
+						style={{marginRight:'20px',color:'#4babff','font-weight':500}}>
+						Terms of Service
+						</a>
+					</div>
+
+                		        <div><a target={{_blank}} 
+						href={{https://medium.com/@cryptokittyhawk/how-to-draw-a-hat-b640cd4783d7}} 
+						style={{marginRight:'20px',color:'#4babff','font-weight':500}>
+						Artists
+						</a>
+					</div>
+
+                		        <div><a target={{_blank}} 
+						href={{https://docs.google.com/document/d/1ZLfURiFvYRmcRozp-00C48Q63PjQz-uMrP9ehWrRg3k}} 
+						style={{marginRight:'20px',color:'#4babff','font-weight':500}}>
+						White Pa-purr
+						</a>
+					</div>
+
+                		        <div><a target={{_blank}} 
+						href={{https://discord.gg/uYzp3vr}} 
+						style={{marginRight:'20px',color:'#4babff','font-weight':500}}>
+						Discord
+						</a>
+					</div>
+
+                		        <div><a target={{_blank}} 
+						href={{https://etherscan.io/address/0xfc9ec868f4c8c586d1bb7586870908cca53d5f38}} 
+						style={{marginRight:'20px',color:'#4babff','font-weight':500}}>
+						Etherscan
+						</a>
+					</div>
+
+                		        <div><a target={{_blank}} 
+						href={{https://chrome.google.com/webstore/detail/kitty-hats/fhdpjkkmdmpdglambidhbckogfhhelok?authuser=1}} 
+						style={{marginRight:'20px',color:'#4babff','font-weight':500}}>
+						Chrome Extension
+						</a>
+					</div>
+
+                		        <div><a target={{_blank}} 
+						href={{https://www.kittyexplorer.com/?source=kittyhats}} 
+						style={{marginRight:'20px',color:'#4babff','font-weight':500}}>
+						KittyExplorer
+						</a>
+					</div> 
+                		</div>
+                        </div>
 		);
 	}
 }
