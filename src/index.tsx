@@ -11,7 +11,7 @@ export function initReactAppInContainer(appContainerId) {
 			<Router>
 				<Switch>
 					<Route exact path='/' render={(props) => <KittyHatsWeb container={appContainerId} version='1.0.0' />}/>
-					<Route path='/cg/:id' render={(props) => <KittyHatsCryptoGoods props={props} container={appContainerId} version='1.0.0' />}/>
+					<Route path='/cg/:id' render={(props) => <KittyHatsCryptoGoods props={...props} container={appContainerId} version='1.0.0' />}/>
 				</Switch>
 			</Router>
 		),

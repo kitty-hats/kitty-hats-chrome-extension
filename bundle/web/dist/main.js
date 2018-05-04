@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 55);
+/******/ 	return __webpack_require__(__webpack_require__.s = 78);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,8 +70,22 @@
 "use strict";
 
 
-var bind = __webpack_require__(9);
-var isBuffer = __webpack_require__(28);
+if (false) {
+  module.exports = require('./cjs/react.production.min.js');
+} else {
+  module.exports = __webpack_require__(80);
+}
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bind = __webpack_require__(16);
+var isBuffer = __webpack_require__(37);
 
 /*global toString:true*/
 
@@ -374,21 +388,74 @@ module.exports = {
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/**
+ * Copyright 2014-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
 
 
-if (false) {
-  module.exports = require('./cjs/react.production.min.js');
-} else {
-  module.exports = __webpack_require__(57);
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var warning = function() {};
+
+if (true) {
+  warning = function(condition, format, args) {
+    var len = arguments.length;
+    args = new Array(len > 2 ? len - 2 : 0);
+    for (var key = 2; key < len; key++) {
+      args[key - 2] = arguments[key];
+    }
+    if (format === undefined) {
+      throw new Error(
+        '`warning(condition, format, ...args)` requires a warning ' +
+        'message argument'
+      );
+    }
+
+    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+      throw new Error(
+        'The warning format should be able to uniquely identify this ' +
+        'warning. Please, use a more descriptive format than: ' + format
+      );
+    }
+
+    if (!condition) {
+      var argIndex = 0;
+      var message = 'Warning: ' +
+        format.replace(/%s/g, function() {
+          return args[argIndex++];
+        });
+      if (typeof console !== 'undefined') {
+        console.error(message);
+      }
+      try {
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        throw new Error(message);
+      } catch(x) {}
+    }
+  };
 }
+
+module.exports = warning;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -413,7 +480,7 @@ if (true) {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(77)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(131)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -422,13 +489,13 @@ if (true) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var getVendorPropertyName = __webpack_require__(78);
+var getVendorPropertyName = __webpack_require__(132);
 
 module.exports = function(target, sources) {
   var to = Object(target);
@@ -459,14 +526,14 @@ module.exports = function(target, sources) {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var insertRule = __webpack_require__(80);
-var vendorPrefix = __webpack_require__(81)();
+var insertRule = __webpack_require__(134);
+var vendorPrefix = __webpack_require__(135)();
 var index = 0;
 
 module.exports = function(keyframes) {
@@ -496,17 +563,17 @@ module.exports = function(keyframes) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const mainnetListing = __webpack_require__(21);
-const devListing = __webpack_require__(22);
-const KittyCoreExample = __webpack_require__(23);
-const KittyItemMarket = __webpack_require__(24);
-const KittyItemToken = __webpack_require__(25);
+const mainnetListing = __webpack_require__(31);
+const devListing = __webpack_require__(32);
+const KittyCoreExample = __webpack_require__(33);
+const KittyItemMarket = __webpack_require__(34);
+const KittyItemToken = __webpack_require__(35);
 const environments = {
     development: Object.assign({ appUrl: 'https://127.0.0.1:8080', apiEndpoint: 'http://localhost:3000' }, mainnetListing, { contracts: {
             KittyItemMarket,
@@ -534,14 +601,187 @@ exports.default = config;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var validateFormat = function validateFormat(format) {};
+
+if (true) {
+  validateFormat = function validateFormat(format) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  };
+}
+
+function invariant(condition, format, a, b, c, d, e, f) {
+  validateFormat(format);
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(format.replace(/%s/g, function () {
+        return args[argIndex++];
+      }));
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+}
+
+module.exports = invariant;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var emptyFunction = __webpack_require__(12);
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var warning = emptyFunction;
+
+if (true) {
+  var printWarning = function printWarning(format) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    var argIndex = 0;
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+      return args[argIndex++];
+    });
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+
+  warning = function warning(condition, format) {
+    if (format === undefined) {
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+
+    if (format.indexOf('Failed Composite propType: ') === 0) {
+      return; // Ignore CompositeComponent proptype check.
+    }
+
+    if (!condition) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        args[_key2 - 2] = arguments[_key2];
+      }
+
+      printWarning.apply(undefined, [format].concat(args));
+    }
+  };
+}
+
+module.exports = warning;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (true) {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(100)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = require('./factoryWithThrowingShims')();
+}
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isNull = (v) => v === undefined || v === null;
+exports.isNonNull = (v) => !exports.isNull(v);
+exports.isInIframe = () => window && window.self !== window.top;
+
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(31);
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(40);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -557,10 +797,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(10);
+    adapter = __webpack_require__(17);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(10);
+    adapter = __webpack_require__(17);
   }
   return adapter;
 }
@@ -631,296 +871,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNull = (v) => v === undefined || v === null;
-exports.isNonNull = (v) => !exports.isNull(v);
-exports.isInIframe = () => window && window.self !== window.top;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(27);
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(32);
-var buildURL = __webpack_require__(34);
-var parseHeaders = __webpack_require__(35);
-var isURLSameOrigin = __webpack_require__(36);
-var createError = __webpack_require__(11);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(37);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("staging" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config, null, request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
-        request));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(38);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
-        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
-        if (config.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(33);
-
-/**
- * Create an Error with the specified message, config, error code, request and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- * @param {Object} [request] The request.
- * @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, request, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, request, response);
-};
-
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)))
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -962,7 +916,65 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 15 */
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (true) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -18051,192 +18063,519 @@ module.exports = emptyFunction;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18), __webpack_require__(19)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29), __webpack_require__(30)(module)))
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(36);
 
 /***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 
 
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function validateFormat(format) {};
-
-if (true) {
-  validateFormat = function validateFormat(format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
     }
+    return fn.apply(thisArg, args);
   };
-}
+};
 
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-module.exports = invariant;
 
 /***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 
 
+var utils = __webpack_require__(1);
+var settle = __webpack_require__(41);
+var buildURL = __webpack_require__(43);
+var parseHeaders = __webpack_require__(44);
+var isURLSameOrigin = __webpack_require__(45);
+var createError = __webpack_require__(18);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(46);
 
-var emptyFunction = __webpack_require__(14);
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
 
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = emptyFunction;
-
-if (true) {
-  var printWarning = function printWarning(format) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
     }
 
-    var argIndex = 0;
-    var message = 'Warning: ' + format.replace(/%s/g, function () {
-      return args[argIndex++];
-    });
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
 
-  warning = function warning(condition, format) {
-    if (format === undefined) {
-      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ("staging" !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
     }
 
-    if (format.indexOf('Failed Composite propType: ') === 0) {
-      return; // Ignore CompositeComponent proptype check.
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
-    if (!condition) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
       }
 
-      printWarning.apply(undefined, [format].concat(args));
-    }
-  };
-}
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
 
-module.exports = warning;
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config, null, request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED',
+        request));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(47);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        // Expected DOMException thrown by browsers not compatible XMLHttpRequest Level 2.
+        // But, this can be suppressed for 'json' type as it can be parsed by default 'transformResponse' function.
+        if (config.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-var g;
+"use strict";
 
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
 
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
+var enhanceError = __webpack_require__(42);
 
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
+/**
+ * Create an Error with the specified message, config, error code, request and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ * @param {Object} [request] The request.
+ * @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, request, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, request, response);
+};
 
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
 };
 
 
 /***/ }),
 /* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var addLeadingSlash = exports.addLeadingSlash = function addLeadingSlash(path) {
+  return path.charAt(0) === '/' ? path : '/' + path;
+};
+
+var stripLeadingSlash = exports.stripLeadingSlash = function stripLeadingSlash(path) {
+  return path.charAt(0) === '/' ? path.substr(1) : path;
+};
+
+var hasBasename = exports.hasBasename = function hasBasename(path, prefix) {
+  return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path);
+};
+
+var stripBasename = exports.stripBasename = function stripBasename(path, prefix) {
+  return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
+};
+
+var stripTrailingSlash = exports.stripTrailingSlash = function stripTrailingSlash(path) {
+  return path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path;
+};
+
+var parsePath = exports.parsePath = function parsePath(path) {
+  var pathname = path || '/';
+  var search = '';
+  var hash = '';
+
+  var hashIndex = pathname.indexOf('#');
+  if (hashIndex !== -1) {
+    hash = pathname.substr(hashIndex);
+    pathname = pathname.substr(0, hashIndex);
+  }
+
+  var searchIndex = pathname.indexOf('?');
+  if (searchIndex !== -1) {
+    search = pathname.substr(searchIndex);
+    pathname = pathname.substr(0, searchIndex);
+  }
+
+  return {
+    pathname: pathname,
+    search: search === '?' ? '' : search,
+    hash: hash === '#' ? '' : hash
+  };
+};
+
+var createPath = exports.createPath = function createPath(location) {
+  var pathname = location.pathname,
+      search = location.search,
+      hash = location.hash;
+
+
+  var path = pathname || '/';
+
+  if (search && search !== '?') path += search.charAt(0) === '?' ? search : '?' + search;
+
+  if (hash && hash !== '#') path += hash.charAt(0) === '#' ? hash : '#' + hash;
+
+  return path;
+};
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addLeadingSlash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return stripLeadingSlash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return hasBasename; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return stripBasename; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return stripTrailingSlash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return parsePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return createPath; });
+var addLeadingSlash = function addLeadingSlash(path) {
+  return path.charAt(0) === '/' ? path : '/' + path;
+};
+
+var stripLeadingSlash = function stripLeadingSlash(path) {
+  return path.charAt(0) === '/' ? path.substr(1) : path;
+};
+
+var hasBasename = function hasBasename(path, prefix) {
+  return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path);
+};
+
+var stripBasename = function stripBasename(path, prefix) {
+  return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
+};
+
+var stripTrailingSlash = function stripTrailingSlash(path) {
+  return path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path;
+};
+
+var parsePath = function parsePath(path) {
+  var pathname = path || '/';
+  var search = '';
+  var hash = '';
+
+  var hashIndex = pathname.indexOf('#');
+  if (hashIndex !== -1) {
+    hash = pathname.substr(hashIndex);
+    pathname = pathname.substr(0, hashIndex);
+  }
+
+  var searchIndex = pathname.indexOf('?');
+  if (searchIndex !== -1) {
+    search = pathname.substr(searchIndex);
+    pathname = pathname.substr(0, searchIndex);
+  }
+
+  return {
+    pathname: pathname,
+    search: search === '?' ? '' : search,
+    hash: hash === '#' ? '' : hash
+  };
+};
+
+var createPath = function createPath(location) {
+  var pathname = location.pathname,
+      search = location.search,
+      hash = location.hash;
+
+
+  var path = pathname || '/';
+
+  if (search && search !== '?') path += search.charAt(0) === '?' ? search : '?' + search;
+
+  if (hash && hash !== '#') path += hash.charAt(0) === '#' ? hash : '#' + hash;
+
+  return path;
+};
+
+/***/ }),
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -28496,37 +28835,7 @@ return jQuery;
 
 
 /***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-module.exports = {"version":"1.0.0","networkId":"1","marketplaceAddress":"0xfc9ec868f4c8c586d1bb7586870908cca53d5f38","kittyCoreAddress":"0x06012c8cf97BEaD5deAe237070F9587f8E7A266d","categories":{"memes":{"displayName":"Memes","items":[{"name":"Tie'd Pod","contract":"ItemMemeTidePod","tokenAddress":"0x9cbd70665cfc178dd5598bd8b9e3cccebe34f948","artist":"ADHDKitties","assetUrl":"tidepodbowtie"},{"name":"Cucumbers Behind Cats","contract":"ItemMemeCucumber","tokenAddress":"0x5c7c99a3ce83c3400ea21608651e7941a7ff1b92","artist":"BxKat","assetUrl":"cucumber"},{"name":"Chemistry Cat","contract":"ItemMemeScience","tokenAddress":"0xcc45a3f00a5a672b3f2f3efcf9a8325db9448bc0","artist":"BxKat","assetUrl":"chemistrycat"},{"name":"Breading","contract":"ItemMemeBread","tokenAddress":"0x2881d326f657c31fc538caa72c8c8ea5dc9da9a9","artist":"BxKat","assetUrl":"breading"},{"name":"Keyboard Cat","contract":"ItemMemeKeyboard","tokenAddress":"0x98f1ada35615e768aa30e217f62d52fa723bcda6","artist":"BxKat","assetUrl":"keyboard"},{"name":"Maru's Tiny Box","contract":"ItemMemeMaruBox","tokenAddress":"0xae49153ec8d6aed68d0d165a946684d9e27fd9b1","artist":"BxKat","assetUrl":"tinybox"},{"name":"More Treats?! Strawberry Hat","contract":"ItemMemeStrawberryHat","tokenAddress":"0x8d0d00744df3c57d434f82b15cb1a643ba46cd67","artist":"BxKat","assetUrl":"strawberryhat"},{"name":"More Treats?! Pumpkin Hat","contract":"ItemMemePumpkinHat","tokenAddress":"0xde4e1963fbd541bf51e6eeb8a95326623aca17a8","artist":"BxKat","assetUrl":"pumpkinhat"},{"name":"Deal With It Shades","contract":"ItemMemeDealWithItShades","tokenAddress":"0x7a72acc9b57c7c58189dd3370edbfb03621bd9a1","artist":"ParanoidLunatic","assetUrl":"dealwithit"}],"order":1},"accessories":{"displayName":"Accessories","items":[{"name":"Fuzzy Ball of Yarn","contract":"ItemYarn","tokenAddress":"0xb9e9ae95ffd4223f14b87e565ad0f00838a566f2","artist":"BxKat","assetUrl":"yarnball"},{"name":"Ethereum Collar","contract":"ItemEthereumCollar","tokenAddress":"0x280a511ebad860e945e1829e2c8435748b05d147","charity":"ASPCA and ETH Foundation","assetUrl":"collar"},{"name":"iWatch","contract":"ItemiWatch","tokenAddress":"0x54616a975dec9256f8fe26a99b2fcd6affbf6eaf","assetUrl":"iwatch"},{"name":"Lei","contract":"ItemLei","tokenAddress":"0x5e064285ec172449a85643c2000a4f1b390e16c2","assetUrl":"lei"},{"name":"Mom Tattoo","contract":"ItemMomTattoo","tokenAddress":"0x96e617630c15c3a4b4fde32f6eec434ae31b392f","assetUrl":"momtat"},{"name":"Bowtie","contract":"ItemBowtie","tokenAddress":"0xf6eb0570fb3f4ccfb21aea5603b3163d22070cf2","artist":"Kittyhawk","assetUrl":"bowtie"},{"name":"Ladybug Headband","contract":"ItemLadybug","tokenAddress":"0x04bc7647a545cc8eee31280b3e3eb3b2e8b2d978","artist":"Kittyhawk","assetUrl":"ladybug"},{"name":"Viking Shield","contract":"ItemVikingShield","tokenAddress":"0x7b412a4dafbdea838e646af207999d5e05d9f077","artist":"Kittyhawk","assetUrl":"vikingshield"},{"name":"Monocle","contract":"ItemMonocle","tokenAddress":"0xc08a7840a35bc9f11801479c81532b2ac72a7c82","artist":"Kittyhawk","assetUrl":"monocle"},{"name":"Paw Me Pls","contract":"ItemPawMePls","tokenAddress":"0xba79987d39d004802a157c27436aadcc16469503","artist":"Kittyhawk","assetUrl":"sign_pawmepls"},{"name":"Chocolate Pudding Headband","contract":"ItemChocoHeadband","tokenAddress":"0xf5353cb6ef1eeeeada2ff197d991492904fcfcad","artist":"Kittyhawk","assetUrl":"headband_choco"},{"name":"3D glasses","contract":"Item3dGlasses","tokenAddress":"0xddef3b261fa9a5995691838ce97eac616b34fcad","artist":"Kittyhawk","assetUrl":"glasses_3d"},{"name":"Time Machine","contract":"ItemTimeMachine","tokenAddress":"0x1f5a521d8fa643bf699b477b0c9edefd82864cab","artist":"Kittyhawk","assetUrl":"box_timemachine"},{"name":"Red Flower","contract":"ItemFlowerRed","tokenAddress":"0xe66ce7ea9738165a42fb898fe081ed10e50396c5","artist":"Kittyhawk","assetUrl":"flower_red"},{"name":"Bubbles For Sadie (#K4C)","contract":"ItemBubblesForSadie","tokenAddress":"0xb45287d3b10a60025d1973c995e015708e2fb23f","artist":"Kittyhawk","charity":"Kitties For a Cause","assetUrl":"bubbles4sadie"},{"name":"Dead Bird","contract":"ItemDeadBird","tokenAddress":"0x4ef99102c1bcd63dc441a1887c65b419ee0effac","artist":"ParanoidLunatic","assetUrl":"birdy"},{"name":"Diamond Bracelet","contract":"ItemSpikedBracelet","tokenAddress":"0x8518f0eb44247c62d07a5ff0d97137a6285554c8","artist":"janbro","assetUrl":"diamond_bracelet"}],"order":6},"valentines":{"displayName":"Valentines","items":[{"name":"Candy Hearts","contract":"ItemValentinesCandyHearts","tokenAddress":"0xe09a0238153a0c225e1157974990b8b9559cd2b6","artist":"BxKat","assetUrl":"candyhearts"},{"name":"Surrounded by Love","contract":"ItemValentinesHeartsBackground","tokenAddress":"0x104c09b7696744ad6f7a68af0d6cec10238a94a4","artist":"BxKat","assetUrl":"heartsbg"},{"name":"Hearts Headband","contract":"ItemValentinesHeartsHeadband","tokenAddress":"0x88a2213dc4340b1333afa386d4db7a3b7a425230","artist":"Kittyhawk","assetUrl":"headband_heart"}],"order":3},"shoes":{"displayName":"Shoes","items":[{"name":"Chucks","contract":"ItemChucks","tokenAddress":"0xd822ca23fcdbf5569b3ce746a81f039b27240b35","assetUrl":"chucks"},{"name":"Mittens","contract":"ItemMittens","tokenAddress":"0x944bf9dfee296df739a68b07e53c97df0396dbb3","assetUrl":"mittens"},{"name":"Ballet Slippers","contract":"ItemBlackBalletSlippers","tokenAddress":"0xac740ff5f0ed950f63c86ee32ad87c0e54b50488","artist":"Kittyhawk","assetUrl":"balletslippers"},{"name":"Yeezys","contract":"ItemYeezy","tokenAddress":"0x6615f387e7bc610c11066cb1e534ab0f07ed8424","assetUrl":"yeezy"}],"order":7},"hats":{"displayName":"Hats","items":[{"name":"Flat Brim","contract":"ItemFlatBrim","tokenAddress":"0x64e5e8fe8210bca8ad0571b4711d77161ac459a3","assetUrl":"flatbrim"},{"name":"Tiara","contract":"ItemTiara","tokenAddress":"0x2a7fa1308c075cf214e66c2caa67883da4fa508f","assetUrl":"tiara"},{"name":"Tin foil","contract":"ItemTinFoil","tokenAddress":"0xf3126a961abc4cef0cefcb2510be431ce2782b7f","charity":"ASPCA and ETH Foundation","assetUrl":"tinfoil"},{"name":"Top Hat","contract":"ItemTopHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"tophat"},{"name":"Trapper","contract":"ItemTrapper","tokenAddress":"0x8b3c87830bb23da1270803f92ff8ffa9d4a67338","charity":"Pussyhat Project","assetUrl":"trapper"},{"name":"Viking Helmet","contract":"ItemVikingHat","tokenAddress":"0xb106e0cfd724fca820d342b5a4ac2526108a6a56","artist":"Kittyhawk","assetUrl":"vikinghelmet"},{"name":"Birds of Prey Helmet","contract":"ItemHelmetBird","tokenAddress":"0x8f5155ddc1a859c22ba3d7a2f409175e69933cdc","artist":"Kittyhawk","assetUrl":"helmet_football_birdsofprey"},{"name":"Patriotic Helmet","contract":"ItemHelmetPat","tokenAddress":"0x0dd3b0163c8974e1673601c06ab2a45d762aaff8","artist":"Kittyhawk","assetUrl":"helmet_football_patriotic"},{"name":"Blue Top Hat","contract":"ItemTopHatBlue","tokenAddress":"0xf62215163b2dbbc0b8a57f7ce8238b4d7a3b8aea","artist":"Kittyhawk","assetUrl":"tophat_blue"},{"name":"Blue Beret","contract":"ItemBeret","tokenAddress":"0x075dd07ff62488810d30d61c93dc4be94eb31be9","artist":"Kittyhawk","assetUrl":"beret_blue"},{"name":"Shower Cap","contract":"ItemShowerCap","tokenAddress":"0xb7e485240fb515cb6d38ef06824b1fa1db05ff8b","artist":"LauraO","assetUrl":"shower_cap"},{"name":"Cheesehead Hat","contract":"ItemCheeseheadHat","tokenAddress":"0x17185d3b4d1e2630366886f78cb11d6ec807df40","artist":"ParanoidLunatic","assetUrl":"cheesehat"},{"name":"Construction Hat","contract":"ItemHardHat","tokenAddress":"0x0cc0bb67b6b0c92c56328271cd6d767caa8494ab","artist":"ParanoidLunatic","assetUrl":"construction"}],"order":5},"glasses":{"displayName":"Glasses","items":[{"name":"Nerd","contract":"ItemNerdGlasses","tokenAddress":"0x837e4831753e32437bac397cefc8da67f61a74e6","assetUrl":"nerd"},{"name":"Shutter Shades","contract":"ItemShutterShades","tokenAddress":"0xda51c77380e3653189b65f3f3ffeec63d88f3ae8","assetUrl":"shutter"},{"name":"Wayfarers","contract":"ItemWayfarers","tokenAddress":"0xb1df962bb6938deb7b27cdc01ea0b41395c5d426","assetUrl":"wayfarers"}],"order":8},"costumes":{"displayName":"Costumes","items":[{"name":"Bellhop","contract":"ItemBellhop","tokenAddress":"0x21fcc28ff374bb2ff28672c7047304e0950e22a6","artist":"Kittyhawk","assetUrl":"bellhop"},{"name":"Kittyhawk Costume","contract":"ItemKittyHawk","tokenAddress":"0x7f08f6489c177e6b7b754d65ec14d26cdeb5aeac","artist":"Kittyhawk","assetUrl":"kittyhawk_costume"},{"name":"Ballerina Outfit","contract":"ItemBalletCostume","tokenAddress":"0x2a11b2990dca671df8f9e71754b94eb49b62a516","artist":"Kittyhawk","assetUrl":"ballerina_costume"}],"order":4},"special":{"displayName":"special","items":[{"name":"411 Gold Medal Award","contract":"ItemJodiMedal","tokenAddress":"0xc722587e4bc7b6b7555514b2d6dd3326f3b3ec16","artist":"Kittyhawk","assetUrl":"gold_medal_411"},{"name":"Kitties for a Cause Exclusive","contract":"ItemBellaBalloon","tokenAddress":"0x3fc20c022036dd0f854aa8ade6706859a35a3995","artist":"Kittyhawk","assetUrl":"k4c_balloon"}],"order":9},"dada":{"displayName":"dada.nyc","items":[{"name":"The Scream","contract":"ItemDadaTheScream","tokenAddress":"0xc970e68462089faac863d01fec18f7c1a4878a27","artist":"BeatrizRamos@Dada","assetUrl":"dada-thescream","url":"https://dada.nyc/pa/78673?khf=on#78673"},{"name":"Self Portrait, Dedicated to Dr. Eloesser","contract":"ItemDadaFrida","tokenAddress":"0xe3244b78ba9d11c6ce0ea2d1a5e94c2a18930e8f","artist":"BeatrizRamos@Dada","assetUrl":"dada-frida","url":"https://dada.nyc/pa/79079?khf=on#79079"},{"name":"American Gothic","contract":"ItemDadaAmericanGothic","tokenAddress":"0xb8e8faf64d0328c3607e66b5d46660fdb935dae3","artist":"Betunski@Dada","assetUrl":"dada-americangothic","url":"https://dada.nyc/pa/79090?khf=on#79090"},{"name":"The Creation of Adam","contract":"ItemDadaCreationOfAdam","tokenAddress":"0x24d677155983fefedba09e754dabba356cbb25d7","artist":"BorisSZimunich@Dada","assetUrl":"dada-creationadam","url":"https://dada.nyc/pa/78095?khf=on#78095"},{"name":"The Temptation of St. Anthony","contract":"ItemDadaTemptation","tokenAddress":"0x022cf1ad0e4256a64dce8c095962e98cf09fa588","artist":"BorisToledo@Dada","assetUrl":"dada-temptation","url":"https://dada.nyc/pa/78484?khf=on#78484"},{"name":"Lady with an Ermine","contract":"ItemDadaLadyWithErmine","tokenAddress":"0x9f0cdf83bf574cc7fe51ad628e320f2f51330427","artist":"BorisToledo@Dada","assetUrl":"dada-ladywithermine","url":"https://dada.nyc/pa/82624?khf=on#82624"},{"name":"Mona Lisa","contract":"ItemDadaMonaLisa","tokenAddress":"0x28c1fd2567f12b5d7a97551619aa85a2a344b598","artist":"BorisToledo@Dada","assetUrl":"dada-monalisa","url":"https://dada.nyc/pa/78094?khf=on#78094"},{"name":"Bedroom in Arles","contract":"ItemDadaBedroomArles","tokenAddress":"0x4e775cef6adf0e2ad1f4cbb07218f70bfa2bd8e9","artist":"BorisToledo@Dada","assetUrl":"dada-bedroomarles","url":"https://dada.nyc/pa/78716?khf=on#78716"},{"name":"Girl with a Pearl Earring","contract":"ItemDadaPearlEarring","tokenAddress":"0x446a228541433c42c1df2381a1b5c0b08f1f61d3","artist":"BorisToledo@Dada","assetUrl":"dada-pearlearring","url":"https://dada.nyc/pa/79076?khf=on#79076"},{"name":"The Birth of Venus","contract":"ItemDadaBirthVenus","tokenAddress":"0xe61185af22c67c30484a315eb2a06879c7dfb376","artist":"Cromomaniaco@Dada","assetUrl":"dada-birthvenus","url":"https://dada.nyc/pa/78265?khf=on#78265"},{"name":"The Raft of the Medusa","contract":"ItemDadaRaftMedusa","tokenAddress":"0x5eb190083b940cb297531ab95ebf4707cbfbb3af","artist":"Cromomaniaco@Dada","assetUrl":"dada-raftmedusa","url":"https://dada.nyc/pa/78429?khf=on#78429"},{"name":"Las Meninas","contract":"ItemDadaLasMeninas","tokenAddress":"0xd4b1173b33664cbfcc61262286ca50de6bf140f2","artist":"Cromomaniaco@Dada","assetUrl":"dada-lasmeninas","url":"https://dada.nyc/pa/78945?khf=on#78945"},{"name":"The Anatomy Lesson of Dr. Nicolaes Tulp","contract":"ItemDadaAnatomyLesson","tokenAddress":"0x194603a59bd660f8f98e412bfbb5ebf8acf0a18d","artist":"JavierErrecarte@Dada","assetUrl":"dada-anatomylesson","url":"https://dada.nyc/pa/79135?khf=on#79135"},{"name":"Woman in Front of the Sun","contract":"ItemDadaWomanSun","tokenAddress":"0x195518075a8596e1c2f5a645b2391d08c030cf63","artist":"LorenaPinasco@Dada","assetUrl":"dada-womansun","url":"https://dada.nyc/pa/78729?khf=on#78729"},{"name":"Portrait of Adele Bloch-Bauer I","contract":"ItemDadaPortraitAdele","tokenAddress":"0x39fc7602c6de77b0e9dfe2217b2174c1fe617161","artist":"MaFerGarzon@Dada","assetUrl":"dada-portraitadele","url":"https://dada.nyc/pa/79477?khf=on#79477"},{"name":"Seated Dancer","contract":"ItemDadaSeatedDancer","tokenAddress":"0xbf3512424972f1e602515c775531b06a734eaf7a","artist":"Massel@Dada","assetUrl":"dada-seateddancer","url":"https://dada.nyc/pa/79083?khf=on#79083"},{"name":"The Dance Class","contract":"ItemDadaDanceClass","tokenAddress":"0x262d945acc14a0c38971c16812b6d292c3c10657","artist":"Massel@Dada","assetUrl":"dada-danceclass","url":"https://dada.nyc/pa/78708?khf=on#78708"},{"name":"Two Women at a Window","contract":"ItemDadaTwoWomen","tokenAddress":"0xe489a18c1dbc902881e0fcc71fc10e1c4b4264dd","artist":"Massel@Dada","assetUrl":"dada-twowomen","url":"https://dada.nyc/pa/82944?khf=on#82944"},{"name":"At the Moulin Rouge","contract":"ItemDadaMoulinRouge","tokenAddress":"0xcaf91cac15d94454652813a8e0ffcc69dc6ec66c","artist":"RaulAvila@Dada","assetUrl":"dada-moulinrogue","url":"https://dada.nyc/pa/78674?khf=on#78674"},{"name":"The Starry Night","contract":"ItemDadaStarryNight","tokenAddress":"0x6d71052ef96c45f4455bb96f2c511f03804c62f2","artist":"VanesaStati@Dada","assetUrl":"dada-starrynight","url":"https://dada.nyc/pa/78678?khf=on#78678"},{"name":"Whistler's Mother","contract":"ItemDadaWhistlersMother","tokenAddress":"0xdb88804df82a9598070ea7fdf2d6cb8c59cc05d8","artist":"VanesaStati@Dada","assetUrl":"dada-whistlersmother","url":"https://dada.nyc/pa/78869?khf=on#78869"},{"name":"Jupiter and Io","contract":"ItemDadaJupiterIo","tokenAddress":"0xba54d1d901328d5ba471e1c451bd87461e3b8e59","artist":"SerenaStelitano@Dada","assetUrl":"dada-jupiterlo","url":"https://dada.nyc/pa/79512?khf=on#79512"}],"order":2}}}
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-module.exports = {"version":"1.0.0","networkId":"5777","marketplaceAddress":"0xa509542ada3196a38bd6fd03b253547ee09220c4","kittyCoreAddress":"0x06012c8cf97BEaD5deAe237070F9587f8E7A266d","categories":{"memes":{"displayName":"Memes","items":[{"name":"Tie'd Pod","contract":"ItemMemeTidePod","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ADHDKitties","assetUrl":"tidepodbowtie"},{"name":"Cucumbers Behind Cats","contract":"ItemMemeCucumber","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"cucumber"},{"name":"Chemistry Cat","contract":"ItemMemeScience","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"chemistrycat"},{"name":"Breading","contract":"ItemMemeBread","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"breading"},{"name":"Keyboard Cat","contract":"ItemMemeKeyboard","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"keyboard"},{"name":"Maru's Tiny Box","contract":"ItemMemeMaruBox","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"tinybox"},{"name":"More Treats?! Strawberry Hat","contract":"ItemMemeStrawberryHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"strawberryhat"},{"name":"More Treats?! Pumpkin Hat","contract":"ItemMemePumpkinHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"pumpkinhat"},{"name":"Deal With It Shades","contract":"ItemMemeDealWithItShades","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ParanoidLunatic","assetUrl":"dealwithit"}],"order":1},"accessories":{"displayName":"Accessories","items":[{"name":"Fuzzy Ball of Yarn","contract":"ItemYarn","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"yarnball"},{"name":"Ethereum Collar","contract":"ItemEthereumCollar","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","charity":"ASPCA and ETH Foundation","assetUrl":"collar"},{"name":"iWatch","contract":"ItemiWatch","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"iwatch"},{"name":"Lei","contract":"ItemLei","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"lei"},{"name":"Mom Tattoo","contract":"ItemMomTattoo","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"momtat"},{"name":"Bowtie","contract":"ItemBowtie","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"bowtie"},{"name":"Ladybug Headband","contract":"ItemLadybug","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"ladybug"},{"name":"Viking Shield","contract":"ItemVikingShield","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"vikingshield"},{"name":"Monocle","contract":"ItemMonocle","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"monocle"},{"name":"Paw Me Pls","contract":"ItemPawMePls","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"sign_pawmepls"},{"name":"Chocolate Pudding Headband","contract":"ItemChocoHeadband","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"headband_choco"},{"name":"3D glasses","contract":"Item3dGlasses","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"glasses_3d"},{"name":"Time Machine","contract":"ItemTimeMachine","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"box_timemachine"},{"name":"Red Flower","contract":"ItemFlowerRed","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"flower_red"},{"name":"Bubbles For Sadie (#K4C)","contract":"ItemBubblesForSadie","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","charity":"Kitties For a Cause","assetUrl":"bubbles4sadie"},{"name":"Dead Bird","contract":"ItemDeadBird","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ParanoidLunatic","assetUrl":"birdy"},{"name":"Diamond Bracelet","contract":"ItemSpikedBracelet","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"janbro","assetUrl":"diamond_bracelet"}],"order":6},"valentines":{"displayName":"Valentines","items":[{"name":"Candy Hearts","contract":"ItemValentinesCandyHearts","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"candyhearts"},{"name":"Surrounded by Love","contract":"ItemValentinesHeartsBackground","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"heartsbg"},{"name":"Hearts Headband","contract":"ItemValentinesHeartsHeadband","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"headband_heart"}],"order":3},"shoes":{"displayName":"Shoes","items":[{"name":"Chucks","contract":"ItemChucks","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"chucks"},{"name":"Mittens","contract":"ItemMittens","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"mittens"},{"name":"Ballet Slippers","contract":"ItemBlackBalletSlippers","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"balletslippers"},{"name":"Yeezys","contract":"ItemYeezy","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"yeezy"}],"order":7},"hats":{"displayName":"Hats","items":[{"name":"Flat Brim","contract":"ItemFlatBrim","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"flatbrim"},{"name":"Tiara","contract":"ItemTiara","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"tiara"},{"name":"Tin foil","contract":"ItemTinFoil","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","charity":"ASPCA and ETH Foundation","assetUrl":"tinfoil"},{"name":"Top Hat","contract":"ItemTopHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"tophat"},{"name":"Trapper","contract":"ItemTrapper","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","charity":"Pussyhat Project","assetUrl":"trapper"},{"name":"Viking Helmet","contract":"ItemVikingHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"vikinghelmet"},{"name":"Birds of Prey Helmet","contract":"ItemHelmetBird","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"helmet_football_birdsofprey"},{"name":"Patriotic Helmet","contract":"ItemHelmetPat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"helmet_football_patriotic"},{"name":"Blue Top Hat","contract":"ItemTopHatBlue","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"tophat_blue"},{"name":"Blue Beret","contract":"ItemBeret","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"beret_blue"},{"name":"Shower Cap","contract":"ItemShowerCap","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"LauraO","assetUrl":"shower_cap"},{"name":"Cheesehead Hat","contract":"ItemCheeseheadHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ParanoidLunatic","assetUrl":"cheesehat"},{"name":"Construction Hat","contract":"ItemHardHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ParanoidLunatic","assetUrl":"construction"}],"order":5},"glasses":{"displayName":"Glasses","items":[{"name":"Nerd","contract":"ItemNerdGlasses","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"nerd"},{"name":"Shutter Shades","contract":"ItemShutterShades","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"shutter"},{"name":"Wayfarers","contract":"ItemWayfarers","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"wayfarers"}],"order":8},"costumes":{"displayName":"Costumes","items":[{"name":"Bellhop","contract":"ItemBellhop","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"bellhop"},{"name":"Kittyhawk Costume","contract":"ItemKittyHawk","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"kittyhawk_costume"},{"name":"Ballerina Outfit","contract":"ItemBalletCostume","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"ballerina_costume"}],"order":4},"special":{"displayName":"special","items":[{"name":"411 Gold Medal Award","contract":"ItemJodiMedal","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"gold_medal_411"},{"name":"Kitties for a Cause Exclusive","contract":"ItemBellaBalloon","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"k4c_balloon"}],"order":9},"dada":{"displayName":"dada.nyc","items":[{"name":"The Scream","contract":"ItemDadaTheScream","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BeatrizRamos@Dada","assetUrl":"dada-thescream","url":"https://dada.nyc/pa/78673?khf=on#78673"},{"name":"Self Portrait, Dedicated to Dr. Eloesser","contract":"ItemDadaFrida","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BeatrizRamos@Dada","assetUrl":"dada-frida","url":"https://dada.nyc/pa/79079?khf=on#79079"},{"name":"American Gothic","contract":"ItemDadaAmericanGothic","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Betunski@Dada","assetUrl":"dada-americangothic","url":"https://dada.nyc/pa/79090?khf=on#79090"},{"name":"The Creation of Adam","contract":"ItemDadaCreationOfAdam","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisSZimunich@Dada","assetUrl":"dada-creationadam","url":"https://dada.nyc/pa/78095?khf=on#78095"},{"name":"The Temptation of St. Anthony","contract":"ItemDadaTemptation","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-temptation","url":"https://dada.nyc/pa/78484?khf=on#78484"},{"name":"Lady with an Ermine","contract":"ItemDadaLadyWithErmine","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-ladywithermine","url":"https://dada.nyc/pa/82624?khf=on#82624"},{"name":"Mona Lisa","contract":"ItemDadaMonaLisa","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-monalisa","url":"https://dada.nyc/pa/78094?khf=on#78094"},{"name":"Bedroom in Arles","contract":"ItemDadaBedroomArles","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-bedroomarles","url":"https://dada.nyc/pa/78716?khf=on#78716"},{"name":"Girl with a Pearl Earring","contract":"ItemDadaPearlEarring","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-pearlearring","url":"https://dada.nyc/pa/79076?khf=on#79076"},{"name":"The Birth of Venus","contract":"ItemDadaBirthVenus","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Cromomaniaco@Dada","assetUrl":"dada-birthvenus","url":"https://dada.nyc/pa/78265?khf=on#78265"},{"name":"The Raft of the Medusa","contract":"ItemDadaRaftMedusa","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Cromomaniaco@Dada","assetUrl":"dada-raftmedusa","url":"https://dada.nyc/pa/78429?khf=on#78429"},{"name":"Las Meninas","contract":"ItemDadaLasMeninas","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Cromomaniaco@Dada","assetUrl":"dada-lasmeninas","url":"https://dada.nyc/pa/78945?khf=on#78945"},{"name":"The Anatomy Lesson of Dr. Nicolaes Tulp","contract":"ItemDadaAnatomyLesson","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"JavierErrecarte@Dada","assetUrl":"dada-anatomylesson","url":"https://dada.nyc/pa/79135?khf=on#79135"},{"name":"Woman in Front of the Sun","contract":"ItemDadaWomanSun","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"LorenaPinasco@Dada","assetUrl":"dada-womansun","url":"https://dada.nyc/pa/78729?khf=on#78729"},{"name":"Portrait of Adele Bloch-Bauer I","contract":"ItemDadaPortraitAdele","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"MaFerGarzon@Dada","assetUrl":"dada-portraitadele","url":"https://dada.nyc/pa/79477?khf=on#79477"},{"name":"Seated Dancer","contract":"ItemDadaSeatedDancer","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Massel@Dada","assetUrl":"dada-seateddancer","url":"https://dada.nyc/pa/79083?khf=on#79083"},{"name":"The Dance Class","contract":"ItemDadaDanceClass","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Massel@Dada","assetUrl":"dada-danceclass","url":"https://dada.nyc/pa/78708?khf=on#78708"},{"name":"Two Women at a Window","contract":"ItemDadaTwoWomen","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Massel@Dada","assetUrl":"dada-twowomen","url":"https://dada.nyc/pa/82944?khf=on#82944"},{"name":"At the Moulin Rouge","contract":"ItemDadaMoulinRouge","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"RaulAvila@Dada","assetUrl":"dada-moulinrogue","url":"https://dada.nyc/pa/78674?khf=on#78674"},{"name":"The Starry Night","contract":"ItemDadaStarryNight","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"VanesaStati@Dada","assetUrl":"dada-starrynight","url":"https://dada.nyc/pa/78678?khf=on#78678"},{"name":"Whistler's Mother","contract":"ItemDadaWhistlersMother","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"VanesaStati@Dada","assetUrl":"dada-whistlersmother","url":"https://dada.nyc/pa/78869?khf=on#78869"},{"name":"Jupiter and Io","contract":"ItemDadaJupiterIo","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"SerenaStelitano@Dada","assetUrl":"dada-jupiterlo","url":"https://dada.nyc/pa/79512?khf=on#79512"}],"order":2}}}
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-module.exports = {"contractName":"KittyCoreExample","abi":[{"constant":false,"inputs":[{"name":"_kittyId","type":"uint256"},{"name":"_owner","type":"address"}],"name":"setOwnerOf","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_kittyId","type":"uint256"}],"name":"ownerOf","outputs":[{"name":"owner","type":"address"}],"payable":false,"stateMutability":"view","type":"function"}],"bytecode":"0x6060604052341561000f57600080fd5b6101d38061001e6000396000f30060606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806322e670b4146100515780636352211e146100ab575b600080fd5b341561005c57600080fd5b610091600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061010e565b604051808215151515815260200191505060405180910390f35b34156100b657600080fd5b6100cc600480803590602001909190505061016b565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60008160008085815260200190815260200160002060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506001905092915050565b600080600083815260200190815260200160002060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690509190505600a165627a7a72305820b41655c6bcaaa81dffe8c67d4e96b7b1d98707bb7d05985187a9971fb35b65a30029","deployedBytecode":"0x60606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806322e670b4146100515780636352211e146100ab575b600080fd5b341561005c57600080fd5b610091600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061010e565b604051808215151515815260200191505060405180910390f35b34156100b657600080fd5b6100cc600480803590602001909190505061016b565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60008160008085815260200190815260200160002060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506001905092915050565b600080600083815260200190815260200160002060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690509190505600a165627a7a72305820b41655c6bcaaa81dffe8c67d4e96b7b1d98707bb7d05985187a9971fb35b65a30029","sourceMap":"25:333:35:-;;;;;;;;;;;;;;;;;","deployedSourceMap":"25:333:35:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;100:142;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;246:110;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;100:142;170:12;214:6;190:11;:21;202:8;190:21;;;;;;;;;;;;:30;;;;;;;;;;;;;;;;;;233:4;226:11;;100:142;;;;:::o;246:110::-;302:13;330:11;:21;342:8;330:21;;;;;;;;;;;;;;;;;;;;;323:28;;246:110;;;:::o","source":"pragma solidity ^0.4.8;\n\ncontract KittyCoreExample {\n  mapping (uint256 => address) kittyOwners;\n\n  function setOwnerOf(uint256 _kittyId, address _owner) public returns (bool success) {\n    kittyOwners[_kittyId] = _owner;\n    return true;\n  }\n\n  function ownerOf(uint256 _kittyId) view public returns (address owner) {\n    return kittyOwners[_kittyId];\n  }\n}\n","sourcePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyCoreExample.sol","ast":{"attributes":{"absolutePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyCoreExample.sol","exportedSymbols":{"KittyCoreExample":[246]}},"children":[{"attributes":{"literals":["solidity","^","0.4",".8"]},"id":211,"name":"PragmaDirective","src":"0:23:35"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":null,"fullyImplemented":true,"linearizedBaseContracts":[246],"name":"KittyCoreExample","scope":247},"children":[{"attributes":{"constant":false,"name":"kittyOwners","scope":246,"stateVariable":true,"storageLocation":"default","type":"mapping(uint256 => address)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(uint256 => address)"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":212,"name":"ElementaryTypeName","src":"64:7:35"},{"attributes":{"name":"address","type":"address"},"id":213,"name":"ElementaryTypeName","src":"75:7:35"}],"id":214,"name":"Mapping","src":"55:28:35"}],"id":215,"name":"VariableDeclaration","src":"55:40:35"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setOwnerOf","payable":false,"scope":246,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":233,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":216,"name":"ElementaryTypeName","src":"120:7:35"}],"id":217,"name":"VariableDeclaration","src":"120:16:35"},{"attributes":{"constant":false,"name":"_owner","scope":233,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":218,"name":"ElementaryTypeName","src":"138:7:35"}],"id":219,"name":"VariableDeclaration","src":"138:14:35"}],"id":220,"name":"ParameterList","src":"119:34:35"},{"children":[{"attributes":{"constant":false,"name":"success","scope":233,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":221,"name":"ElementaryTypeName","src":"170:4:35"}],"id":222,"name":"VariableDeclaration","src":"170:12:35"}],"id":223,"name":"ParameterList","src":"169:14:35"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":215,"type":"mapping(uint256 => address)","value":"kittyOwners"},"id":224,"name":"Identifier","src":"190:11:35"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":217,"type":"uint256","value":"_kittyId"},"id":225,"name":"Identifier","src":"202:8:35"}],"id":226,"name":"IndexAccess","src":"190:21:35"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":219,"type":"address","value":"_owner"},"id":227,"name":"Identifier","src":"214:6:35"}],"id":228,"name":"Assignment","src":"190:30:35"}],"id":229,"name":"ExpressionStatement","src":"190:30:35"},{"attributes":{"functionReturnParameters":223},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":230,"name":"Literal","src":"233:4:35"}],"id":231,"name":"Return","src":"226:11:35"}],"id":232,"name":"Block","src":"184:58:35"}],"id":233,"name":"FunctionDefinition","src":"100:142:35"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"ownerOf","payable":false,"scope":246,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":245,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":234,"name":"ElementaryTypeName","src":"263:7:35"}],"id":235,"name":"VariableDeclaration","src":"263:16:35"}],"id":236,"name":"ParameterList","src":"262:18:35"},{"children":[{"attributes":{"constant":false,"name":"owner","scope":245,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":237,"name":"ElementaryTypeName","src":"302:7:35"}],"id":238,"name":"VariableDeclaration","src":"302:13:35"}],"id":239,"name":"ParameterList","src":"301:15:35"},{"children":[{"attributes":{"functionReturnParameters":239},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":215,"type":"mapping(uint256 => address)","value":"kittyOwners"},"id":240,"name":"Identifier","src":"330:11:35"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":235,"type":"uint256","value":"_kittyId"},"id":241,"name":"Identifier","src":"342:8:35"}],"id":242,"name":"IndexAccess","src":"330:21:35"}],"id":243,"name":"Return","src":"323:28:35"}],"id":244,"name":"Block","src":"317:39:35"}],"id":245,"name":"FunctionDefinition","src":"246:110:35"}],"id":246,"name":"ContractDefinition","src":"25:333:35"}],"id":247,"name":"SourceUnit","src":"0:359:35"},"compiler":{"name":"solc","version":"0.4.18+commit.9cf6e910.Emscripten.clang"},"networks":{"3":{"events":{},"links":{},"address":"0x0ade7c9239b15e0e613c75e64c32ab9393627064"},"5777":{"events":{},"links":{},"address":"0x7bf7ae2da6013aa8de29627e29e4b9fa807d4469"}},"schemaVersion":"1.0.1","updatedAt":"2018-02-08T04:43:20.492Z"}
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-module.exports = {"contractName":"KittyItemMarket","abi":[{"constant":false,"inputs":[{"name":"_itemName","type":"string"},{"name":"_kittyId","type":"uint256"}],"name":"buyItemAndApply","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"},{"name":"_itemContract","type":"address"},{"name":"_cost","type":"uint256"},{"name":"_artist","type":"address"},{"name":"_split","type":"uint128"}],"name":"addItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_paused","type":"bool"}],"name":"setPaused","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"}],"name":"splitFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"},{"name":"_itemContract","type":"address"},{"name":"_cost","type":"uint256"},{"name":"_artist","type":"address"},{"name":"_split","type":"uint128"}],"name":"modifyItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"},{"name":"_amount","type":"uint256"}],"name":"buyItem","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"}],"name":"returnTokensToOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_itemName","type":"string"}],"name":"getItem","outputs":[{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"itemName","type":"string"}],"name":"Buy","type":"event"}],"bytecode":"0x60606040526000600260006101000a81548160ff021916908315150217905550341561002a57600080fd5b336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550611975806100796000396000f3006060604052600436106100af576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630a4bb260146100b45780630b2996301461010f57806316c38b3c146101ce5780633ab3bfc1146101f35780633bd0aa47146102505780635c975abb1461030f578063891a2f311461033c5780638da5cb5b146103975780639d6eaad5146103ec578063b6010fcd14610461578063f2fde38b14610546575b600080fd5b61010d600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001909190505061057f565b005b341561011a57600080fd5b6101cc600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356fffffffffffffffffffffffffffffffff1690602001909190505061087a565b005b34156101d957600080fd5b6101f160048080351515906020019091905050610b45565b005b34156101fe57600080fd5b61024e600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610bbd565b005b341561025b57600080fd5b61030d600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356fffffffffffffffffffffffffffffffff16906020019091905050610db0565b005b341561031a57600080fd5b610322611000565b604051808215151515815260200191505060405180910390f35b610395600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091908035906020019091905050611013565b005b34156103a257600080fd5b6103aa611310565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103f757600080fd5b610447600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050611335565b604051808215151515815260200191505060405180910390f35b341561046c57600080fd5b6104bc600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506115bd565b604051808673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018381526020018281526020019550505050505060405180910390f35b341561055157600080fd5b61057d600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611874565b005b60008060001515600260009054906101000a900460ff1615151415156105a457600080fd5b60006001856040518082805190602001908083835b6020831015156105de57805182526020820191506020810190506020830392506105b9565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff161415151561065857600080fd5b6001846040518082805190602001908083835b602083101515610690578051825260208201915060208101905060208303925061066b565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405180910390209150816001015434101515156106d857600080fd5b3482600401600082825401925050819055508160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690508073ffffffffffffffffffffffffffffffffffffffff1663e9121b1233856000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b15156107bc57600080fd5b6102c65a03f115156107cd57600080fd5b50505060405180519050507f353b106fdecdb1f25da8bb26e494673ac78af8663fd9dcb279f04c0c6c59c371846040518080602001828103825283818151815260200191508051906020019080838360005b8381101561083a57808201518184015260208101905061081f565b50505050905090810190601f1680156108675780820380516001836020036101000a031916815260200191505b509250505060405180910390a150505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156108d557600080fd5b60006001866040518082805190602001908083835b60208310151561090f57805182526020820191506020810190506020830392506108ea565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151561098857600080fd5b60a0604051908101604052808573ffffffffffffffffffffffffffffffffffffffff1681526020018481526020018373ffffffffffffffffffffffffffffffffffffffff168152602001826fffffffffffffffffffffffffffffffff16815260200160008152506001866040518082805190602001908083835b602083101515610a275780518252602082019150602081019050602083039250610a02565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506020820151816001015560408201518160020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060608201518160030160006101000a8154816fffffffffffffffffffffffffffffffff02191690836fffffffffffffffffffffffffffffffff160217905550608082015181600401559050505050505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610ba057600080fd5b80600260006101000a81548160ff02191690831515021790555050565b60008060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610c1d57600080fd5b6001846040518082805190602001908083835b602083101515610c555780518252602082019150602081019050602083039250610c30565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902092506127108360030160009054906101000a90046fffffffffffffffffffffffffffffffff166fffffffffffffffffffffffffffffffff16846004015402811515610ccf57fe5b0491508183600401540390508260020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc839081150290604051600060405180830381858888f193505050501515610d3f57600080fd5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f193505050501515610da057600080fd5b6000836004018190555050505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610e0d57600080fd5b60006001876040518082805190602001908083835b602083101515610e475780518252602082019150602081019050602083039250610e22565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151515610ec157600080fd5b6001866040518082805190602001908083835b602083101515610ef95780518252602082019150602081019050602083039250610ed4565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405180910390209050848160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550838160010181905550828160020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550818160030160006101000a8154816fffffffffffffffffffffffffffffffff02191690836fffffffffffffffffffffffffffffffff160217905550505050505050565b600260009054906101000a900460ff1681565b60008060001515600260009054906101000a900460ff16151514151561103857600080fd5b60006001856040518082805190602001908083835b602083101515611072578051825260208201915060208101905060208303925061104d565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16141515156110ec57600080fd5b6001846040518082805190602001908083835b60208310151561112457805182526020820191506020810190506020830392506110ff565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020915082826001015402341015151561116e57600080fd5b3482600401600082825401925050819055508160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690508073ffffffffffffffffffffffffffffffffffffffff1663a9059cbb33856000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b151561125257600080fd5b6102c65a03f1151561126357600080fd5b50505060405180519050507f353b106fdecdb1f25da8bb26e494673ac78af8663fd9dcb279f04c0c6c59c371846040518080602001828103825283818151815260200191508051906020019080838360005b838110156112d05780820151818401526020810190506112b5565b50505050905090810190601f1680156112fd5780820380516001836020036101000a031916815260200191505b509250505060405180910390a150505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000806000806000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561139657600080fd5b6001856040518082805190602001908083835b6020831015156113ce57805182526020820191506020810190506020830392506113a9565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902092508260000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1691508173ffffffffffffffffffffffffffffffffffffffff166370a08231306000604051602001526040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15156114cd57600080fd5b6102c65a03f115156114de57600080fd5b5050506040518051905090508173ffffffffffffffffffffffffffffffffffffffff1663a9059cbb33836000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b151561159557600080fd5b6102c65a03f115156115a657600080fd5b505050604051805190505060019350505050919050565b60008060008060006001866040518082805190602001908083835b6020831015156115fd57805182526020820191506020810190506020830392506115d8565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166001876040518082805190602001908083835b60208310151561168c5780518252602082019150602081019050602083039250611667565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020600101546001886040518082805190602001908083835b6020831015156116fb57805182526020820191506020810190506020830392506116d6565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166001896040518082805190602001908083835b60208310151561178a5780518252602082019150602081019050602083039250611765565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060030160009054906101000a90046fffffffffffffffffffffffffffffffff1660018a6040518082805190602001908083835b60208310151561181557805182526020820191506020810190506020830392506117f0565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060040154816fffffffffffffffffffffffffffffffff1691509450945094509450945091939590929450565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156118cf57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1614151561194657806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b505600a165627a7a72305820552b8763a0e244e7a5f5db9bfe2e8bf534967bd023629f8b752b03229a290c510029","deployedBytecode":"0x6060604052600436106100af576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630a4bb260146100b45780630b2996301461010f57806316c38b3c146101ce5780633ab3bfc1146101f35780633bd0aa47146102505780635c975abb1461030f578063891a2f311461033c5780638da5cb5b146103975780639d6eaad5146103ec578063b6010fcd14610461578063f2fde38b14610546575b600080fd5b61010d600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001909190505061057f565b005b341561011a57600080fd5b6101cc600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356fffffffffffffffffffffffffffffffff1690602001909190505061087a565b005b34156101d957600080fd5b6101f160048080351515906020019091905050610b45565b005b34156101fe57600080fd5b61024e600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610bbd565b005b341561025b57600080fd5b61030d600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356fffffffffffffffffffffffffffffffff16906020019091905050610db0565b005b341561031a57600080fd5b610322611000565b604051808215151515815260200191505060405180910390f35b610395600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091908035906020019091905050611013565b005b34156103a257600080fd5b6103aa611310565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103f757600080fd5b610447600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050611335565b604051808215151515815260200191505060405180910390f35b341561046c57600080fd5b6104bc600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506115bd565b604051808673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018381526020018281526020019550505050505060405180910390f35b341561055157600080fd5b61057d600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611874565b005b60008060001515600260009054906101000a900460ff1615151415156105a457600080fd5b60006001856040518082805190602001908083835b6020831015156105de57805182526020820191506020810190506020830392506105b9565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff161415151561065857600080fd5b6001846040518082805190602001908083835b602083101515610690578051825260208201915060208101905060208303925061066b565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405180910390209150816001015434101515156106d857600080fd5b3482600401600082825401925050819055508160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690508073ffffffffffffffffffffffffffffffffffffffff1663e9121b1233856000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b15156107bc57600080fd5b6102c65a03f115156107cd57600080fd5b50505060405180519050507f353b106fdecdb1f25da8bb26e494673ac78af8663fd9dcb279f04c0c6c59c371846040518080602001828103825283818151815260200191508051906020019080838360005b8381101561083a57808201518184015260208101905061081f565b50505050905090810190601f1680156108675780820380516001836020036101000a031916815260200191505b509250505060405180910390a150505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156108d557600080fd5b60006001866040518082805190602001908083835b60208310151561090f57805182526020820191506020810190506020830392506108ea565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151561098857600080fd5b60a0604051908101604052808573ffffffffffffffffffffffffffffffffffffffff1681526020018481526020018373ffffffffffffffffffffffffffffffffffffffff168152602001826fffffffffffffffffffffffffffffffff16815260200160008152506001866040518082805190602001908083835b602083101515610a275780518252602082019150602081019050602083039250610a02565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506020820151816001015560408201518160020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060608201518160030160006101000a8154816fffffffffffffffffffffffffffffffff02191690836fffffffffffffffffffffffffffffffff160217905550608082015181600401559050505050505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610ba057600080fd5b80600260006101000a81548160ff02191690831515021790555050565b60008060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610c1d57600080fd5b6001846040518082805190602001908083835b602083101515610c555780518252602082019150602081019050602083039250610c30565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902092506127108360030160009054906101000a90046fffffffffffffffffffffffffffffffff166fffffffffffffffffffffffffffffffff16846004015402811515610ccf57fe5b0491508183600401540390508260020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc839081150290604051600060405180830381858888f193505050501515610d3f57600080fd5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f193505050501515610da057600080fd5b6000836004018190555050505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610e0d57600080fd5b60006001876040518082805190602001908083835b602083101515610e475780518252602082019150602081019050602083039250610e22565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151515610ec157600080fd5b6001866040518082805190602001908083835b602083101515610ef95780518252602082019150602081019050602083039250610ed4565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405180910390209050848160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550838160010181905550828160020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550818160030160006101000a8154816fffffffffffffffffffffffffffffffff02191690836fffffffffffffffffffffffffffffffff160217905550505050505050565b600260009054906101000a900460ff1681565b60008060001515600260009054906101000a900460ff16151514151561103857600080fd5b60006001856040518082805190602001908083835b602083101515611072578051825260208201915060208101905060208303925061104d565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16141515156110ec57600080fd5b6001846040518082805190602001908083835b60208310151561112457805182526020820191506020810190506020830392506110ff565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020915082826001015402341015151561116e57600080fd5b3482600401600082825401925050819055508160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690508073ffffffffffffffffffffffffffffffffffffffff1663a9059cbb33856000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b151561125257600080fd5b6102c65a03f1151561126357600080fd5b50505060405180519050507f353b106fdecdb1f25da8bb26e494673ac78af8663fd9dcb279f04c0c6c59c371846040518080602001828103825283818151815260200191508051906020019080838360005b838110156112d05780820151818401526020810190506112b5565b50505050905090810190601f1680156112fd5780820380516001836020036101000a031916815260200191505b509250505060405180910390a150505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000806000806000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561139657600080fd5b6001856040518082805190602001908083835b6020831015156113ce57805182526020820191506020810190506020830392506113a9565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902092508260000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1691508173ffffffffffffffffffffffffffffffffffffffff166370a08231306000604051602001526040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15156114cd57600080fd5b6102c65a03f115156114de57600080fd5b5050506040518051905090508173ffffffffffffffffffffffffffffffffffffffff1663a9059cbb33836000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b151561159557600080fd5b6102c65a03f115156115a657600080fd5b505050604051805190505060019350505050919050565b60008060008060006001866040518082805190602001908083835b6020831015156115fd57805182526020820191506020810190506020830392506115d8565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166001876040518082805190602001908083835b60208310151561168c5780518252602082019150602081019050602083039250611667565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020600101546001886040518082805190602001908083835b6020831015156116fb57805182526020820191506020810190506020830392506116d6565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166001896040518082805190602001908083835b60208310151561178a5780518252602082019150602081019050602083039250611765565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060030160009054906101000a90046fffffffffffffffffffffffffffffffff1660018a6040518082805190602001908083835b60208310151561181557805182526020820191506020810190506020830392506117f0565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060040154816fffffffffffffffffffffffffffffffff1691509450945094509450945091939590929450565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156118cf57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1614151561194657806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b505600a165627a7a72305820552b8763a0e244e7a5f5db9bfe2e8bf534967bd023629f8b752b03229a290c510029","sourceMap":"392:5442:36:-;;;773:5;752:26;;;;;;;;;;;;;;;;;;;;871:63;;;;;;;;919:10;911:5;;:18;;;;;;;;;;;;;;;;;;392:5442;;;;;;","deployedSourceMap":"392:5442:36:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4117:599;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2247:303;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1393:101;;;;;;;;;;;;;;;;;;;;;;;;;;;;4850:403;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2869:392;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;752:26;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3396:559;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;694:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5460:371;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1639:251;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1095:155;;;;;;;;;;;;;;;;;;;;;;;;;;;;4117:599;4365:17;4570:18;4217:5;4207:15;;:6;;;;;;;;;;;:15;;;4199:24;;;;;;;;4325:3;4292:5;4298:9;4292:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;4292:29:36;;;;;;;;;;;;:36;;;;4284:45;;;;;;;;4385:5;4391:9;4385:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;4365:36:36;;4474:4;:9;;;4461;:22;;4453:31;;;;;;;;4555:9;4536:4;:15;;;:28;;;;;;;;;;;4606:4;:17;;;;;;;;;;;;4570:54;;4630:3;:20;;;4651:10;4663:8;4630:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4697:14;4701:9;4697:14;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4117:599:36;;;;:::o;2247:303::-;2388:5;;;;;;;;;;;2374:19;;:10;:19;;;2366:28;;;;;;;;2441:3;2408:5;2414:9;2408:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;2408:29:36;;;;;;;;;;;;:36;;;2400:45;;;;;;;;2499:46;;;;;;;;;2504:13;2499:46;;;;;;2519:5;2499:46;;;;2526:7;2499:46;;;;;;2535:6;2499:46;;;;;;2543:1;2499:46;;;2480:5;2486:9;2480:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;2480:65:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2247:303;;;;;:::o;1393:101::-;1461:5;;;;;;;;;;;1447:19;;:10;:19;;;1439:28;;;;;;;;1482:7;1473:6;;:16;;;;;;;;;;;;;;;;;;1393:101;:::o;4850:403::-;4935:17;5023:22;5090:21;4923:5;;;;;;;;;;;4909:19;;:10;:19;;;4901:28;;;;;;;;4955:5;4961:9;4955:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;4935:36:36;;5079:5;5066:4;:10;;;;;;;;;;;;5048:28;;:4;:15;;;:28;:36;;;;;;;;5023:61;;5132:14;5114:4;:15;;;:32;5090:56;;5152:4;:11;;;;;;;;;;;;:20;;:36;5173:14;5152:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5194:5;;;;;;;;;;;:14;;:29;5209:13;5194:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5247:1;5229:4;:15;;:19;;;;4850:403;;;;:::o;2869:392::-;3106:17;3013:5;;;;;;;;;;;2999:19;;:10;:19;;;2991:28;;;;;;;;3066:3;3033:5;3039:9;3033:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;3033:29:36;;;;;;;;;;;;:36;;;;3025:45;;;;;;;;3126:5;3132:9;3126:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;3106:36:36;;3168:13;3148:4;:17;;;:33;;;;;;;;;;;;;;;;;;3199:5;3187:4;:9;;:17;;;;3224:7;3210:4;:11;;;:21;;;;;;;;;;;;;;;;;;3250:6;3237:4;:10;;;:19;;;;;;;;;;;;;;;;;;2869:392;;;;;;:::o;752:26::-;;;;;;;;;;;;;:::o;3396:559::-;3580:17;3818:18;3487:5;3477:15;;:6;;;;;;;;;;;:15;;;3469:24;;;;;;;;3540:3;3507:5;3513:9;3507:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;3507:29:36;;;;;;;;;;;;:36;;;;3499:45;;;;;;;;3600:5;3606:9;3600:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;3580:36:36;;3701:7;3689:4;:9;;;:19;3676:9;:32;;3668:41;;;;;;;;3803:9;3784:4;:15;;;:28;;;;;;;;;;;3854:4;:17;;;;;;;;;;;;3818:54;;3878:3;:12;;;3891:10;3903:7;3878:33;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3936:14;3940:9;3936:14;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3396:559:36;;;;:::o;694:20::-;;;;;;;;;;;;;:::o;5460:371::-;5523:4;5569:17;5657:18;5717:23;5557:5;;;;;;;;;;;5543:19;;:10;:19;;;5535:28;;;;;;;;5589:5;5595:9;5589:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;5569:36:36;;5693:4;:17;;;;;;;;;;;;5657:54;;5743:3;:13;;;5757:4;5743:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5717:45;;5768:3;:12;;;5781:10;5793:15;5768:41;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5822:4;5815:11;;5460:371;;;;;;:::o;1639:251::-;1695:7;1704;1713;1722;1731;1754:5;1760:9;1754:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1754:29:36;;;;;;;;;;;;1785:5;1791:9;1785:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1785:21:36;;;1808:5;1814:9;1808:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1808:23:36;;;;;;;;;;;;1833:5;1839:9;1833:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1833:22:36;;;;;;;;;;;;1857:5;1863:9;1857:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1857:27:36;;;1746:139;;;;;;;;;;;;;;;1639:251;;;;;;;:::o;1095:155::-;1175:5;;;;;;;;;;;1161:19;;:10;:19;;;1153:28;;;;;;;;1211:1;1191:22;;:8;:22;;;;1187:59;;;1231:8;1223:5;;:16;;;;;;;;;;;;;;;;;;1187:59;1095:155;:::o","source":"pragma solidity ^0.4.8;\n\n/**\n * @title KittyItemToken interface \n */\ncontract KittyItemToken {\n  function transfer(address, uint256) public pure returns (bool) {}\n  function transferAndApply(address, uint256) public pure returns (bool) {}\n  function balanceOf(address) public pure returns (uint256) {}\n}\n\n/**\n * @title KittyItemMarket is a market contract for buying KittyItemTokens and \n */\ncontract KittyItemMarket {\n\n  struct Item {\n    address itemContract;\n    uint256 cost;  // in wei\n    address artist;\n    uint128 split;  // the percentage split the artist gets vs. KittyItemMarket.owner. A split of \"6666\" would mean the artist gets 66.66% of the funds\n    uint256 totalFunds;\n  }\n\n  address public owner;\n  mapping (string => Item) items;\n  bool public paused = false;\n\n  // events\n  event Buy(string itemName);\n\n  /**\n   * KittyItemMarket constructor\n   */\n  function KittyItemMarket() public {\n    owner = msg.sender;\n  }\n\n  /**\n   * @dev Allows the current owner to transfer control of the contract to a newOwner.\n   * @param newOwner The address to transfer ownership to.\n   */\n  function transferOwnership(address newOwner) public {\n    require(msg.sender == owner);\n    if (newOwner != address(0)) {\n      owner = newOwner;\n    }\n  }\n\n  /**\n   * @dev Pauses the market, not allowing any buyItem and buyItemAndApply\n   * @param _paused the paused state of the contract\n   */\n  function setPaused(bool _paused) public {\n    require(msg.sender == owner);\n    paused = _paused;\n  }\n\n  /**\n   * @dev You cannot return structs, return each attribute in Item struct\n   * @param _itemName the KittyItemToken name in items\n   */\n  function getItem(string _itemName) view public returns (address, uint256, address, uint256, uint256) {\n    return (items[_itemName].itemContract, items[_itemName].cost, items[_itemName].artist, items[_itemName].split, items[_itemName].totalFunds);\n  }\n\n  /**\n   * @dev Add a KittyItemToken contract to be sold in the market\n   * @param _itemName Name for items mapping\n   * @param _itemContract contract address of KittyItemToken we're adding\n   * @param _cost  cost of item in wei\n   * @param _artist  artist addess to send funds to\n   * @param _split  artist split. \"6666\" would be a 66.66% split.\n   */\n  function addItem(string _itemName, address _itemContract, uint256 _cost, address _artist, uint128 _split) public {\n    require(msg.sender == owner);\n    require(items[_itemName].itemContract == 0x0);  // item can't already exist\n    items[_itemName] = Item(_itemContract, _cost, _artist, _split, 0);\n  }\n\n  /**\n   * @dev Modify an item that is in the market\n   * @param _itemName Name of item to modify\n   * @param _itemContract modify KittyItemtoken contract address for item\n   * @param _cost modify cost of item\n   * @param _artist  modify artist addess to send funds to\n   * @param _split  modify artist split\n   */\n  function modifyItem(string _itemName, address _itemContract, uint256 _cost, address _artist, uint128 _split) public {\n    require(msg.sender == owner);\n    require(items[_itemName].itemContract != 0x0);  // item should already exist\n    Item storage item = items[_itemName];\n    item.itemContract = _itemContract;\n    item.cost = _cost;\n    item.artist = _artist;\n    item.split = _split;\n  }\n\n  /**\n   * @dev Buy item from the market\n   * @param _itemName Name of item to buy\n   * @param _amount amount of item to buy\n   */\n  function buyItem(string _itemName, uint256 _amount) public payable {\n    require(paused == false);\n    require(items[_itemName].itemContract != 0x0);  // item should already exist\n    Item storage item = items[_itemName];  // we're going to modify the item in storage\n    require(msg.value >= item.cost * _amount);  // make sure user sent enough eth for the number of items they want\n    item.totalFunds += msg.value;\n    KittyItemToken kit = KittyItemToken(item.itemContract);\n    kit.transfer(msg.sender, _amount);\n    // emit events\n    Buy(_itemName);\n  }\n\n  /**\n   * @dev Buy item from the market and apply to kittyId\n   * @param _itemName Name of item to buy\n   * @param _kittyId  KittyId to apply the item\n   */\n  function buyItemAndApply(string _itemName, uint256 _kittyId) public payable {\n    require(paused == false);\n    // NOTE - can only be used to buy and apply 1 item\n    require(items[_itemName].itemContract != 0x0);  // item should already exist\n    Item storage item = items[_itemName];  // we're going to modify the item in storage\n    require(msg.value >= item.cost);  // make sure user sent enough eth for 1 item\n    item.totalFunds += msg.value;\n    KittyItemToken kit = KittyItemToken(item.itemContract);\n    kit.transferAndApply(msg.sender, _kittyId);\n    // emit events\n    Buy(_itemName);\n  }\n\n  /**\n   * @dev split funds from Item sales between contract owner and artist\n   * @param _itemName Item to split funds for\n   */\n  function splitFunds(string _itemName) public {\n    require(msg.sender == owner);\n    Item storage item = items[_itemName];  // we're going to modify the item in storage\n    uint256 amountToArtist = item.totalFunds * item.split / 10000;\n    uint256 amountToOwner = item.totalFunds - amountToArtist;\n    item.artist.transfer(amountToArtist);\n    owner.transfer(amountToOwner);\n    item.totalFunds = 0;\n  }\n\n  /**\n   * @dev return all _itemName tokens help by contract to contract owner\n   * @param _itemName Item to return tokens to contract owner\n   * @return whether the transfer was successful or not\n   */\n  function returnTokensToOwner(string _itemName) public returns (bool) {\n    require(msg.sender == owner);\n    Item storage item = items[_itemName];  // we're going to modify the item in storage\n    KittyItemToken kit = KittyItemToken(item.itemContract);\n    uint256 contractBalance = kit.balanceOf(this);\n    kit.transfer(msg.sender, contractBalance);\n    return true;\n  }\n\n}\n","sourcePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyItemMarket.sol","ast":{"attributes":{"absolutePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyItemMarket.sol","exportedSymbols":{"KittyItemMarket":[721],"KittyItemToken":[277]}},"children":[{"attributes":{"literals":["solidity","^","0.4",".8"]},"id":248,"name":"PragmaDirective","src":"0:23:36"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":"@title KittyItemToken interface ","fullyImplemented":true,"linearizedBaseContracts":[277],"name":"KittyItemToken","scope":722},"children":[{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transfer","payable":false,"scope":277,"stateMutability":"pure","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"","scope":258,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":249,"name":"ElementaryTypeName","src":"115:7:36"}],"id":250,"name":"VariableDeclaration","src":"115:7:36"},{"attributes":{"constant":false,"name":"","scope":258,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":251,"name":"ElementaryTypeName","src":"124:7:36"}],"id":252,"name":"VariableDeclaration","src":"124:7:36"}],"id":253,"name":"ParameterList","src":"114:18:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":258,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":254,"name":"ElementaryTypeName","src":"154:4:36"}],"id":255,"name":"VariableDeclaration","src":"154:4:36"}],"id":256,"name":"ParameterList","src":"153:6:36"},{"attributes":{"statements":[null]},"children":[],"id":257,"name":"Block","src":"160:2:36"}],"id":258,"name":"FunctionDefinition","src":"97:65:36"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferAndApply","payable":false,"scope":277,"stateMutability":"pure","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"","scope":268,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":259,"name":"ElementaryTypeName","src":"191:7:36"}],"id":260,"name":"VariableDeclaration","src":"191:7:36"},{"attributes":{"constant":false,"name":"","scope":268,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":261,"name":"ElementaryTypeName","src":"200:7:36"}],"id":262,"name":"VariableDeclaration","src":"200:7:36"}],"id":263,"name":"ParameterList","src":"190:18:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":268,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":264,"name":"ElementaryTypeName","src":"230:4:36"}],"id":265,"name":"VariableDeclaration","src":"230:4:36"}],"id":266,"name":"ParameterList","src":"229:6:36"},{"attributes":{"statements":[null]},"children":[],"id":267,"name":"Block","src":"236:2:36"}],"id":268,"name":"FunctionDefinition","src":"165:73:36"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"balanceOf","payable":false,"scope":277,"stateMutability":"pure","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"","scope":276,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":269,"name":"ElementaryTypeName","src":"260:7:36"}],"id":270,"name":"VariableDeclaration","src":"260:7:36"}],"id":271,"name":"ParameterList","src":"259:9:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":276,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":272,"name":"ElementaryTypeName","src":"290:7:36"}],"id":273,"name":"VariableDeclaration","src":"290:7:36"}],"id":274,"name":"ParameterList","src":"289:9:36"},{"attributes":{"statements":[null]},"children":[],"id":275,"name":"Block","src":"299:2:36"}],"id":276,"name":"FunctionDefinition","src":"241:60:36"}],"id":277,"name":"ContractDefinition","src":"69:234:36"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":"@title KittyItemMarket is a market contract for buying KittyItemTokens and ","fullyImplemented":true,"linearizedBaseContracts":[721],"name":"KittyItemMarket","scope":722},"children":[{"attributes":{"canonicalName":"KittyItemMarket.Item","name":"Item","scope":721,"visibility":"public"},"children":[{"attributes":{"constant":false,"name":"itemContract","scope":288,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":278,"name":"ElementaryTypeName","src":"440:7:36"}],"id":279,"name":"VariableDeclaration","src":"440:20:36"},{"attributes":{"constant":false,"name":"cost","scope":288,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":280,"name":"ElementaryTypeName","src":"466:7:36"}],"id":281,"name":"VariableDeclaration","src":"466:12:36"},{"attributes":{"constant":false,"name":"artist","scope":288,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":282,"name":"ElementaryTypeName","src":"495:7:36"}],"id":283,"name":"VariableDeclaration","src":"495:14:36"},{"attributes":{"constant":false,"name":"split","scope":288,"stateVariable":false,"storageLocation":"default","type":"uint128","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint128","type":"uint128"},"id":284,"name":"ElementaryTypeName","src":"515:7:36"}],"id":285,"name":"VariableDeclaration","src":"515:13:36"},{"attributes":{"constant":false,"name":"totalFunds","scope":288,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":286,"name":"ElementaryTypeName","src":"667:7:36"}],"id":287,"name":"VariableDeclaration","src":"667:18:36"}],"id":288,"name":"StructDefinition","src":"422:268:36"},{"attributes":{"constant":false,"name":"owner","scope":721,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":289,"name":"ElementaryTypeName","src":"694:7:36"}],"id":290,"name":"VariableDeclaration","src":"694:20:36"},{"attributes":{"constant":false,"name":"items","scope":721,"stateVariable":true,"storageLocation":"default","type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":291,"name":"ElementaryTypeName","src":"727:6:36"},{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":292,"name":"UserDefinedTypeName","src":"737:4:36"}],"id":293,"name":"Mapping","src":"718:24:36"}],"id":294,"name":"VariableDeclaration","src":"718:30:36"},{"attributes":{"constant":false,"name":"paused","scope":721,"stateVariable":true,"storageLocation":"default","type":"bool","visibility":"public"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":295,"name":"ElementaryTypeName","src":"752:4:36"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":296,"name":"Literal","src":"773:5:36"}],"id":297,"name":"VariableDeclaration","src":"752:26:36"},{"attributes":{"anonymous":false,"name":"Buy"},"children":[{"children":[{"attributes":{"constant":false,"indexed":false,"name":"itemName","scope":301,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":298,"name":"ElementaryTypeName","src":"805:6:36"}],"id":299,"name":"VariableDeclaration","src":"805:15:36"}],"id":300,"name":"ParameterList","src":"804:17:36"}],"id":301,"name":"EventDefinition","src":"795:27:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":true,"modifiers":[null],"name":"KittyItemMarket","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":302,"name":"ParameterList","src":"895:2:36"},{"attributes":{"parameters":[null]},"children":[],"id":303,"name":"ParameterList","src":"905:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":304,"name":"Identifier","src":"911:5:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":305,"name":"Identifier","src":"919:3:36"}],"id":306,"name":"MemberAccess","src":"919:10:36"}],"id":307,"name":"Assignment","src":"911:18:36"}],"id":308,"name":"ExpressionStatement","src":"911:18:36"}],"id":309,"name":"Block","src":"905:29:36"}],"id":310,"name":"FunctionDefinition","src":"871:63:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferOwnership","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"newOwner","scope":334,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":311,"name":"ElementaryTypeName","src":"1122:7:36"}],"id":312,"name":"VariableDeclaration","src":"1122:16:36"}],"id":313,"name":"ParameterList","src":"1121:18:36"},{"attributes":{"parameters":[null]},"children":[],"id":314,"name":"ParameterList","src":"1147:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":315,"name":"Identifier","src":"1153:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":316,"name":"Identifier","src":"1161:3:36"}],"id":317,"name":"MemberAccess","src":"1161:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":318,"name":"Identifier","src":"1175:5:36"}],"id":319,"name":"BinaryOperation","src":"1161:19:36"}],"id":320,"name":"FunctionCall","src":"1153:28:36"}],"id":321,"name":"ExpressionStatement","src":"1153:28:36"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":312,"type":"address","value":"newOwner"},"id":322,"name":"Identifier","src":"1191:8:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_0_by_1","typeString":"int_const 0"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(address)","value":"address"},"id":323,"name":"ElementaryTypeNameExpression","src":"1203:7:36"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":324,"name":"Literal","src":"1211:1:36"}],"id":325,"name":"FunctionCall","src":"1203:10:36"}],"id":326,"name":"BinaryOperation","src":"1191:22:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":327,"name":"Identifier","src":"1223:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":312,"type":"address","value":"newOwner"},"id":328,"name":"Identifier","src":"1231:8:36"}],"id":329,"name":"Assignment","src":"1223:16:36"}],"id":330,"name":"ExpressionStatement","src":"1223:16:36"}],"id":331,"name":"Block","src":"1215:31:36"}],"id":332,"name":"IfStatement","src":"1187:59:36"}],"id":333,"name":"Block","src":"1147:103:36"}],"id":334,"name":"FunctionDefinition","src":"1095:155:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setPaused","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_paused","scope":351,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":335,"name":"ElementaryTypeName","src":"1412:4:36"}],"id":336,"name":"VariableDeclaration","src":"1412:12:36"}],"id":337,"name":"ParameterList","src":"1411:14:36"},{"attributes":{"parameters":[null]},"children":[],"id":338,"name":"ParameterList","src":"1433:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":339,"name":"Identifier","src":"1439:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":340,"name":"Identifier","src":"1447:3:36"}],"id":341,"name":"MemberAccess","src":"1447:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":342,"name":"Identifier","src":"1461:5:36"}],"id":343,"name":"BinaryOperation","src":"1447:19:36"}],"id":344,"name":"FunctionCall","src":"1439:28:36"}],"id":345,"name":"ExpressionStatement","src":"1439:28:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":297,"type":"bool","value":"paused"},"id":346,"name":"Identifier","src":"1473:6:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":336,"type":"bool","value":"_paused"},"id":347,"name":"Identifier","src":"1482:7:36"}],"id":348,"name":"Assignment","src":"1473:16:36"}],"id":349,"name":"ExpressionStatement","src":"1473:16:36"}],"id":350,"name":"Block","src":"1433:61:36"}],"id":351,"name":"FunctionDefinition","src":"1393:101:36"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"getItem","payable":false,"scope":721,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":389,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":352,"name":"ElementaryTypeName","src":"1656:6:36"}],"id":353,"name":"VariableDeclaration","src":"1656:16:36"}],"id":354,"name":"ParameterList","src":"1655:18:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":355,"name":"ElementaryTypeName","src":"1695:7:36"}],"id":356,"name":"VariableDeclaration","src":"1695:7:36"},{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":357,"name":"ElementaryTypeName","src":"1704:7:36"}],"id":358,"name":"VariableDeclaration","src":"1704:7:36"},{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":359,"name":"ElementaryTypeName","src":"1713:7:36"}],"id":360,"name":"VariableDeclaration","src":"1713:7:36"},{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":361,"name":"ElementaryTypeName","src":"1722:7:36"}],"id":362,"name":"VariableDeclaration","src":"1722:7:36"},{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":363,"name":"ElementaryTypeName","src":"1731:7:36"}],"id":364,"name":"VariableDeclaration","src":"1731:7:36"}],"id":365,"name":"ParameterList","src":"1694:45:36"},{"children":[{"attributes":{"functionReturnParameters":365},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isInlineArray":false,"isLValue":false,"isPure":false,"lValueRequested":false,"type":"tuple(address,uint256,address,uint128,uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":366,"name":"Identifier","src":"1754:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":367,"name":"Identifier","src":"1760:9:36"}],"id":368,"name":"IndexAccess","src":"1754:16:36"}],"id":369,"name":"MemberAccess","src":"1754:29:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"cost","referencedDeclaration":281,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":370,"name":"Identifier","src":"1785:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":371,"name":"Identifier","src":"1791:9:36"}],"id":372,"name":"IndexAccess","src":"1785:16:36"}],"id":373,"name":"MemberAccess","src":"1785:21:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"artist","referencedDeclaration":283,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":374,"name":"Identifier","src":"1808:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":375,"name":"Identifier","src":"1814:9:36"}],"id":376,"name":"IndexAccess","src":"1808:16:36"}],"id":377,"name":"MemberAccess","src":"1808:23:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"split","referencedDeclaration":285,"type":"uint128"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":378,"name":"Identifier","src":"1833:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":379,"name":"Identifier","src":"1839:9:36"}],"id":380,"name":"IndexAccess","src":"1833:16:36"}],"id":381,"name":"MemberAccess","src":"1833:22:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":382,"name":"Identifier","src":"1857:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":383,"name":"Identifier","src":"1863:9:36"}],"id":384,"name":"IndexAccess","src":"1857:16:36"}],"id":385,"name":"MemberAccess","src":"1857:27:36"}],"id":386,"name":"TupleExpression","src":"1753:132:36"}],"id":387,"name":"Return","src":"1746:139:36"}],"id":388,"name":"Block","src":"1740:150:36"}],"id":389,"name":"FunctionDefinition","src":"1639:251:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"addItem","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":431,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":390,"name":"ElementaryTypeName","src":"2264:6:36"}],"id":391,"name":"VariableDeclaration","src":"2264:16:36"},{"attributes":{"constant":false,"name":"_itemContract","scope":431,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":392,"name":"ElementaryTypeName","src":"2282:7:36"}],"id":393,"name":"VariableDeclaration","src":"2282:21:36"},{"attributes":{"constant":false,"name":"_cost","scope":431,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":394,"name":"ElementaryTypeName","src":"2305:7:36"}],"id":395,"name":"VariableDeclaration","src":"2305:13:36"},{"attributes":{"constant":false,"name":"_artist","scope":431,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":396,"name":"ElementaryTypeName","src":"2320:7:36"}],"id":397,"name":"VariableDeclaration","src":"2320:15:36"},{"attributes":{"constant":false,"name":"_split","scope":431,"stateVariable":false,"storageLocation":"default","type":"uint128","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint128","type":"uint128"},"id":398,"name":"ElementaryTypeName","src":"2337:7:36"}],"id":399,"name":"VariableDeclaration","src":"2337:14:36"}],"id":400,"name":"ParameterList","src":"2263:89:36"},{"attributes":{"parameters":[null]},"children":[],"id":401,"name":"ParameterList","src":"2360:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":402,"name":"Identifier","src":"2366:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":403,"name":"Identifier","src":"2374:3:36"}],"id":404,"name":"MemberAccess","src":"2374:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":405,"name":"Identifier","src":"2388:5:36"}],"id":406,"name":"BinaryOperation","src":"2374:19:36"}],"id":407,"name":"FunctionCall","src":"2366:28:36"}],"id":408,"name":"ExpressionStatement","src":"2366:28:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":409,"name":"Identifier","src":"2400:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":410,"name":"Identifier","src":"2408:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":391,"type":"string memory","value":"_itemName"},"id":411,"name":"Identifier","src":"2414:9:36"}],"id":412,"name":"IndexAccess","src":"2408:16:36"}],"id":413,"name":"MemberAccess","src":"2408:29:36"},{"attributes":{"argumentTypes":null,"hexvalue":"307830","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0x0"},"id":414,"name":"Literal","src":"2441:3:36"}],"id":415,"name":"BinaryOperation","src":"2408:36:36"}],"id":416,"name":"FunctionCall","src":"2400:45:36"}],"id":417,"name":"ExpressionStatement","src":"2400:45:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":418,"name":"Identifier","src":"2480:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":391,"type":"string memory","value":"_itemName"},"id":419,"name":"Identifier","src":"2486:9:36"}],"id":420,"name":"IndexAccess","src":"2480:16:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":true,"lValueRequested":false,"names":[null],"type":"struct KittyItemMarket.Item memory","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint128","typeString":"uint128"},{"typeIdentifier":"t_rational_0_by_1","typeString":"int_const 0"}],"overloadedDeclarations":[null],"referencedDeclaration":288,"type":"type(struct KittyItemMarket.Item storage pointer)","value":"Item"},"id":421,"name":"Identifier","src":"2499:4:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":393,"type":"address","value":"_itemContract"},"id":422,"name":"Identifier","src":"2504:13:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":395,"type":"uint256","value":"_cost"},"id":423,"name":"Identifier","src":"2519:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":397,"type":"address","value":"_artist"},"id":424,"name":"Identifier","src":"2526:7:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":399,"type":"uint128","value":"_split"},"id":425,"name":"Identifier","src":"2535:6:36"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":426,"name":"Literal","src":"2543:1:36"}],"id":427,"name":"FunctionCall","src":"2499:46:36"}],"id":428,"name":"Assignment","src":"2480:65:36"}],"id":429,"name":"ExpressionStatement","src":"2480:65:36"}],"id":430,"name":"Block","src":"2360:190:36"}],"id":431,"name":"FunctionDefinition","src":"2247:303:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"modifyItem","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":491,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":432,"name":"ElementaryTypeName","src":"2889:6:36"}],"id":433,"name":"VariableDeclaration","src":"2889:16:36"},{"attributes":{"constant":false,"name":"_itemContract","scope":491,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":434,"name":"ElementaryTypeName","src":"2907:7:36"}],"id":435,"name":"VariableDeclaration","src":"2907:21:36"},{"attributes":{"constant":false,"name":"_cost","scope":491,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":436,"name":"ElementaryTypeName","src":"2930:7:36"}],"id":437,"name":"VariableDeclaration","src":"2930:13:36"},{"attributes":{"constant":false,"name":"_artist","scope":491,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":438,"name":"ElementaryTypeName","src":"2945:7:36"}],"id":439,"name":"VariableDeclaration","src":"2945:15:36"},{"attributes":{"constant":false,"name":"_split","scope":491,"stateVariable":false,"storageLocation":"default","type":"uint128","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint128","type":"uint128"},"id":440,"name":"ElementaryTypeName","src":"2962:7:36"}],"id":441,"name":"VariableDeclaration","src":"2962:14:36"}],"id":442,"name":"ParameterList","src":"2888:89:36"},{"attributes":{"parameters":[null]},"children":[],"id":443,"name":"ParameterList","src":"2985:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":444,"name":"Identifier","src":"2991:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":445,"name":"Identifier","src":"2999:3:36"}],"id":446,"name":"MemberAccess","src":"2999:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":447,"name":"Identifier","src":"3013:5:36"}],"id":448,"name":"BinaryOperation","src":"2999:19:36"}],"id":449,"name":"FunctionCall","src":"2991:28:36"}],"id":450,"name":"ExpressionStatement","src":"2991:28:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":451,"name":"Identifier","src":"3025:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":452,"name":"Identifier","src":"3033:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":433,"type":"string memory","value":"_itemName"},"id":453,"name":"Identifier","src":"3039:9:36"}],"id":454,"name":"IndexAccess","src":"3033:16:36"}],"id":455,"name":"MemberAccess","src":"3033:29:36"},{"attributes":{"argumentTypes":null,"hexvalue":"307830","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0x0"},"id":456,"name":"Literal","src":"3066:3:36"}],"id":457,"name":"BinaryOperation","src":"3033:36:36"}],"id":458,"name":"FunctionCall","src":"3025:45:36"}],"id":459,"name":"ExpressionStatement","src":"3025:45:36"},{"attributes":{"assignments":[461]},"children":[{"attributes":{"constant":false,"name":"item","scope":491,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":460,"name":"UserDefinedTypeName","src":"3106:4:36"}],"id":461,"name":"VariableDeclaration","src":"3106:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":462,"name":"Identifier","src":"3126:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":433,"type":"string memory","value":"_itemName"},"id":463,"name":"Identifier","src":"3132:9:36"}],"id":464,"name":"IndexAccess","src":"3126:16:36"}],"id":465,"name":"VariableDeclarationStatement","src":"3106:36:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":461,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":466,"name":"Identifier","src":"3148:4:36"}],"id":468,"name":"MemberAccess","src":"3148:17:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":435,"type":"address","value":"_itemContract"},"id":469,"name":"Identifier","src":"3168:13:36"}],"id":470,"name":"Assignment","src":"3148:33:36"}],"id":471,"name":"ExpressionStatement","src":"3148:33:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"cost","referencedDeclaration":281,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":461,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":472,"name":"Identifier","src":"3187:4:36"}],"id":474,"name":"MemberAccess","src":"3187:9:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":437,"type":"uint256","value":"_cost"},"id":475,"name":"Identifier","src":"3199:5:36"}],"id":476,"name":"Assignment","src":"3187:17:36"}],"id":477,"name":"ExpressionStatement","src":"3187:17:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"artist","referencedDeclaration":283,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":461,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":478,"name":"Identifier","src":"3210:4:36"}],"id":480,"name":"MemberAccess","src":"3210:11:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":439,"type":"address","value":"_artist"},"id":481,"name":"Identifier","src":"3224:7:36"}],"id":482,"name":"Assignment","src":"3210:21:36"}],"id":483,"name":"ExpressionStatement","src":"3210:21:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint128"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"split","referencedDeclaration":285,"type":"uint128"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":461,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":484,"name":"Identifier","src":"3237:4:36"}],"id":486,"name":"MemberAccess","src":"3237:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":441,"type":"uint128","value":"_split"},"id":487,"name":"Identifier","src":"3250:6:36"}],"id":488,"name":"Assignment","src":"3237:19:36"}],"id":489,"name":"ExpressionStatement","src":"3237:19:36"}],"id":490,"name":"Block","src":"2985:276:36"}],"id":491,"name":"FunctionDefinition","src":"2869:392:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"buyItem","payable":true,"scope":721,"stateMutability":"payable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":556,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":492,"name":"ElementaryTypeName","src":"3413:6:36"}],"id":493,"name":"VariableDeclaration","src":"3413:16:36"},{"attributes":{"constant":false,"name":"_amount","scope":556,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":494,"name":"ElementaryTypeName","src":"3431:7:36"}],"id":495,"name":"VariableDeclaration","src":"3431:15:36"}],"id":496,"name":"ParameterList","src":"3412:35:36"},{"attributes":{"parameters":[null]},"children":[],"id":497,"name":"ParameterList","src":"3463:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":498,"name":"Identifier","src":"3469:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":297,"type":"bool","value":"paused"},"id":499,"name":"Identifier","src":"3477:6:36"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":500,"name":"Literal","src":"3487:5:36"}],"id":501,"name":"BinaryOperation","src":"3477:15:36"}],"id":502,"name":"FunctionCall","src":"3469:24:36"}],"id":503,"name":"ExpressionStatement","src":"3469:24:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":504,"name":"Identifier","src":"3499:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":505,"name":"Identifier","src":"3507:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":493,"type":"string memory","value":"_itemName"},"id":506,"name":"Identifier","src":"3513:9:36"}],"id":507,"name":"IndexAccess","src":"3507:16:36"}],"id":508,"name":"MemberAccess","src":"3507:29:36"},{"attributes":{"argumentTypes":null,"hexvalue":"307830","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0x0"},"id":509,"name":"Literal","src":"3540:3:36"}],"id":510,"name":"BinaryOperation","src":"3507:36:36"}],"id":511,"name":"FunctionCall","src":"3499:45:36"}],"id":512,"name":"ExpressionStatement","src":"3499:45:36"},{"attributes":{"assignments":[514]},"children":[{"attributes":{"constant":false,"name":"item","scope":556,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":513,"name":"UserDefinedTypeName","src":"3580:4:36"}],"id":514,"name":"VariableDeclaration","src":"3580:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":515,"name":"Identifier","src":"3600:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":493,"type":"string memory","value":"_itemName"},"id":516,"name":"Identifier","src":"3606:9:36"}],"id":517,"name":"IndexAccess","src":"3600:16:36"}],"id":518,"name":"VariableDeclarationStatement","src":"3580:36:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":519,"name":"Identifier","src":"3668:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"value","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":520,"name":"Identifier","src":"3676:3:36"}],"id":521,"name":"MemberAccess","src":"3676:9:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"*","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"cost","referencedDeclaration":281,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":514,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":522,"name":"Identifier","src":"3689:4:36"}],"id":523,"name":"MemberAccess","src":"3689:9:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":495,"type":"uint256","value":"_amount"},"id":524,"name":"Identifier","src":"3701:7:36"}],"id":525,"name":"BinaryOperation","src":"3689:19:36"}],"id":526,"name":"BinaryOperation","src":"3676:32:36"}],"id":527,"name":"FunctionCall","src":"3668:41:36"}],"id":528,"name":"ExpressionStatement","src":"3668:41:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":514,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":529,"name":"Identifier","src":"3784:4:36"}],"id":531,"name":"MemberAccess","src":"3784:15:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"value","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":532,"name":"Identifier","src":"3803:3:36"}],"id":533,"name":"MemberAccess","src":"3803:9:36"}],"id":534,"name":"Assignment","src":"3784:28:36"}],"id":535,"name":"ExpressionStatement","src":"3784:28:36"},{"attributes":{"assignments":[537]},"children":[{"attributes":{"constant":false,"name":"kit","scope":556,"stateVariable":false,"storageLocation":"default","type":"contract KittyItemToken","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"KittyItemToken","referencedDeclaration":277,"type":"contract KittyItemToken"},"id":536,"name":"UserDefinedTypeName","src":"3818:14:36"}],"id":537,"name":"VariableDeclaration","src":"3818:18:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract KittyItemToken","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":277,"type":"type(contract KittyItemToken)","value":"KittyItemToken"},"id":538,"name":"Identifier","src":"3839:14:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":514,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":539,"name":"Identifier","src":"3854:4:36"}],"id":540,"name":"MemberAccess","src":"3854:17:36"}],"id":541,"name":"FunctionCall","src":"3839:33:36"}],"id":542,"name":"VariableDeclarationStatement","src":"3818:54:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bool","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":258,"type":"function (address,uint256) pure external returns (bool)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":537,"type":"contract KittyItemToken","value":"kit"},"id":543,"name":"Identifier","src":"3878:3:36"}],"id":545,"name":"MemberAccess","src":"3878:12:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":546,"name":"Identifier","src":"3891:3:36"}],"id":547,"name":"MemberAccess","src":"3891:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":495,"type":"uint256","value":"_amount"},"id":548,"name":"Identifier","src":"3903:7:36"}],"id":549,"name":"FunctionCall","src":"3878:33:36"}],"id":550,"name":"ExpressionStatement","src":"3878:33:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_memory_ptr","typeString":"string memory"}],"overloadedDeclarations":[null],"referencedDeclaration":301,"type":"function (string memory)","value":"Buy"},"id":551,"name":"Identifier","src":"3936:3:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":493,"type":"string memory","value":"_itemName"},"id":552,"name":"Identifier","src":"3940:9:36"}],"id":553,"name":"FunctionCall","src":"3936:14:36"}],"id":554,"name":"ExpressionStatement","src":"3936:14:36"}],"id":555,"name":"Block","src":"3463:492:36"}],"id":556,"name":"FunctionDefinition","src":"3396:559:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"buyItemAndApply","payable":true,"scope":721,"stateMutability":"payable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":619,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":557,"name":"ElementaryTypeName","src":"4142:6:36"}],"id":558,"name":"VariableDeclaration","src":"4142:16:36"},{"attributes":{"constant":false,"name":"_kittyId","scope":619,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":559,"name":"ElementaryTypeName","src":"4160:7:36"}],"id":560,"name":"VariableDeclaration","src":"4160:16:36"}],"id":561,"name":"ParameterList","src":"4141:36:36"},{"attributes":{"parameters":[null]},"children":[],"id":562,"name":"ParameterList","src":"4193:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":563,"name":"Identifier","src":"4199:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":297,"type":"bool","value":"paused"},"id":564,"name":"Identifier","src":"4207:6:36"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":565,"name":"Literal","src":"4217:5:36"}],"id":566,"name":"BinaryOperation","src":"4207:15:36"}],"id":567,"name":"FunctionCall","src":"4199:24:36"}],"id":568,"name":"ExpressionStatement","src":"4199:24:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":569,"name":"Identifier","src":"4284:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":570,"name":"Identifier","src":"4292:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":558,"type":"string memory","value":"_itemName"},"id":571,"name":"Identifier","src":"4298:9:36"}],"id":572,"name":"IndexAccess","src":"4292:16:36"}],"id":573,"name":"MemberAccess","src":"4292:29:36"},{"attributes":{"argumentTypes":null,"hexvalue":"307830","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0x0"},"id":574,"name":"Literal","src":"4325:3:36"}],"id":575,"name":"BinaryOperation","src":"4292:36:36"}],"id":576,"name":"FunctionCall","src":"4284:45:36"}],"id":577,"name":"ExpressionStatement","src":"4284:45:36"},{"attributes":{"assignments":[579]},"children":[{"attributes":{"constant":false,"name":"item","scope":619,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":578,"name":"UserDefinedTypeName","src":"4365:4:36"}],"id":579,"name":"VariableDeclaration","src":"4365:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":580,"name":"Identifier","src":"4385:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":558,"type":"string memory","value":"_itemName"},"id":581,"name":"Identifier","src":"4391:9:36"}],"id":582,"name":"IndexAccess","src":"4385:16:36"}],"id":583,"name":"VariableDeclarationStatement","src":"4365:36:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":584,"name":"Identifier","src":"4453:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"value","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":585,"name":"Identifier","src":"4461:3:36"}],"id":586,"name":"MemberAccess","src":"4461:9:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"cost","referencedDeclaration":281,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":579,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":587,"name":"Identifier","src":"4474:4:36"}],"id":588,"name":"MemberAccess","src":"4474:9:36"}],"id":589,"name":"BinaryOperation","src":"4461:22:36"}],"id":590,"name":"FunctionCall","src":"4453:31:36"}],"id":591,"name":"ExpressionStatement","src":"4453:31:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":579,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":592,"name":"Identifier","src":"4536:4:36"}],"id":594,"name":"MemberAccess","src":"4536:15:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"value","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":595,"name":"Identifier","src":"4555:3:36"}],"id":596,"name":"MemberAccess","src":"4555:9:36"}],"id":597,"name":"Assignment","src":"4536:28:36"}],"id":598,"name":"ExpressionStatement","src":"4536:28:36"},{"attributes":{"assignments":[600]},"children":[{"attributes":{"constant":false,"name":"kit","scope":619,"stateVariable":false,"storageLocation":"default","type":"contract KittyItemToken","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"KittyItemToken","referencedDeclaration":277,"type":"contract KittyItemToken"},"id":599,"name":"UserDefinedTypeName","src":"4570:14:36"}],"id":600,"name":"VariableDeclaration","src":"4570:18:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract KittyItemToken","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":277,"type":"type(contract KittyItemToken)","value":"KittyItemToken"},"id":601,"name":"Identifier","src":"4591:14:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":579,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":602,"name":"Identifier","src":"4606:4:36"}],"id":603,"name":"MemberAccess","src":"4606:17:36"}],"id":604,"name":"FunctionCall","src":"4591:33:36"}],"id":605,"name":"VariableDeclarationStatement","src":"4570:54:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bool","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transferAndApply","referencedDeclaration":268,"type":"function (address,uint256) pure external returns (bool)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":600,"type":"contract KittyItemToken","value":"kit"},"id":606,"name":"Identifier","src":"4630:3:36"}],"id":608,"name":"MemberAccess","src":"4630:20:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":609,"name":"Identifier","src":"4651:3:36"}],"id":610,"name":"MemberAccess","src":"4651:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":560,"type":"uint256","value":"_kittyId"},"id":611,"name":"Identifier","src":"4663:8:36"}],"id":612,"name":"FunctionCall","src":"4630:42:36"}],"id":613,"name":"ExpressionStatement","src":"4630:42:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_memory_ptr","typeString":"string memory"}],"overloadedDeclarations":[null],"referencedDeclaration":301,"type":"function (string memory)","value":"Buy"},"id":614,"name":"Identifier","src":"4697:3:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":558,"type":"string memory","value":"_itemName"},"id":615,"name":"Identifier","src":"4701:9:36"}],"id":616,"name":"FunctionCall","src":"4697:14:36"}],"id":617,"name":"ExpressionStatement","src":"4697:14:36"}],"id":618,"name":"Block","src":"4193:523:36"}],"id":619,"name":"FunctionDefinition","src":"4117:599:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"splitFunds","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":675,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":620,"name":"ElementaryTypeName","src":"4870:6:36"}],"id":621,"name":"VariableDeclaration","src":"4870:16:36"}],"id":622,"name":"ParameterList","src":"4869:18:36"},{"attributes":{"parameters":[null]},"children":[],"id":623,"name":"ParameterList","src":"4895:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":624,"name":"Identifier","src":"4901:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":625,"name":"Identifier","src":"4909:3:36"}],"id":626,"name":"MemberAccess","src":"4909:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":627,"name":"Identifier","src":"4923:5:36"}],"id":628,"name":"BinaryOperation","src":"4909:19:36"}],"id":629,"name":"FunctionCall","src":"4901:28:36"}],"id":630,"name":"ExpressionStatement","src":"4901:28:36"},{"attributes":{"assignments":[632]},"children":[{"attributes":{"constant":false,"name":"item","scope":675,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":631,"name":"UserDefinedTypeName","src":"4935:4:36"}],"id":632,"name":"VariableDeclaration","src":"4935:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":633,"name":"Identifier","src":"4955:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":621,"type":"string memory","value":"_itemName"},"id":634,"name":"Identifier","src":"4961:9:36"}],"id":635,"name":"IndexAccess","src":"4955:16:36"}],"id":636,"name":"VariableDeclarationStatement","src":"4935:36:36"},{"attributes":{"assignments":[638]},"children":[{"attributes":{"constant":false,"name":"amountToArtist","scope":675,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":637,"name":"ElementaryTypeName","src":"5023:7:36"}],"id":638,"name":"VariableDeclaration","src":"5023:22:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"/","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"*","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":639,"name":"Identifier","src":"5048:4:36"}],"id":640,"name":"MemberAccess","src":"5048:15:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"split","referencedDeclaration":285,"type":"uint128"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":641,"name":"Identifier","src":"5066:4:36"}],"id":642,"name":"MemberAccess","src":"5066:10:36"}],"id":643,"name":"BinaryOperation","src":"5048:28:36"},{"attributes":{"argumentTypes":null,"hexvalue":"3130303030","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 10000","value":"10000"},"id":644,"name":"Literal","src":"5079:5:36"}],"id":645,"name":"BinaryOperation","src":"5048:36:36"}],"id":646,"name":"VariableDeclarationStatement","src":"5023:61:36"},{"attributes":{"assignments":[648]},"children":[{"attributes":{"constant":false,"name":"amountToOwner","scope":675,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":647,"name":"ElementaryTypeName","src":"5090:7:36"}],"id":648,"name":"VariableDeclaration","src":"5090:21:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":649,"name":"Identifier","src":"5114:4:36"}],"id":650,"name":"MemberAccess","src":"5114:15:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":638,"type":"uint256","value":"amountToArtist"},"id":651,"name":"Identifier","src":"5132:14:36"}],"id":652,"name":"BinaryOperation","src":"5114:32:36"}],"id":653,"name":"VariableDeclarationStatement","src":"5090:56:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":null,"type":"function (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"artist","referencedDeclaration":283,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":654,"name":"Identifier","src":"5152:4:36"}],"id":657,"name":"MemberAccess","src":"5152:11:36"}],"id":658,"name":"MemberAccess","src":"5152:20:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":638,"type":"uint256","value":"amountToArtist"},"id":659,"name":"Identifier","src":"5173:14:36"}],"id":660,"name":"FunctionCall","src":"5152:36:36"}],"id":661,"name":"ExpressionStatement","src":"5152:36:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":null,"type":"function (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":662,"name":"Identifier","src":"5194:5:36"}],"id":664,"name":"MemberAccess","src":"5194:14:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":648,"type":"uint256","value":"amountToOwner"},"id":665,"name":"Identifier","src":"5209:13:36"}],"id":666,"name":"FunctionCall","src":"5194:29:36"}],"id":667,"name":"ExpressionStatement","src":"5194:29:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":668,"name":"Identifier","src":"5229:4:36"}],"id":670,"name":"MemberAccess","src":"5229:15:36"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":671,"name":"Literal","src":"5247:1:36"}],"id":672,"name":"Assignment","src":"5229:19:36"}],"id":673,"name":"ExpressionStatement","src":"5229:19:36"}],"id":674,"name":"Block","src":"4895:358:36"}],"id":675,"name":"FunctionDefinition","src":"4850:403:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"returnTokensToOwner","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":720,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":676,"name":"ElementaryTypeName","src":"5489:6:36"}],"id":677,"name":"VariableDeclaration","src":"5489:16:36"}],"id":678,"name":"ParameterList","src":"5488:18:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":720,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":679,"name":"ElementaryTypeName","src":"5523:4:36"}],"id":680,"name":"VariableDeclaration","src":"5523:4:36"}],"id":681,"name":"ParameterList","src":"5522:6:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":682,"name":"Identifier","src":"5535:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":683,"name":"Identifier","src":"5543:3:36"}],"id":684,"name":"MemberAccess","src":"5543:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":685,"name":"Identifier","src":"5557:5:36"}],"id":686,"name":"BinaryOperation","src":"5543:19:36"}],"id":687,"name":"FunctionCall","src":"5535:28:36"}],"id":688,"name":"ExpressionStatement","src":"5535:28:36"},{"attributes":{"assignments":[690]},"children":[{"attributes":{"constant":false,"name":"item","scope":720,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":689,"name":"UserDefinedTypeName","src":"5569:4:36"}],"id":690,"name":"VariableDeclaration","src":"5569:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":691,"name":"Identifier","src":"5589:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":677,"type":"string memory","value":"_itemName"},"id":692,"name":"Identifier","src":"5595:9:36"}],"id":693,"name":"IndexAccess","src":"5589:16:36"}],"id":694,"name":"VariableDeclarationStatement","src":"5569:36:36"},{"attributes":{"assignments":[696]},"children":[{"attributes":{"constant":false,"name":"kit","scope":720,"stateVariable":false,"storageLocation":"default","type":"contract KittyItemToken","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"KittyItemToken","referencedDeclaration":277,"type":"contract KittyItemToken"},"id":695,"name":"UserDefinedTypeName","src":"5657:14:36"}],"id":696,"name":"VariableDeclaration","src":"5657:18:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract KittyItemToken","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":277,"type":"type(contract KittyItemToken)","value":"KittyItemToken"},"id":697,"name":"Identifier","src":"5678:14:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":690,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":698,"name":"Identifier","src":"5693:4:36"}],"id":699,"name":"MemberAccess","src":"5693:17:36"}],"id":700,"name":"FunctionCall","src":"5678:33:36"}],"id":701,"name":"VariableDeclarationStatement","src":"5657:54:36"},{"attributes":{"assignments":[703]},"children":[{"attributes":{"constant":false,"name":"contractBalance","scope":720,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":702,"name":"ElementaryTypeName","src":"5717:7:36"}],"id":703,"name":"VariableDeclaration","src":"5717:23:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_contract$_KittyItemMarket_$721","typeString":"contract KittyItemMarket"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"balanceOf","referencedDeclaration":276,"type":"function (address) pure external returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":696,"type":"contract KittyItemToken","value":"kit"},"id":704,"name":"Identifier","src":"5743:3:36"}],"id":705,"name":"MemberAccess","src":"5743:13:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1497,"type":"contract KittyItemMarket","value":"this"},"id":706,"name":"Identifier","src":"5757:4:36"}],"id":707,"name":"FunctionCall","src":"5743:19:36"}],"id":708,"name":"VariableDeclarationStatement","src":"5717:45:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bool","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":258,"type":"function (address,uint256) pure external returns (bool)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":696,"type":"contract KittyItemToken","value":"kit"},"id":709,"name":"Identifier","src":"5768:3:36"}],"id":711,"name":"MemberAccess","src":"5768:12:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":712,"name":"Identifier","src":"5781:3:36"}],"id":713,"name":"MemberAccess","src":"5781:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":703,"type":"uint256","value":"contractBalance"},"id":714,"name":"Identifier","src":"5793:15:36"}],"id":715,"name":"FunctionCall","src":"5768:41:36"}],"id":716,"name":"ExpressionStatement","src":"5768:41:36"},{"attributes":{"functionReturnParameters":681},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":717,"name":"Literal","src":"5822:4:36"}],"id":718,"name":"Return","src":"5815:11:36"}],"id":719,"name":"Block","src":"5529:302:36"}],"id":720,"name":"FunctionDefinition","src":"5460:371:36"}],"id":721,"name":"ContractDefinition","src":"392:5442:36"}],"id":722,"name":"SourceUnit","src":"0:5835:36"},"compiler":{"name":"solc","version":"0.4.18+commit.9cf6e910.Emscripten.clang"},"networks":{"1":{"events":{},"links":{},"address":"0xfc9ec868f4c8c586d1bb7586870908cca53d5f38"},"3":{"events":{},"links":{},"address":"0x7d36c91ba6ab2b6eb11c0c7293bf29cda3a44b92"},"5777":{"events":{},"links":{},"address":"0xa509542ada3196a38bd6fd03b253547ee09220c4"}},"schemaVersion":"1.0.1","updatedAt":"2018-02-08T04:43:20.494Z"}
-
-/***/ }),
 /* 25 */
-/***/ (function(module, exports) {
-
-module.exports = {"contractName":"KittyItemToken","abi":[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_ipfsHash","type":"string"}],"name":"updateIpfsHash","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_canApply","type":"address"}],"name":"setCanApplyAddress","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"canApply","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_totalSupply","type":"uint256"},{"name":"_symbol","type":"string"},{"name":"_name","type":"string"}],"name":"setupToken","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_kittyId","type":"uint256"}],"name":"applied","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_kittyId","type":"uint256"}],"name":"removeItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_addr","type":"address"}],"name":"setKittyCoreAddress","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"ipfsHash","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_receiveAddress","type":"address"},{"name":"_kittyId","type":"uint256"}],"name":"transferAndApply","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_kittyId","type":"uint256"}],"name":"applyItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"kittyId","type":"uint256"}],"name":"Apply","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"kittyId","type":"uint256"}],"name":"Remove","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"}],"bytecode":"0x60606040526000805560206040519081016040528060008152506001908051906020019062000030929190620000d6565b5060206040519081016040528060008152506002908051906020019062000059929190620000d6565b5060206040519081016040528060008152506003908051906020019062000082929190620000d6565b5034156200008f57600080fd5b33600460006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555062000185565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106200011957805160ff19168380011785556200014a565b828001600101855582156200014a579182015b82811115620001495782518255916020019190600101906200012c565b5b5090506200015991906200015d565b5090565b6200018291905b808211156200017e57600081600090555060010162000164565b5090565b90565b611d2d80620001956000396000f30060606040526004361061011d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306fdde03146101225780630913348f146101b0578063095ea7b31461020d57806318160ddd14610267578063223095ff1461029057806323b872dd146102c95780632a05bbcb14610342578063313ce5671461039757806332c12ca7146103c6578063344456c81461046f57806370a08231146104aa57806371329171146104f757806378a7b8041461051a5780638da5cb5b1461055357806395d89b41146105a8578063a9059cbb14610636578063c623674f14610690578063dd62ed3e1461071e578063e9121b121461078a578063f2fde38b146107cc578063fdbf198914610805575b600080fd5b341561012d57600080fd5b610135610828565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561017557808201518184015260208101905061015a565b50505050905090810190601f1680156101a25780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156101bb57600080fd5b61020b600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506108c6565b005b341561021857600080fd5b61024d600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061093c565b604051808215151515815260200191505060405180910390f35b341561027257600080fd5b61027a610a2e565b6040518082815260200191505060405180910390f35b341561029b57600080fd5b6102c7600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610a34565b005b34156102d457600080fd5b610328600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610ad4565b604051808215151515815260200191505060405180910390f35b341561034d57600080fd5b610355610d6e565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103a257600080fd5b6103aa610d94565b604051808260ff1660ff16815260200191505060405180910390f35b34156103d157600080fd5b61046d600480803590602001909190803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610d99565b005b341561047a57600080fd5b61049060048080359060200190919050506110e4565b604051808215151515815260200191505060405180910390f35b34156104b557600080fd5b6104e1600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061110e565b6040518082815260200191505060405180910390f35b341561050257600080fd5b6105186004808035906020019091905050611157565b005b341561052557600080fd5b610551600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506112aa565b005b341561055e57600080fd5b61056661134a565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156105b357600080fd5b6105bb611370565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156105fb5780820151818401526020810190506105e0565b50505050905090810190601f1680156106285780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561064157600080fd5b610676600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061140e565b604051808215151515815260200191505060405180910390f35b341561069b57600080fd5b6106a3611567565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156106e35780820151818401526020810190506106c8565b50505050905090810190601f1680156107105780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561072957600080fd5b610774600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611605565b6040518082815260200191505060405180910390f35b341561079557600080fd5b6107ca600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061168c565b005b34156107d757600080fd5b610803600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611963565b005b341561081057600080fd5b6108266004808035906020019091905050611a3a565b005b60028054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156108be5780601f10610893576101008083540402835291602001916108be565b820191906000526020600020905b8154815290600101906020018083116108a157829003601f168201915b505050505081565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561092257600080fd5b8060039080519060200190610938929190611c5c565b5050565b600081600760003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925846040518082815260200191505060405180910390a36001905092915050565b60005481565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610a9057600080fd5b80600560006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600080600760008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905082600660008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205410158015610ba55750828110155b1515610bb057600080fd5b82600660008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254019250508190555082600660008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff811015610cfd5782600760008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055505b8373ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef856040518082815260200191505060405180910390a360019150509392505050565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600081565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610df557600080fd5b60008054141515610e0557600080fd5b60405180600001905060405180910390206000191660016040518082805460018160011615610100020316600290048015610e775780601f10610e55576101008083540402835291820191610e77565b820191906000526020600020905b815481529060010190602001808311610e63575b5050915050604051809103902060001916141515610e9457600080fd5b60405180600001905060405180910390206000191660026040518082805460018160011615610100020316600290048015610f065780601f10610ee4576101008083540402835291820191610f06565b820191906000526020600020905b815481529060010190602001808311610ef2575b5050915050604051809103902060001916141515610f2357600080fd5b600083111515610f3257600080fd5b604051806000019050604051809103902060001916826040518082805190602001908083835b602083101515610f7d5780518252602082019150602081019050602083039250610f58565b6001836020036101000a03801982511681845116808217855250505050505090500191505060405180910390206000191614151515610fbb57600080fd5b604051806000019050604051809103902060001916816040518082805190602001908083835b6020831015156110065780518252602082019150602081019050602083039250610fe1565b6001836020036101000a0380198251168184511680821785525050505050509050019150506040518091039020600019161415151561104457600080fd5b826000819055508160019080519060200190611061929190611c5c565b508060029080519060200190611078929190611c5c565b508260066000600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550505050565b60006008600083815260200190815260200160002060009054906101000a900460ff169050919050565b6000600660008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b15156111f057600080fd5b6102c65a03f1151561120157600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561124457600080fd5b60006008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055507f476e4aa4bb19dbdea8700b4db99d81ad2fefcf51924ba5d493b7be6393f82201816040518082815260200191505060405180910390a150565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561130657600080fd5b80600960006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156114065780601f106113db57610100808354040283529160200191611406565b820191906000526020600020905b8154815290600101906020018083116113e957829003601f168201915b505050505081565b600081600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541015151561145e57600080fd5b81600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254039250508190555081600660008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825401925050819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60038054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156115fd5780601f106115d2576101008083540402835291602001916115fd565b820191906000526020600020905b8154815290600101906020018083116115e057829003601f168201915b505050505081565b6000600760008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905092915050565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614806117355750600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16145b151561174057600080fd5b6000600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205411151561178e57600080fd5b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b151561182757600080fd5b6102c65a03f1151561183857600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff1614151561187b57600080fd5b600015156008600083815260200190815260200160002060009054906101000a900460ff1615151415156118ae57600080fd5b60016008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055506001600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507f2fc96119a3d9277e338f2f7b673fd2a522fd9f9d6c58ddc6c661d4bd41e7d995816040518082815260200191505060405180910390a15050565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156119bf57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515611a375780600460006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b50565b6000600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054111515611a8857600080fd5b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b1515611b2157600080fd5b6102c65a03f11515611b3257600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515611b7557600080fd5b600015156008600083815260200190815260200160002060009054906101000a900460ff161515141515611ba857600080fd5b60016008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055506001600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507f2fc96119a3d9277e338f2f7b673fd2a522fd9f9d6c58ddc6c661d4bd41e7d995816040518082815260200191505060405180910390a150565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10611c9d57805160ff1916838001178555611ccb565b82800160010185558215611ccb579182015b82811115611cca578251825591602001919060010190611caf565b5b509050611cd89190611cdc565b5090565b611cfe91905b80821115611cfa576000816000905550600101611ce2565b5090565b905600a165627a7a72305820159d10db35d054fe3435ff65d984afb8bf689e8057bb84307e5399fbf46bd0080029","deployedBytecode":"0x60606040526004361061011d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306fdde03146101225780630913348f146101b0578063095ea7b31461020d57806318160ddd14610267578063223095ff1461029057806323b872dd146102c95780632a05bbcb14610342578063313ce5671461039757806332c12ca7146103c6578063344456c81461046f57806370a08231146104aa57806371329171146104f757806378a7b8041461051a5780638da5cb5b1461055357806395d89b41146105a8578063a9059cbb14610636578063c623674f14610690578063dd62ed3e1461071e578063e9121b121461078a578063f2fde38b146107cc578063fdbf198914610805575b600080fd5b341561012d57600080fd5b610135610828565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561017557808201518184015260208101905061015a565b50505050905090810190601f1680156101a25780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156101bb57600080fd5b61020b600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506108c6565b005b341561021857600080fd5b61024d600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061093c565b604051808215151515815260200191505060405180910390f35b341561027257600080fd5b61027a610a2e565b6040518082815260200191505060405180910390f35b341561029b57600080fd5b6102c7600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610a34565b005b34156102d457600080fd5b610328600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610ad4565b604051808215151515815260200191505060405180910390f35b341561034d57600080fd5b610355610d6e565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103a257600080fd5b6103aa610d94565b604051808260ff1660ff16815260200191505060405180910390f35b34156103d157600080fd5b61046d600480803590602001909190803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610d99565b005b341561047a57600080fd5b61049060048080359060200190919050506110e4565b604051808215151515815260200191505060405180910390f35b34156104b557600080fd5b6104e1600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061110e565b6040518082815260200191505060405180910390f35b341561050257600080fd5b6105186004808035906020019091905050611157565b005b341561052557600080fd5b610551600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506112aa565b005b341561055e57600080fd5b61056661134a565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156105b357600080fd5b6105bb611370565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156105fb5780820151818401526020810190506105e0565b50505050905090810190601f1680156106285780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561064157600080fd5b610676600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061140e565b604051808215151515815260200191505060405180910390f35b341561069b57600080fd5b6106a3611567565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156106e35780820151818401526020810190506106c8565b50505050905090810190601f1680156107105780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561072957600080fd5b610774600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611605565b6040518082815260200191505060405180910390f35b341561079557600080fd5b6107ca600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061168c565b005b34156107d757600080fd5b610803600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611963565b005b341561081057600080fd5b6108266004808035906020019091905050611a3a565b005b60028054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156108be5780601f10610893576101008083540402835291602001916108be565b820191906000526020600020905b8154815290600101906020018083116108a157829003601f168201915b505050505081565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561092257600080fd5b8060039080519060200190610938929190611c5c565b5050565b600081600760003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925846040518082815260200191505060405180910390a36001905092915050565b60005481565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610a9057600080fd5b80600560006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600080600760008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905082600660008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205410158015610ba55750828110155b1515610bb057600080fd5b82600660008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254019250508190555082600660008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff811015610cfd5782600760008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055505b8373ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef856040518082815260200191505060405180910390a360019150509392505050565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600081565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610df557600080fd5b60008054141515610e0557600080fd5b60405180600001905060405180910390206000191660016040518082805460018160011615610100020316600290048015610e775780601f10610e55576101008083540402835291820191610e77565b820191906000526020600020905b815481529060010190602001808311610e63575b5050915050604051809103902060001916141515610e9457600080fd5b60405180600001905060405180910390206000191660026040518082805460018160011615610100020316600290048015610f065780601f10610ee4576101008083540402835291820191610f06565b820191906000526020600020905b815481529060010190602001808311610ef2575b5050915050604051809103902060001916141515610f2357600080fd5b600083111515610f3257600080fd5b604051806000019050604051809103902060001916826040518082805190602001908083835b602083101515610f7d5780518252602082019150602081019050602083039250610f58565b6001836020036101000a03801982511681845116808217855250505050505090500191505060405180910390206000191614151515610fbb57600080fd5b604051806000019050604051809103902060001916816040518082805190602001908083835b6020831015156110065780518252602082019150602081019050602083039250610fe1565b6001836020036101000a0380198251168184511680821785525050505050509050019150506040518091039020600019161415151561104457600080fd5b826000819055508160019080519060200190611061929190611c5c565b508060029080519060200190611078929190611c5c565b508260066000600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550505050565b60006008600083815260200190815260200160002060009054906101000a900460ff169050919050565b6000600660008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b15156111f057600080fd5b6102c65a03f1151561120157600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561124457600080fd5b60006008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055507f476e4aa4bb19dbdea8700b4db99d81ad2fefcf51924ba5d493b7be6393f82201816040518082815260200191505060405180910390a150565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561130657600080fd5b80600960006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156114065780601f106113db57610100808354040283529160200191611406565b820191906000526020600020905b8154815290600101906020018083116113e957829003601f168201915b505050505081565b600081600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541015151561145e57600080fd5b81600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254039250508190555081600660008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825401925050819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60038054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156115fd5780601f106115d2576101008083540402835291602001916115fd565b820191906000526020600020905b8154815290600101906020018083116115e057829003601f168201915b505050505081565b6000600760008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905092915050565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614806117355750600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16145b151561174057600080fd5b6000600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205411151561178e57600080fd5b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b151561182757600080fd5b6102c65a03f1151561183857600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff1614151561187b57600080fd5b600015156008600083815260200190815260200160002060009054906101000a900460ff1615151415156118ae57600080fd5b60016008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055506001600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507f2fc96119a3d9277e338f2f7b673fd2a522fd9f9d6c58ddc6c661d4bd41e7d995816040518082815260200191505060405180910390a15050565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156119bf57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515611a375780600460006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b50565b6000600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054111515611a8857600080fd5b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b1515611b2157600080fd5b6102c65a03f11515611b3257600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515611b7557600080fd5b600015156008600083815260200190815260200160002060009054906101000a900460ff161515141515611ba857600080fd5b60016008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055506001600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507f2fc96119a3d9277e338f2f7b673fd2a522fd9f9d6c58ddc6c661d4bd41e7d995816040518082815260200191505060405180910390a150565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10611c9d57805160ff1916838001178555611ccb565b82800160010185558215611ccb579182015b82811115611cca578251825591602001919060010190611caf565b5b509050611cd89190611cdc565b5090565b611cfe91905b80821115611cfa576000816000905550600101611ce2565b5090565b905600a165627a7a72305820159d10db35d054fe3435ff65d984afb8bf689e8057bb84307e5399fbf46bd0080029","sourceMap":"773:6748:1:-;;;638:1:2;609:30;;855:25:1;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;884:23;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;911:27;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;1336:62;;;;;;;;1383:10;1375:5;;:18;;;;;;;;;;;;;;;;;;773:6748;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;","deployedSourceMap":"773:6748:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;884:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3636:114:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5252:191;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;609:30:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2260:119:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;4418:641;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1004:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;942:34;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2804:716;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7408:111;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5107:99;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7077:192;;;;;;;;;;;;;;;;;;;;;;;;;;1879:125;;;;;;;;;;;;;;;;;;;;;;;;;;;;980:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;855:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3797:570:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;911:27;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5491:126:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6254:719;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1563:158;;;;;;;;;;;;;;;;;;;;;;;;;;;;5729:334;;;;;;;;;;;;;;;;;;;;;;;;;;884:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;3636:114::-;3713:5;;;;;;;;;;;3699:19;;:10;:19;;;3691:28;;;;;;;;3736:9;3725:8;:20;;;;;;;;;;;;:::i;:::-;;3636:114;:::o;5252:191::-;5319:12;5371:6;5339:7;:19;5347:10;5339:19;;;;;;;;;;;;;;;:29;5359:8;5339:29;;;;;;;;;;;;;;;:38;;;;5404:8;5383:38;;5392:10;5383:38;;;5414:6;5383:38;;;;;;;;;;;;;;;;;;5434:4;5427:11;;5252:191;;;;:::o;609:30:2:-;;;;:::o;2260:119:1:-;2342:5;;;;;;;;;;;2328:19;;:10;:19;;;2320:28;;;;;;;;2365:9;2354:8;;:20;;;;;;;;;;;;;;;;;;2260:119;:::o;4418:641::-;4500:12;4749:17;4769:7;:14;4777:5;4769:14;;;;;;;;;;;;;;;:26;4784:10;4769:26;;;;;;;;;;;;;;;;4749:46;;4828:6;4809:8;:15;4818:5;4809:15;;;;;;;;;;;;;;;;:25;;:48;;;;;4851:6;4838:9;:19;;4809:48;4801:57;;;;;;;;4881:6;4864:8;:13;4873:3;4864:13;;;;;;;;;;;;;;;;:23;;;;;;;;;;;4912:6;4893:8;:15;4902:5;4893:15;;;;;;;;;;;;;;;;:25;;;;;;;;;;;841:10;4928:9;:23;4924:80;;;4991:6;4961:7;:14;4969:5;4961:14;;;;;;;;;;;;;;;:26;4976:10;4961:26;;;;;;;;;;;;;;;;:36;;;;;;;;;;;4924:80;5025:3;5009:28;;5018:5;5009:28;;;5030:6;5009:28;;;;;;;;;;;;;;;;;;5050:4;5043:11;;4418:641;;;;;;:::o;1004:23::-;;;;;;;;;;;;;:::o;942:34::-;975:1;942:34;:::o;2804:716::-;2968:5;;;;;;;;;;;2954:19;;:10;:19;;;2946:28;;;;;;;;3119:1;3104:11;;:16;3096:25;;;;;;;;3156:13;;;;;;;;;;;;;;3135:34;;;3145:6;3135:17;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:34;;;;3127:43;;;;;;;;3203:13;;;;;;;;;;;;;;3184:32;;;3194:4;3184:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:32;;;;3176:41;;;;;;;;3306:1;3291:12;:16;3283:25;;;;;;;;3344:13;;;;;;;;;;;;;;3322:35;;;3332:7;3322:18;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;3322:35:1;;;;;3314:44;;;;;;;;3392:13;;;;;;;;;;;;;;3372:33;;;3382:5;3372:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;3372:33:1;;;;;3364:42;;;;;;;;3427:12;3413:11;:26;;;;3454:7;3445:6;:16;;;;;;;;;;;;:::i;:::-;;3474:5;3467:4;:12;;;;;;;;;;;;:::i;:::-;;3503;3485:8;:15;3494:5;;;;;;;;;;;3485:15;;;;;;;;;;;;;;;:30;;;;2804:716;;;:::o;7408:111::-;7464:4;7483:21;:31;7505:8;7483:31;;;;;;;;;;;;;;;;;;;;;7476:38;;7408:111;;;:::o;5107:99::-;5163:7;5185:8;:16;5194:6;5185:16;;;;;;;;;;;;;;;;5178:23;;5107:99;;;:::o;7077:192::-;7150:10;;;;;;;;;;;:18;;;7169:8;7150:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7136:42;;:10;:42;;;7128:51;;;;;;;;7219:5;7185:21;:31;7207:8;7185:31;;;;;;;;;;;;:39;;;;;;;;;;;;;;;;;;7248:16;7255:8;7248:16;;;;;;;;;;;;;;;;;;7077:192;:::o;1879:125::-;1958:5;;;;;;;;;;;1944:19;;:10;:19;;;1936:28;;;;;;;;1993:5;1970:10;;:29;;;;;;;;;;;;;;;;;;1879:125;:::o;980:20::-;;;;;;;;;;;;;:::o;855:25::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;3797:570::-;3860:12;4234:6;4210:8;:20;4219:10;4210:20;;;;;;;;;;;;;;;;:30;;4202:39;;;;;;;;4271:6;4247:8;:20;4256:10;4247:20;;;;;;;;;;;;;;;;:30;;;;;;;;;;;4300:6;4283:8;:13;4292:3;4283:13;;;;;;;;;;;;;;;;:23;;;;;;;;;;;4333:3;4312:33;;4321:10;4312:33;;;4338:6;4312:33;;;;;;;;;;;;;;;;;;4358:4;4351:11;;3797:570;;;;:::o;911:27::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;5491:126::-;5565:7;5587;:15;5595:6;5587:15;;;;;;;;;;;;;;;:25;5603:8;5587:25;;;;;;;;;;;;;;;;5580:32;;5491:126;;;;:::o;6254:719::-;6493:8;;;;;;;;;;;6479:22;;:10;:22;;;:45;;;;6519:5;;;;;;;;;;;6505:19;;:10;:19;;;6479:45;6471:54;;;;;;;;6613:1;6590:8;:20;6599:10;6590:20;;;;;;;;;;;;;;;;:24;6582:33;;;;;;;;6698:10;;;;;;;;;;;:18;;;6717:8;6698:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6679:47;;:15;:47;;;6671:56;;;;;;;;6828:5;6793:40;;:21;:31;6815:8;6793:31;;;;;;;;;;;;;;;;;;;;;:40;;;6785:49;;;;;;;;6893:4;6859:21;:31;6881:8;6859:31;;;;;;;;;;;;:38;;;;;;;;;;;;;;;;;;6927:1;6903:8;:20;6912:10;6903:20;;;;;;;;;;;;;;;;:25;;;;;;;;;;;6953:15;6959:8;6953:15;;;;;;;;;;;;;;;;;;6254:719;;:::o;1563:158::-;1643:5;;;;;;;;;;;1629:19;;:10;:19;;;1621:28;;;;;;;;1679:1;1659:22;;:8;:22;;;;1655:59;;;1699:8;1691:5;;:16;;;;;;;;;;;;;;;;;;1655:59;1563:158;:::o;5729:334::-;5810:1;5787:8;:20;5796:10;5787:20;;;;;;;;;;;;;;;;:24;5779:33;;;;;;;;5840:10;;;;;;;;;;;:18;;;5859:8;5840:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5826:42;;:10;:42;;;5818:51;;;;;;;;5918:5;5883:40;;:21;:31;5905:8;5883:31;;;;;;;;;;;;;;;;;;;;;:40;;;5875:49;;;;;;;;5983:4;5949:21;:31;5971:8;5949:31;;;;;;;;;;;;:38;;;;;;;;;;;;;;;;;;6017:1;5993:8;:20;6002:10;5993:20;;;;;;;;;;;;;;;;:25;;;;;;;;;;;6043:15;6049:8;6043:15;;;;;;;;;;;;;;;;;;5729:334;:::o;773:6748::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o","source":"/*\nYou should inherit from StandardToken or, for a token like you would want to\ndeploy in something like Mist, see HumanStandardToken.sol.\n(This implements ONLY the standard functions and NOTHING else.\nIf you deploy this, you won't have anything useful.)\n\nImplements ERC 20 Token standard: https://github.com/ethereum/EIPs/issues/20\n.*/\npragma solidity ^0.4.8;\n\nimport \"./Token.sol\";\n\n\n/**\n * @title KittyCore contract interface\n * https://ethereum.stackexchange.com/a/24721/25445\n * https://etherscan.io/address/0x06012c8cf97bead5deae237070f9587f8e7a266d#code\n */\ncontract KittyCore {\n  function ownerOf(uint256 _tokenId) external view returns (address owner);\n}\n\n\n/**\n * @title KittyItemToken is an ERC20 token with some extra functions for applying items to kitties\n */\ncontract KittyItemToken is Token {\n  uint256 constant MAX_UINT256 = 2**256 - 1;\n  string public symbol = \"\";\n  string public name = \"\";\n  string public ipfsHash = \"\";\n  uint8 public constant decimals = 0;\n  address public owner;\n  address public canApply;\n  mapping (address => uint256) balances;\n  mapping (address => mapping (address => uint256)) allowed;\n  mapping (uint256 => bool) appliedToKittyMapping;\n  KittyCore _kittyCore;\n\n  // Events\n  event Apply(uint256 kittyId);\n  event Remove(uint256 kittyId);\n\n  /**\n   * @dev KittyItemToken constructor\n   */\n  function KittyItemToken() public {\n    owner = msg.sender;\n  }\n\n  /** \n   * @dev Allows the current owner to transfer control of the contract to a newOwner.\n   * @param newOwner The address to transfer ownership to. \n   */  \n  function transferOwnership(address newOwner) public {\n    require(msg.sender == owner);\n    if (newOwner != address(0)) {\n      owner = newOwner;\n    }   \n  }\n\n  /**\n   * @dev sets the KittyCore contract address - https://ethereum.stackexchange.com/a/24721/25445\n   * @param _addr KittyCore contract address\n   */\n  function setKittyCoreAddress(address _addr) public {\n    require(msg.sender == owner);\n    _kittyCore = KittyCore(_addr);\n  }\n\n  /**\n   * @dev Sets the address other than the token holder that is allowed to apply items to kitties.\n   *      This is always the KittyItemMarket address\n   * @param _canApply address that can apply items to any Kitty, regardless of ownership\n   */\n  function setCanApplyAddress(address _canApply) public {\n    require(msg.sender == owner);\n    canApply = _canApply;\n  }\n\n  /**\n   * @dev Sets up the token total supply, symbol, name. This is normally done through the constructor but\n   *      an old version of Truffle didn't have the ability to do this. Dev made a bad assumption that Truffle 4.0 still\n   *      lacked this feature. Ran out of time to fix.\n   * @param _totalSupply Total supply of the token\n   * @param _symbol Symbol of the token\n   * @param _name Name of the token\n   */\n  function setupToken(uint256 _totalSupply, string _symbol, string _name) public {\n    // only the owner can modify the contract attributes\n    require(msg.sender == owner);\n\n    // make sure the contract hasn't already been modified\n    // https://ethereum.stackexchange.com/a/11754/25445\n    require(totalSupply == 0);\n    require(keccak256(symbol) == keccak256(\"\"));\n    require(keccak256(name) == keccak256(\"\"));\n\n    // make sure the contract hasn't already been modified\n    require(_totalSupply > 0);\n    require(keccak256(_symbol) != keccak256(\"\"));\n    require(keccak256(_name) != keccak256(\"\"));\n\n    totalSupply = _totalSupply;\n    symbol = _symbol;\n    name = _name;\n    balances[owner] = _totalSupply;\n  }\n\n  /**\n   * @dev Updates the IPFS hash for the token art\n   * @param _ipfsHash IPFS Hash for the token art\n   */\n  function updateIpfsHash(string _ipfsHash) public {\n    require(msg.sender == owner);\n    ipfsHash = _ipfsHash;\n  }\n\n  /**\n   * @dev Basic ERC20 transfer\n   */\n  function transfer(address _to, uint256 _value) public returns (bool success) {\n    //Default assumes totalSupply can't be over max (2^256 - 1).\n    //If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.\n    //Replace the if with this one instead.\n    //require(balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]);\n    require(balances[msg.sender] >= _value);\n    balances[msg.sender] -= _value;\n    balances[_to] += _value;\n    Transfer(msg.sender, _to, _value);\n    return true;\n  }\n\n  /**\n   * @dev Basic ERC20 transferFrom\n   */\n  function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {\n    //same as above. Replace this line with the following if you want to protect against wrapping uints.\n    //require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]);\n    uint256 allowance = allowed[_from][msg.sender];\n    require(balances[_from] >= _value && allowance >= _value);\n    balances[_to] += _value;\n    balances[_from] -= _value;\n    if (allowance < MAX_UINT256) {\n      allowed[_from][msg.sender] -= _value;\n    }\n    Transfer(_from, _to, _value);\n    return true;\n  }\n\n  /**\n   * @dev Basic ERC20 balanceOf\n   */\n  function balanceOf(address _owner) view public returns (uint256) {\n    return balances[_owner];\n  }\n\n  /**\n   * @dev Basic ERC20 approve\n   */\n  function approve(address _spender, uint256 _value) public returns (bool success) {\n    allowed[msg.sender][_spender] = _value;\n    Approval(msg.sender, _spender, _value);\n    return true;\n  }\n\n  /**\n   * @dev Basic ERC20 allowance\n   */\n  function allowance(address _owner, address _spender) view public returns (uint256) {\n    return allowed[_owner][_spender];\n  }\n\n  /**\n   * @dev Applies item to a kitty and burns token\n   * @param _kittyId KittyId to apply item to\n   */\n  function applyItem(uint256 _kittyId) public {\n    require(balances[msg.sender] > 0);\n    require(msg.sender == _kittyCore.ownerOf(_kittyId));\n    require(appliedToKittyMapping[_kittyId] == false);  // can't re-apply\n    appliedToKittyMapping[_kittyId] = true;\n    balances[msg.sender] -= 1;\n    // emit events\n    Apply(_kittyId);\n  }\n\n  /**\n   * @dev Burns one token from ender and applies item to KittyId\n   * @param _receiveAddress address that will \"receive\" a token\n   * @param _kittyId KittyId to apply item to\n   */\n  function transferAndApply(address _receiveAddress, uint256 _kittyId) public {\n    // NOTE - there is no transfer of item that takes place.\n    // Only the `owner` and the `canApply` address can use this function.\n    require(msg.sender == canApply || msg.sender == owner);  // owner and canApply address can apply a sticker\n    require(balances[msg.sender] > 0);  // market contract or owner must own > 1 sticker\n    require(_receiveAddress == _kittyCore.ownerOf(_kittyId));  // make sure the _receiveAddress owns the _kittyId\n    require(appliedToKittyMapping[_kittyId] == false);  // can't re-apply\n    appliedToKittyMapping[_kittyId] = true;\n    balances[msg.sender] -= 1;\n    // emit events\n    Apply(_kittyId);\n  }\n\n  /**\n   * @dev Removes an item from KittyId\n   * @param _kittyId KittyId to remove item from\n   */\n  function removeItem(uint256 _kittyId) public {\n    require(msg.sender == _kittyCore.ownerOf(_kittyId));\n    appliedToKittyMapping[_kittyId] = false;\n    //emit events\n    Remove(_kittyId);\n  }\n\n  /**\n   * @dev Return whether or not the item is applied to KittyId\n   * @param _kittyId KittyId to check if item is applied to\n   */\n  function applied(uint256 _kittyId) view public returns (bool) {\n    return appliedToKittyMapping[_kittyId];\n  }\n}\n","sourcePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyItemToken.sol","ast":{"attributes":{"absolutePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyItemToken.sol","exportedSymbols":{"KittyCore":[16],"KittyItemToken":[554]}},"children":[{"attributes":{"literals":["solidity","^","0.4",".8"]},"id":7,"name":"PragmaDirective","src":"337:23:1"},{"attributes":{"SourceUnit":622,"absolutePath":"/home/ubuntu/kitty-hats-truffle/contracts/Token.sol","file":"./Token.sol","scope":555,"symbolAliases":[null],"unitAlias":""},"id":8,"name":"ImportDirective","src":"362:21:1"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":"@title KittyCore contract interface\nhttps://ethereum.stackexchange.com/a/24721/25445\nhttps://etherscan.io/address/0x06012c8cf97bead5deae237070f9587f8e7a266d#code","fullyImplemented":false,"linearizedBaseContracts":[16],"name":"KittyCore","scope":555},"children":[{"attributes":{"body":null,"constant":true,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"ownerOf","payable":false,"scope":16,"stateMutability":"view","superFunction":null,"visibility":"external"},"children":[{"children":[{"attributes":{"constant":false,"name":"_tokenId","scope":15,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":9,"name":"ElementaryTypeName","src":"605:7:1"}],"id":10,"name":"VariableDeclaration","src":"605:16:1"}],"id":11,"name":"ParameterList","src":"604:18:1"},{"children":[{"attributes":{"constant":false,"name":"owner","scope":15,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":12,"name":"ElementaryTypeName","src":"646:7:1"}],"id":13,"name":"VariableDeclaration","src":"646:13:1"}],"id":14,"name":"ParameterList","src":"645:15:1"}],"id":15,"name":"FunctionDefinition","src":"588:73:1"}],"id":16,"name":"ContractDefinition","src":"565:98:1"},{"attributes":{"contractDependencies":[621],"contractKind":"contract","documentation":"@title KittyItemToken is an ERC20 token with some extra functions for applying items to kitties","fullyImplemented":true,"linearizedBaseContracts":[554,621],"name":"KittyItemToken","scope":555},"children":[{"attributes":{"arguments":[null]},"children":[{"attributes":{"contractScope":null,"name":"Token","referencedDeclaration":621,"type":"contract Token"},"id":17,"name":"UserDefinedTypeName","src":"800:5:1"}],"id":18,"name":"InheritanceSpecifier","src":"800:5:1"},{"attributes":{"constant":true,"name":"MAX_UINT256","scope":554,"stateVariable":true,"storageLocation":"default","type":"uint256","visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":19,"name":"ElementaryTypeName","src":"810:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_rational_115792089237316195423570985008687907853269984665640564039457584007913129639935_by_1","typeString":"int_const 115792089237316195423570985008687907853269984665640564039457584007913129639935"},"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"operator":"-","type":"int_const 115792089237316195423570985008687907853269984665640564039457584007913129639935"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_rational_115792089237316195423570985008687907853269984665640564039457584007913129639936_by_1","typeString":"int_const 115792089237316195423570985008687907853269984665640564039457584007913129639936"},"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"operator":"**","type":"int_const 115792089237316195423570985008687907853269984665640564039457584007913129639936"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"32","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 2","value":"2"},"id":20,"name":"Literal","src":"841:1:1"},{"attributes":{"argumentTypes":null,"hexvalue":"323536","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 256","value":"256"},"id":21,"name":"Literal","src":"844:3:1"}],"id":22,"name":"BinaryOperation","src":"841:6:1"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":23,"name":"Literal","src":"850:1:1"}],"id":24,"name":"BinaryOperation","src":"841:10:1"}],"id":25,"name":"VariableDeclaration","src":"810:41:1"},{"attributes":{"constant":false,"name":"symbol","scope":554,"stateVariable":true,"storageLocation":"default","type":"string storage ref","visibility":"public"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":26,"name":"ElementaryTypeName","src":"855:6:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":27,"name":"Literal","src":"878:2:1"}],"id":28,"name":"VariableDeclaration","src":"855:25:1"},{"attributes":{"constant":false,"name":"name","scope":554,"stateVariable":true,"storageLocation":"default","type":"string storage ref","visibility":"public"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":29,"name":"ElementaryTypeName","src":"884:6:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":30,"name":"Literal","src":"905:2:1"}],"id":31,"name":"VariableDeclaration","src":"884:23:1"},{"attributes":{"constant":false,"name":"ipfsHash","scope":554,"stateVariable":true,"storageLocation":"default","type":"string storage ref","visibility":"public"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":32,"name":"ElementaryTypeName","src":"911:6:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":33,"name":"Literal","src":"936:2:1"}],"id":34,"name":"VariableDeclaration","src":"911:27:1"},{"attributes":{"constant":true,"name":"decimals","scope":554,"stateVariable":true,"storageLocation":"default","type":"uint8","visibility":"public"},"children":[{"attributes":{"name":"uint8","type":"uint8"},"id":35,"name":"ElementaryTypeName","src":"942:5:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":36,"name":"Literal","src":"975:1:1"}],"id":37,"name":"VariableDeclaration","src":"942:34:1"},{"attributes":{"constant":false,"name":"owner","scope":554,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":38,"name":"ElementaryTypeName","src":"980:7:1"}],"id":39,"name":"VariableDeclaration","src":"980:20:1"},{"attributes":{"constant":false,"name":"canApply","scope":554,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":40,"name":"ElementaryTypeName","src":"1004:7:1"}],"id":41,"name":"VariableDeclaration","src":"1004:23:1"},{"attributes":{"constant":false,"name":"balances","scope":554,"stateVariable":true,"storageLocation":"default","type":"mapping(address => uint256)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(address => uint256)"},"children":[{"attributes":{"name":"address","type":"address"},"id":42,"name":"ElementaryTypeName","src":"1040:7:1"},{"attributes":{"name":"uint256","type":"uint256"},"id":43,"name":"ElementaryTypeName","src":"1051:7:1"}],"id":44,"name":"Mapping","src":"1031:28:1"}],"id":45,"name":"VariableDeclaration","src":"1031:37:1"},{"attributes":{"constant":false,"name":"allowed","scope":554,"stateVariable":true,"storageLocation":"default","type":"mapping(address => mapping(address => uint256))","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(address => mapping(address => uint256))"},"children":[{"attributes":{"name":"address","type":"address"},"id":46,"name":"ElementaryTypeName","src":"1081:7:1"},{"attributes":{"type":"mapping(address => uint256)"},"children":[{"attributes":{"name":"address","type":"address"},"id":47,"name":"ElementaryTypeName","src":"1101:7:1"},{"attributes":{"name":"uint256","type":"uint256"},"id":48,"name":"ElementaryTypeName","src":"1112:7:1"}],"id":49,"name":"Mapping","src":"1092:28:1"}],"id":50,"name":"Mapping","src":"1072:49:1"}],"id":51,"name":"VariableDeclaration","src":"1072:57:1"},{"attributes":{"constant":false,"name":"appliedToKittyMapping","scope":554,"stateVariable":true,"storageLocation":"default","type":"mapping(uint256 => bool)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(uint256 => bool)"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":52,"name":"ElementaryTypeName","src":"1142:7:1"},{"attributes":{"name":"bool","type":"bool"},"id":53,"name":"ElementaryTypeName","src":"1153:4:1"}],"id":54,"name":"Mapping","src":"1133:25:1"}],"id":55,"name":"VariableDeclaration","src":"1133:47:1"},{"attributes":{"constant":false,"name":"_kittyCore","scope":554,"stateVariable":true,"storageLocation":"default","type":"contract KittyCore","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"KittyCore","referencedDeclaration":16,"type":"contract KittyCore"},"id":56,"name":"UserDefinedTypeName","src":"1184:9:1"}],"id":57,"name":"VariableDeclaration","src":"1184:20:1"},{"attributes":{"anonymous":false,"name":"Apply"},"children":[{"children":[{"attributes":{"constant":false,"indexed":false,"name":"kittyId","scope":61,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":58,"name":"ElementaryTypeName","src":"1233:7:1"}],"id":59,"name":"VariableDeclaration","src":"1233:15:1"}],"id":60,"name":"ParameterList","src":"1232:17:1"}],"id":61,"name":"EventDefinition","src":"1221:29:1"},{"attributes":{"anonymous":false,"name":"Remove"},"children":[{"children":[{"attributes":{"constant":false,"indexed":false,"name":"kittyId","scope":65,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":62,"name":"ElementaryTypeName","src":"1266:7:1"}],"id":63,"name":"VariableDeclaration","src":"1266:15:1"}],"id":64,"name":"ParameterList","src":"1265:17:1"}],"id":65,"name":"EventDefinition","src":"1253:30:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":true,"modifiers":[null],"name":"KittyItemToken","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":66,"name":"ParameterList","src":"1359:2:1"},{"attributes":{"parameters":[null]},"children":[],"id":67,"name":"ParameterList","src":"1369:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":68,"name":"Identifier","src":"1375:5:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":69,"name":"Identifier","src":"1383:3:1"}],"id":70,"name":"MemberAccess","src":"1383:10:1"}],"id":71,"name":"Assignment","src":"1375:18:1"}],"id":72,"name":"ExpressionStatement","src":"1375:18:1"}],"id":73,"name":"Block","src":"1369:29:1"}],"id":74,"name":"FunctionDefinition","src":"1336:62:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferOwnership","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"newOwner","scope":98,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":75,"name":"ElementaryTypeName","src":"1590:7:1"}],"id":76,"name":"VariableDeclaration","src":"1590:16:1"}],"id":77,"name":"ParameterList","src":"1589:18:1"},{"attributes":{"parameters":[null]},"children":[],"id":78,"name":"ParameterList","src":"1615:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":79,"name":"Identifier","src":"1621:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":80,"name":"Identifier","src":"1629:3:1"}],"id":81,"name":"MemberAccess","src":"1629:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":82,"name":"Identifier","src":"1643:5:1"}],"id":83,"name":"BinaryOperation","src":"1629:19:1"}],"id":84,"name":"FunctionCall","src":"1621:28:1"}],"id":85,"name":"ExpressionStatement","src":"1621:28:1"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":76,"type":"address","value":"newOwner"},"id":86,"name":"Identifier","src":"1659:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_0_by_1","typeString":"int_const 0"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(address)","value":"address"},"id":87,"name":"ElementaryTypeNameExpression","src":"1671:7:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":88,"name":"Literal","src":"1679:1:1"}],"id":89,"name":"FunctionCall","src":"1671:10:1"}],"id":90,"name":"BinaryOperation","src":"1659:22:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":91,"name":"Identifier","src":"1691:5:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":76,"type":"address","value":"newOwner"},"id":92,"name":"Identifier","src":"1699:8:1"}],"id":93,"name":"Assignment","src":"1691:16:1"}],"id":94,"name":"ExpressionStatement","src":"1691:16:1"}],"id":95,"name":"Block","src":"1683:31:1"}],"id":96,"name":"IfStatement","src":"1655:59:1"}],"id":97,"name":"Block","src":"1615:106:1"}],"id":98,"name":"FunctionDefinition","src":"1563:158:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setKittyCoreAddress","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_addr","scope":117,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":99,"name":"ElementaryTypeName","src":"1908:7:1"}],"id":100,"name":"VariableDeclaration","src":"1908:13:1"}],"id":101,"name":"ParameterList","src":"1907:15:1"},{"attributes":{"parameters":[null]},"children":[],"id":102,"name":"ParameterList","src":"1930:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":103,"name":"Identifier","src":"1936:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":104,"name":"Identifier","src":"1944:3:1"}],"id":105,"name":"MemberAccess","src":"1944:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":106,"name":"Identifier","src":"1958:5:1"}],"id":107,"name":"BinaryOperation","src":"1944:19:1"}],"id":108,"name":"FunctionCall","src":"1936:28:1"}],"id":109,"name":"ExpressionStatement","src":"1936:28:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"contract KittyCore"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":57,"type":"contract KittyCore","value":"_kittyCore"},"id":110,"name":"Identifier","src":"1970:10:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract KittyCore","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":16,"type":"type(contract KittyCore)","value":"KittyCore"},"id":111,"name":"Identifier","src":"1983:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":100,"type":"address","value":"_addr"},"id":112,"name":"Identifier","src":"1993:5:1"}],"id":113,"name":"FunctionCall","src":"1983:16:1"}],"id":114,"name":"Assignment","src":"1970:29:1"}],"id":115,"name":"ExpressionStatement","src":"1970:29:1"}],"id":116,"name":"Block","src":"1930:74:1"}],"id":117,"name":"FunctionDefinition","src":"1879:125:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setCanApplyAddress","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_canApply","scope":134,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":118,"name":"ElementaryTypeName","src":"2288:7:1"}],"id":119,"name":"VariableDeclaration","src":"2288:17:1"}],"id":120,"name":"ParameterList","src":"2287:19:1"},{"attributes":{"parameters":[null]},"children":[],"id":121,"name":"ParameterList","src":"2314:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":122,"name":"Identifier","src":"2320:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":123,"name":"Identifier","src":"2328:3:1"}],"id":124,"name":"MemberAccess","src":"2328:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":125,"name":"Identifier","src":"2342:5:1"}],"id":126,"name":"BinaryOperation","src":"2328:19:1"}],"id":127,"name":"FunctionCall","src":"2320:28:1"}],"id":128,"name":"ExpressionStatement","src":"2320:28:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":41,"type":"address","value":"canApply"},"id":129,"name":"Identifier","src":"2354:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":119,"type":"address","value":"_canApply"},"id":130,"name":"Identifier","src":"2365:9:1"}],"id":131,"name":"Assignment","src":"2354:20:1"}],"id":132,"name":"ExpressionStatement","src":"2354:20:1"}],"id":133,"name":"Block","src":"2314:65:1"}],"id":134,"name":"FunctionDefinition","src":"2260:119:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setupToken","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_totalSupply","scope":221,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":135,"name":"ElementaryTypeName","src":"2824:7:1"}],"id":136,"name":"VariableDeclaration","src":"2824:20:1"},{"attributes":{"constant":false,"name":"_symbol","scope":221,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":137,"name":"ElementaryTypeName","src":"2846:6:1"}],"id":138,"name":"VariableDeclaration","src":"2846:14:1"},{"attributes":{"constant":false,"name":"_name","scope":221,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":139,"name":"ElementaryTypeName","src":"2862:6:1"}],"id":140,"name":"VariableDeclaration","src":"2862:12:1"}],"id":141,"name":"ParameterList","src":"2823:52:1"},{"attributes":{"parameters":[null]},"children":[],"id":142,"name":"ParameterList","src":"2883:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":143,"name":"Identifier","src":"2946:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":144,"name":"Identifier","src":"2954:3:1"}],"id":145,"name":"MemberAccess","src":"2954:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":146,"name":"Identifier","src":"2968:5:1"}],"id":147,"name":"BinaryOperation","src":"2954:19:1"}],"id":148,"name":"FunctionCall","src":"2946:28:1"}],"id":149,"name":"ExpressionStatement","src":"2946:28:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":150,"name":"Identifier","src":"3096:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":559,"type":"uint256","value":"totalSupply"},"id":151,"name":"Identifier","src":"3104:11:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":152,"name":"Literal","src":"3119:1:1"}],"id":153,"name":"BinaryOperation","src":"3104:16:1"}],"id":154,"name":"FunctionCall","src":"3096:25:1"}],"id":155,"name":"ExpressionStatement","src":"3096:25:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":156,"name":"Identifier","src":"3127:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_storage","typeString":"string storage ref"}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":157,"name":"Identifier","src":"3135:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":28,"type":"string storage ref","value":"symbol"},"id":158,"name":"Identifier","src":"3145:6:1"}],"id":159,"name":"FunctionCall","src":"3135:17:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470","typeString":"literal_string \"\""}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":160,"name":"Identifier","src":"3156:9:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":161,"name":"Literal","src":"3166:2:1"}],"id":162,"name":"FunctionCall","src":"3156:13:1"}],"id":163,"name":"BinaryOperation","src":"3135:34:1"}],"id":164,"name":"FunctionCall","src":"3127:43:1"}],"id":165,"name":"ExpressionStatement","src":"3127:43:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":166,"name":"Identifier","src":"3176:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_storage","typeString":"string storage ref"}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":167,"name":"Identifier","src":"3184:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":31,"type":"string storage ref","value":"name"},"id":168,"name":"Identifier","src":"3194:4:1"}],"id":169,"name":"FunctionCall","src":"3184:15:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470","typeString":"literal_string \"\""}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":170,"name":"Identifier","src":"3203:9:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":171,"name":"Literal","src":"3213:2:1"}],"id":172,"name":"FunctionCall","src":"3203:13:1"}],"id":173,"name":"BinaryOperation","src":"3184:32:1"}],"id":174,"name":"FunctionCall","src":"3176:41:1"}],"id":175,"name":"ExpressionStatement","src":"3176:41:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":176,"name":"Identifier","src":"3283:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":136,"type":"uint256","value":"_totalSupply"},"id":177,"name":"Identifier","src":"3291:12:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":178,"name":"Literal","src":"3306:1:1"}],"id":179,"name":"BinaryOperation","src":"3291:16:1"}],"id":180,"name":"FunctionCall","src":"3283:25:1"}],"id":181,"name":"ExpressionStatement","src":"3283:25:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":182,"name":"Identifier","src":"3314:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_memory_ptr","typeString":"string memory"}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":183,"name":"Identifier","src":"3322:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":138,"type":"string memory","value":"_symbol"},"id":184,"name":"Identifier","src":"3332:7:1"}],"id":185,"name":"FunctionCall","src":"3322:18:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470","typeString":"literal_string \"\""}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":186,"name":"Identifier","src":"3344:9:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":187,"name":"Literal","src":"3354:2:1"}],"id":188,"name":"FunctionCall","src":"3344:13:1"}],"id":189,"name":"BinaryOperation","src":"3322:35:1"}],"id":190,"name":"FunctionCall","src":"3314:44:1"}],"id":191,"name":"ExpressionStatement","src":"3314:44:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":192,"name":"Identifier","src":"3364:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_memory_ptr","typeString":"string memory"}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":193,"name":"Identifier","src":"3372:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":140,"type":"string memory","value":"_name"},"id":194,"name":"Identifier","src":"3382:5:1"}],"id":195,"name":"FunctionCall","src":"3372:16:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470","typeString":"literal_string \"\""}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":196,"name":"Identifier","src":"3392:9:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":197,"name":"Literal","src":"3402:2:1"}],"id":198,"name":"FunctionCall","src":"3392:13:1"}],"id":199,"name":"BinaryOperation","src":"3372:33:1"}],"id":200,"name":"FunctionCall","src":"3364:42:1"}],"id":201,"name":"ExpressionStatement","src":"3364:42:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":559,"type":"uint256","value":"totalSupply"},"id":202,"name":"Identifier","src":"3413:11:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":136,"type":"uint256","value":"_totalSupply"},"id":203,"name":"Identifier","src":"3427:12:1"}],"id":204,"name":"Assignment","src":"3413:26:1"}],"id":205,"name":"ExpressionStatement","src":"3413:26:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"string storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":28,"type":"string storage ref","value":"symbol"},"id":206,"name":"Identifier","src":"3445:6:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":138,"type":"string memory","value":"_symbol"},"id":207,"name":"Identifier","src":"3454:7:1"}],"id":208,"name":"Assignment","src":"3445:16:1"}],"id":209,"name":"ExpressionStatement","src":"3445:16:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"string storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":31,"type":"string storage ref","value":"name"},"id":210,"name":"Identifier","src":"3467:4:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":140,"type":"string memory","value":"_name"},"id":211,"name":"Identifier","src":"3474:5:1"}],"id":212,"name":"Assignment","src":"3467:12:1"}],"id":213,"name":"ExpressionStatement","src":"3467:12:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":214,"name":"Identifier","src":"3485:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":215,"name":"Identifier","src":"3494:5:1"}],"id":216,"name":"IndexAccess","src":"3485:15:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":136,"type":"uint256","value":"_totalSupply"},"id":217,"name":"Identifier","src":"3503:12:1"}],"id":218,"name":"Assignment","src":"3485:30:1"}],"id":219,"name":"ExpressionStatement","src":"3485:30:1"}],"id":220,"name":"Block","src":"2883:637:1"}],"id":221,"name":"FunctionDefinition","src":"2804:716:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"updateIpfsHash","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_ipfsHash","scope":238,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":222,"name":"ElementaryTypeName","src":"3660:6:1"}],"id":223,"name":"VariableDeclaration","src":"3660:16:1"}],"id":224,"name":"ParameterList","src":"3659:18:1"},{"attributes":{"parameters":[null]},"children":[],"id":225,"name":"ParameterList","src":"3685:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":226,"name":"Identifier","src":"3691:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":227,"name":"Identifier","src":"3699:3:1"}],"id":228,"name":"MemberAccess","src":"3699:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":229,"name":"Identifier","src":"3713:5:1"}],"id":230,"name":"BinaryOperation","src":"3699:19:1"}],"id":231,"name":"FunctionCall","src":"3691:28:1"}],"id":232,"name":"ExpressionStatement","src":"3691:28:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"string storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":34,"type":"string storage ref","value":"ipfsHash"},"id":233,"name":"Identifier","src":"3725:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":223,"type":"string memory","value":"_ipfsHash"},"id":234,"name":"Identifier","src":"3736:9:1"}],"id":235,"name":"Assignment","src":"3725:20:1"}],"id":236,"name":"ExpressionStatement","src":"3725:20:1"}],"id":237,"name":"Block","src":"3685:65:1"}],"id":238,"name":"FunctionDefinition","src":"3636:114:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transfer","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":575,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_to","scope":279,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":239,"name":"ElementaryTypeName","src":"3815:7:1"}],"id":240,"name":"VariableDeclaration","src":"3815:11:1"},{"attributes":{"constant":false,"name":"_value","scope":279,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":241,"name":"ElementaryTypeName","src":"3828:7:1"}],"id":242,"name":"VariableDeclaration","src":"3828:14:1"}],"id":243,"name":"ParameterList","src":"3814:29:1"},{"children":[{"attributes":{"constant":false,"name":"success","scope":279,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":244,"name":"ElementaryTypeName","src":"3860:4:1"}],"id":245,"name":"VariableDeclaration","src":"3860:12:1"}],"id":246,"name":"ParameterList","src":"3859:14:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":247,"name":"Identifier","src":"4202:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":248,"name":"Identifier","src":"4210:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":249,"name":"Identifier","src":"4219:3:1"}],"id":250,"name":"MemberAccess","src":"4219:10:1"}],"id":251,"name":"IndexAccess","src":"4210:20:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":242,"type":"uint256","value":"_value"},"id":252,"name":"Identifier","src":"4234:6:1"}],"id":253,"name":"BinaryOperation","src":"4210:30:1"}],"id":254,"name":"FunctionCall","src":"4202:39:1"}],"id":255,"name":"ExpressionStatement","src":"4202:39:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":256,"name":"Identifier","src":"4247:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":257,"name":"Identifier","src":"4256:3:1"}],"id":258,"name":"MemberAccess","src":"4256:10:1"}],"id":259,"name":"IndexAccess","src":"4247:20:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":242,"type":"uint256","value":"_value"},"id":260,"name":"Identifier","src":"4271:6:1"}],"id":261,"name":"Assignment","src":"4247:30:1"}],"id":262,"name":"ExpressionStatement","src":"4247:30:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":263,"name":"Identifier","src":"4283:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":240,"type":"address","value":"_to"},"id":264,"name":"Identifier","src":"4292:3:1"}],"id":265,"name":"IndexAccess","src":"4283:13:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":242,"type":"uint256","value":"_value"},"id":266,"name":"Identifier","src":"4300:6:1"}],"id":267,"name":"Assignment","src":"4283:23:1"}],"id":268,"name":"ExpressionStatement","src":"4283:23:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":612,"type":"function (address,address,uint256)","value":"Transfer"},"id":269,"name":"Identifier","src":"4312:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":270,"name":"Identifier","src":"4321:3:1"}],"id":271,"name":"MemberAccess","src":"4321:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":240,"type":"address","value":"_to"},"id":272,"name":"Identifier","src":"4333:3:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":242,"type":"uint256","value":"_value"},"id":273,"name":"Identifier","src":"4338:6:1"}],"id":274,"name":"FunctionCall","src":"4312:33:1"}],"id":275,"name":"ExpressionStatement","src":"4312:33:1"},{"attributes":{"functionReturnParameters":246},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":276,"name":"Literal","src":"4358:4:1"}],"id":277,"name":"Return","src":"4351:11:1"}],"id":278,"name":"Block","src":"3874:493:1"}],"id":279,"name":"FunctionDefinition","src":"3797:570:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferFrom","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":586,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_from","scope":346,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":280,"name":"ElementaryTypeName","src":"4440:7:1"}],"id":281,"name":"VariableDeclaration","src":"4440:13:1"},{"attributes":{"constant":false,"name":"_to","scope":346,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":282,"name":"ElementaryTypeName","src":"4455:7:1"}],"id":283,"name":"VariableDeclaration","src":"4455:11:1"},{"attributes":{"constant":false,"name":"_value","scope":346,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":284,"name":"ElementaryTypeName","src":"4468:7:1"}],"id":285,"name":"VariableDeclaration","src":"4468:14:1"}],"id":286,"name":"ParameterList","src":"4439:44:1"},{"children":[{"attributes":{"constant":false,"name":"success","scope":346,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":287,"name":"ElementaryTypeName","src":"4500:4:1"}],"id":288,"name":"VariableDeclaration","src":"4500:12:1"}],"id":289,"name":"ParameterList","src":"4499:14:1"},{"children":[{"attributes":{"assignments":[291]},"children":[{"attributes":{"constant":false,"name":"allowance","scope":346,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":290,"name":"ElementaryTypeName","src":"4749:7:1"}],"id":291,"name":"VariableDeclaration","src":"4749:17:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":51,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":292,"name":"Identifier","src":"4769:7:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":293,"name":"Identifier","src":"4777:5:1"}],"id":294,"name":"IndexAccess","src":"4769:14:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":295,"name":"Identifier","src":"4784:3:1"}],"id":296,"name":"MemberAccess","src":"4784:10:1"}],"id":297,"name":"IndexAccess","src":"4769:26:1"}],"id":298,"name":"VariableDeclarationStatement","src":"4749:46:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":299,"name":"Identifier","src":"4801:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"&&","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":300,"name":"Identifier","src":"4809:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":301,"name":"Identifier","src":"4818:5:1"}],"id":302,"name":"IndexAccess","src":"4809:15:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":303,"name":"Identifier","src":"4828:6:1"}],"id":304,"name":"BinaryOperation","src":"4809:25:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":291,"type":"uint256","value":"allowance"},"id":305,"name":"Identifier","src":"4838:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":306,"name":"Identifier","src":"4851:6:1"}],"id":307,"name":"BinaryOperation","src":"4838:19:1"}],"id":308,"name":"BinaryOperation","src":"4809:48:1"}],"id":309,"name":"FunctionCall","src":"4801:57:1"}],"id":310,"name":"ExpressionStatement","src":"4801:57:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":311,"name":"Identifier","src":"4864:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":283,"type":"address","value":"_to"},"id":312,"name":"Identifier","src":"4873:3:1"}],"id":313,"name":"IndexAccess","src":"4864:13:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":314,"name":"Identifier","src":"4881:6:1"}],"id":315,"name":"Assignment","src":"4864:23:1"}],"id":316,"name":"ExpressionStatement","src":"4864:23:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":317,"name":"Identifier","src":"4893:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":318,"name":"Identifier","src":"4902:5:1"}],"id":319,"name":"IndexAccess","src":"4893:15:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":320,"name":"Identifier","src":"4912:6:1"}],"id":321,"name":"Assignment","src":"4893:25:1"}],"id":322,"name":"ExpressionStatement","src":"4893:25:1"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"<","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":291,"type":"uint256","value":"allowance"},"id":323,"name":"Identifier","src":"4928:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":25,"type":"uint256","value":"MAX_UINT256"},"id":324,"name":"Identifier","src":"4940:11:1"}],"id":325,"name":"BinaryOperation","src":"4928:23:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":51,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":326,"name":"Identifier","src":"4961:7:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":327,"name":"Identifier","src":"4969:5:1"}],"id":330,"name":"IndexAccess","src":"4961:14:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":328,"name":"Identifier","src":"4976:3:1"}],"id":329,"name":"MemberAccess","src":"4976:10:1"}],"id":331,"name":"IndexAccess","src":"4961:26:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":332,"name":"Identifier","src":"4991:6:1"}],"id":333,"name":"Assignment","src":"4961:36:1"}],"id":334,"name":"ExpressionStatement","src":"4961:36:1"}],"id":335,"name":"Block","src":"4953:51:1"}],"id":336,"name":"IfStatement","src":"4924:80:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":612,"type":"function (address,address,uint256)","value":"Transfer"},"id":337,"name":"Identifier","src":"5009:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":338,"name":"Identifier","src":"5018:5:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":283,"type":"address","value":"_to"},"id":339,"name":"Identifier","src":"5025:3:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":340,"name":"Identifier","src":"5030:6:1"}],"id":341,"name":"FunctionCall","src":"5009:28:1"}],"id":342,"name":"ExpressionStatement","src":"5009:28:1"},{"attributes":{"functionReturnParameters":289},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":343,"name":"Literal","src":"5050:4:1"}],"id":344,"name":"Return","src":"5043:11:1"}],"id":345,"name":"Block","src":"4514:545:1"}],"id":346,"name":"FunctionDefinition","src":"4418:641:1"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"balanceOf","payable":false,"scope":554,"stateMutability":"view","superFunction":566,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_owner","scope":358,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":347,"name":"ElementaryTypeName","src":"5126:7:1"}],"id":348,"name":"VariableDeclaration","src":"5126:14:1"}],"id":349,"name":"ParameterList","src":"5125:16:1"},{"children":[{"attributes":{"constant":false,"name":"","scope":358,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":350,"name":"ElementaryTypeName","src":"5163:7:1"}],"id":351,"name":"VariableDeclaration","src":"5163:7:1"}],"id":352,"name":"ParameterList","src":"5162:9:1"},{"children":[{"attributes":{"functionReturnParameters":352},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":353,"name":"Identifier","src":"5185:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":348,"type":"address","value":"_owner"},"id":354,"name":"Identifier","src":"5194:6:1"}],"id":355,"name":"IndexAccess","src":"5185:16:1"}],"id":356,"name":"Return","src":"5178:23:1"}],"id":357,"name":"Block","src":"5172:34:1"}],"id":358,"name":"FunctionDefinition","src":"5107:99:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"approve","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":595,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_spender","scope":386,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":359,"name":"ElementaryTypeName","src":"5269:7:1"}],"id":360,"name":"VariableDeclaration","src":"5269:16:1"},{"attributes":{"constant":false,"name":"_value","scope":386,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":361,"name":"ElementaryTypeName","src":"5287:7:1"}],"id":362,"name":"VariableDeclaration","src":"5287:14:1"}],"id":363,"name":"ParameterList","src":"5268:34:1"},{"children":[{"attributes":{"constant":false,"name":"success","scope":386,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":364,"name":"ElementaryTypeName","src":"5319:4:1"}],"id":365,"name":"VariableDeclaration","src":"5319:12:1"}],"id":366,"name":"ParameterList","src":"5318:14:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":51,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":367,"name":"Identifier","src":"5339:7:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":368,"name":"Identifier","src":"5347:3:1"}],"id":369,"name":"MemberAccess","src":"5347:10:1"}],"id":371,"name":"IndexAccess","src":"5339:19:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":360,"type":"address","value":"_spender"},"id":370,"name":"Identifier","src":"5359:8:1"}],"id":372,"name":"IndexAccess","src":"5339:29:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":362,"type":"uint256","value":"_value"},"id":373,"name":"Identifier","src":"5371:6:1"}],"id":374,"name":"Assignment","src":"5339:38:1"}],"id":375,"name":"ExpressionStatement","src":"5339:38:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":620,"type":"function (address,address,uint256)","value":"Approval"},"id":376,"name":"Identifier","src":"5383:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":377,"name":"Identifier","src":"5392:3:1"}],"id":378,"name":"MemberAccess","src":"5392:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":360,"type":"address","value":"_spender"},"id":379,"name":"Identifier","src":"5404:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":362,"type":"uint256","value":"_value"},"id":380,"name":"Identifier","src":"5414:6:1"}],"id":381,"name":"FunctionCall","src":"5383:38:1"}],"id":382,"name":"ExpressionStatement","src":"5383:38:1"},{"attributes":{"functionReturnParameters":366},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":383,"name":"Literal","src":"5434:4:1"}],"id":384,"name":"Return","src":"5427:11:1"}],"id":385,"name":"Block","src":"5333:110:1"}],"id":386,"name":"FunctionDefinition","src":"5252:191:1"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"allowance","payable":false,"scope":554,"stateMutability":"view","superFunction":604,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_owner","scope":402,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":387,"name":"ElementaryTypeName","src":"5510:7:1"}],"id":388,"name":"VariableDeclaration","src":"5510:14:1"},{"attributes":{"constant":false,"name":"_spender","scope":402,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":389,"name":"ElementaryTypeName","src":"5526:7:1"}],"id":390,"name":"VariableDeclaration","src":"5526:16:1"}],"id":391,"name":"ParameterList","src":"5509:34:1"},{"children":[{"attributes":{"constant":false,"name":"","scope":402,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":392,"name":"ElementaryTypeName","src":"5565:7:1"}],"id":393,"name":"VariableDeclaration","src":"5565:7:1"}],"id":394,"name":"ParameterList","src":"5564:9:1"},{"children":[{"attributes":{"functionReturnParameters":394},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":51,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":395,"name":"Identifier","src":"5587:7:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":388,"type":"address","value":"_owner"},"id":396,"name":"Identifier","src":"5595:6:1"}],"id":397,"name":"IndexAccess","src":"5587:15:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":390,"type":"address","value":"_spender"},"id":398,"name":"Identifier","src":"5603:8:1"}],"id":399,"name":"IndexAccess","src":"5587:25:1"}],"id":400,"name":"Return","src":"5580:32:1"}],"id":401,"name":"Block","src":"5574:43:1"}],"id":402,"name":"FunctionDefinition","src":"5491:126:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"applyItem","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":452,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":403,"name":"ElementaryTypeName","src":"5748:7:1"}],"id":404,"name":"VariableDeclaration","src":"5748:16:1"}],"id":405,"name":"ParameterList","src":"5747:18:1"},{"attributes":{"parameters":[null]},"children":[],"id":406,"name":"ParameterList","src":"5773:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":407,"name":"Identifier","src":"5779:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":408,"name":"Identifier","src":"5787:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":409,"name":"Identifier","src":"5796:3:1"}],"id":410,"name":"MemberAccess","src":"5796:10:1"}],"id":411,"name":"IndexAccess","src":"5787:20:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":412,"name":"Literal","src":"5810:1:1"}],"id":413,"name":"BinaryOperation","src":"5787:24:1"}],"id":414,"name":"FunctionCall","src":"5779:33:1"}],"id":415,"name":"ExpressionStatement","src":"5779:33:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":416,"name":"Identifier","src":"5818:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":417,"name":"Identifier","src":"5826:3:1"}],"id":418,"name":"MemberAccess","src":"5826:10:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"ownerOf","referencedDeclaration":15,"type":"function (uint256) view external returns (address)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":57,"type":"contract KittyCore","value":"_kittyCore"},"id":419,"name":"Identifier","src":"5840:10:1"}],"id":420,"name":"MemberAccess","src":"5840:18:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":404,"type":"uint256","value":"_kittyId"},"id":421,"name":"Identifier","src":"5859:8:1"}],"id":422,"name":"FunctionCall","src":"5840:28:1"}],"id":423,"name":"BinaryOperation","src":"5826:42:1"}],"id":424,"name":"FunctionCall","src":"5818:51:1"}],"id":425,"name":"ExpressionStatement","src":"5818:51:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":426,"name":"Identifier","src":"5875:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":427,"name":"Identifier","src":"5883:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":404,"type":"uint256","value":"_kittyId"},"id":428,"name":"Identifier","src":"5905:8:1"}],"id":429,"name":"IndexAccess","src":"5883:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":430,"name":"Literal","src":"5918:5:1"}],"id":431,"name":"BinaryOperation","src":"5883:40:1"}],"id":432,"name":"FunctionCall","src":"5875:49:1"}],"id":433,"name":"ExpressionStatement","src":"5875:49:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":434,"name":"Identifier","src":"5949:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":404,"type":"uint256","value":"_kittyId"},"id":435,"name":"Identifier","src":"5971:8:1"}],"id":436,"name":"IndexAccess","src":"5949:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":437,"name":"Literal","src":"5983:4:1"}],"id":438,"name":"Assignment","src":"5949:38:1"}],"id":439,"name":"ExpressionStatement","src":"5949:38:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":440,"name":"Identifier","src":"5993:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":441,"name":"Identifier","src":"6002:3:1"}],"id":442,"name":"MemberAccess","src":"6002:10:1"}],"id":443,"name":"IndexAccess","src":"5993:20:1"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":444,"name":"Literal","src":"6017:1:1"}],"id":445,"name":"Assignment","src":"5993:25:1"}],"id":446,"name":"ExpressionStatement","src":"5993:25:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":61,"type":"function (uint256)","value":"Apply"},"id":447,"name":"Identifier","src":"6043:5:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":404,"type":"uint256","value":"_kittyId"},"id":448,"name":"Identifier","src":"6049:8:1"}],"id":449,"name":"FunctionCall","src":"6043:15:1"}],"id":450,"name":"ExpressionStatement","src":"6043:15:1"}],"id":451,"name":"Block","src":"5773:290:1"}],"id":452,"name":"FunctionDefinition","src":"5729:334:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferAndApply","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_receiveAddress","scope":515,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":453,"name":"ElementaryTypeName","src":"6280:7:1"}],"id":454,"name":"VariableDeclaration","src":"6280:23:1"},{"attributes":{"constant":false,"name":"_kittyId","scope":515,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":455,"name":"ElementaryTypeName","src":"6305:7:1"}],"id":456,"name":"VariableDeclaration","src":"6305:16:1"}],"id":457,"name":"ParameterList","src":"6279:43:1"},{"attributes":{"parameters":[null]},"children":[],"id":458,"name":"ParameterList","src":"6330:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":459,"name":"Identifier","src":"6471:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"||","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":460,"name":"Identifier","src":"6479:3:1"}],"id":461,"name":"MemberAccess","src":"6479:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":41,"type":"address","value":"canApply"},"id":462,"name":"Identifier","src":"6493:8:1"}],"id":463,"name":"BinaryOperation","src":"6479:22:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":464,"name":"Identifier","src":"6505:3:1"}],"id":465,"name":"MemberAccess","src":"6505:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":466,"name":"Identifier","src":"6519:5:1"}],"id":467,"name":"BinaryOperation","src":"6505:19:1"}],"id":468,"name":"BinaryOperation","src":"6479:45:1"}],"id":469,"name":"FunctionCall","src":"6471:54:1"}],"id":470,"name":"ExpressionStatement","src":"6471:54:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":471,"name":"Identifier","src":"6582:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":472,"name":"Identifier","src":"6590:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":473,"name":"Identifier","src":"6599:3:1"}],"id":474,"name":"MemberAccess","src":"6599:10:1"}],"id":475,"name":"IndexAccess","src":"6590:20:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":476,"name":"Literal","src":"6613:1:1"}],"id":477,"name":"BinaryOperation","src":"6590:24:1"}],"id":478,"name":"FunctionCall","src":"6582:33:1"}],"id":479,"name":"ExpressionStatement","src":"6582:33:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":480,"name":"Identifier","src":"6671:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":454,"type":"address","value":"_receiveAddress"},"id":481,"name":"Identifier","src":"6679:15:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"ownerOf","referencedDeclaration":15,"type":"function (uint256) view external returns (address)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":57,"type":"contract KittyCore","value":"_kittyCore"},"id":482,"name":"Identifier","src":"6698:10:1"}],"id":483,"name":"MemberAccess","src":"6698:18:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":456,"type":"uint256","value":"_kittyId"},"id":484,"name":"Identifier","src":"6717:8:1"}],"id":485,"name":"FunctionCall","src":"6698:28:1"}],"id":486,"name":"BinaryOperation","src":"6679:47:1"}],"id":487,"name":"FunctionCall","src":"6671:56:1"}],"id":488,"name":"ExpressionStatement","src":"6671:56:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":489,"name":"Identifier","src":"6785:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":490,"name":"Identifier","src":"6793:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":456,"type":"uint256","value":"_kittyId"},"id":491,"name":"Identifier","src":"6815:8:1"}],"id":492,"name":"IndexAccess","src":"6793:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":493,"name":"Literal","src":"6828:5:1"}],"id":494,"name":"BinaryOperation","src":"6793:40:1"}],"id":495,"name":"FunctionCall","src":"6785:49:1"}],"id":496,"name":"ExpressionStatement","src":"6785:49:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":497,"name":"Identifier","src":"6859:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":456,"type":"uint256","value":"_kittyId"},"id":498,"name":"Identifier","src":"6881:8:1"}],"id":499,"name":"IndexAccess","src":"6859:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":500,"name":"Literal","src":"6893:4:1"}],"id":501,"name":"Assignment","src":"6859:38:1"}],"id":502,"name":"ExpressionStatement","src":"6859:38:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":503,"name":"Identifier","src":"6903:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":504,"name":"Identifier","src":"6912:3:1"}],"id":505,"name":"MemberAccess","src":"6912:10:1"}],"id":506,"name":"IndexAccess","src":"6903:20:1"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":507,"name":"Literal","src":"6927:1:1"}],"id":508,"name":"Assignment","src":"6903:25:1"}],"id":509,"name":"ExpressionStatement","src":"6903:25:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":61,"type":"function (uint256)","value":"Apply"},"id":510,"name":"Identifier","src":"6953:5:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":456,"type":"uint256","value":"_kittyId"},"id":511,"name":"Identifier","src":"6959:8:1"}],"id":512,"name":"FunctionCall","src":"6953:15:1"}],"id":513,"name":"ExpressionStatement","src":"6953:15:1"}],"id":514,"name":"Block","src":"6330:643:1"}],"id":515,"name":"FunctionDefinition","src":"6254:719:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"removeItem","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":541,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":516,"name":"ElementaryTypeName","src":"7097:7:1"}],"id":517,"name":"VariableDeclaration","src":"7097:16:1"}],"id":518,"name":"ParameterList","src":"7096:18:1"},{"attributes":{"parameters":[null]},"children":[],"id":519,"name":"ParameterList","src":"7122:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":520,"name":"Identifier","src":"7128:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":521,"name":"Identifier","src":"7136:3:1"}],"id":522,"name":"MemberAccess","src":"7136:10:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"ownerOf","referencedDeclaration":15,"type":"function (uint256) view external returns (address)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":57,"type":"contract KittyCore","value":"_kittyCore"},"id":523,"name":"Identifier","src":"7150:10:1"}],"id":524,"name":"MemberAccess","src":"7150:18:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":517,"type":"uint256","value":"_kittyId"},"id":525,"name":"Identifier","src":"7169:8:1"}],"id":526,"name":"FunctionCall","src":"7150:28:1"}],"id":527,"name":"BinaryOperation","src":"7136:42:1"}],"id":528,"name":"FunctionCall","src":"7128:51:1"}],"id":529,"name":"ExpressionStatement","src":"7128:51:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":530,"name":"Identifier","src":"7185:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":517,"type":"uint256","value":"_kittyId"},"id":531,"name":"Identifier","src":"7207:8:1"}],"id":532,"name":"IndexAccess","src":"7185:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":533,"name":"Literal","src":"7219:5:1"}],"id":534,"name":"Assignment","src":"7185:39:1"}],"id":535,"name":"ExpressionStatement","src":"7185:39:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":65,"type":"function (uint256)","value":"Remove"},"id":536,"name":"Identifier","src":"7248:6:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":517,"type":"uint256","value":"_kittyId"},"id":537,"name":"Identifier","src":"7255:8:1"}],"id":538,"name":"FunctionCall","src":"7248:16:1"}],"id":539,"name":"ExpressionStatement","src":"7248:16:1"}],"id":540,"name":"Block","src":"7122:147:1"}],"id":541,"name":"FunctionDefinition","src":"7077:192:1"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"applied","payable":false,"scope":554,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":553,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":542,"name":"ElementaryTypeName","src":"7425:7:1"}],"id":543,"name":"VariableDeclaration","src":"7425:16:1"}],"id":544,"name":"ParameterList","src":"7424:18:1"},{"children":[{"attributes":{"constant":false,"name":"","scope":553,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":545,"name":"ElementaryTypeName","src":"7464:4:1"}],"id":546,"name":"VariableDeclaration","src":"7464:4:1"}],"id":547,"name":"ParameterList","src":"7463:6:1"},{"children":[{"attributes":{"functionReturnParameters":547},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":548,"name":"Identifier","src":"7483:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":543,"type":"uint256","value":"_kittyId"},"id":549,"name":"Identifier","src":"7505:8:1"}],"id":550,"name":"IndexAccess","src":"7483:31:1"}],"id":551,"name":"Return","src":"7476:38:1"}],"id":552,"name":"Block","src":"7470:49:1"}],"id":553,"name":"FunctionDefinition","src":"7408:111:1"}],"id":554,"name":"ContractDefinition","src":"773:6748:1"}],"id":555,"name":"SourceUnit","src":"337:7185:1"},"compiler":{"name":"solc","version":"0.4.18+commit.9cf6e910.Emscripten.clang"},"networks":{},"schemaVersion":"1.0.1","updatedAt":"2018-04-23T16:03:21.118Z"}
-
-/***/ }),
-/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28540,9 +28849,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __webpack_require__(8);
-const config_1 = __webpack_require__(5);
-const utils_1 = __webpack_require__(7);
+const axios_1 = __webpack_require__(15);
+const config_1 = __webpack_require__(6);
+const utils_1 = __webpack_require__(10);
 // tslint:disable-next-line:no-namespace
 var KittyItemManager;
 (function (KittyItemManager) {
@@ -28579,16 +28888,267 @@ var KittyItemManager;
 
 
 /***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (true) {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(97)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = require('./factoryWithThrowingShims')();
+}
+
+
+/***/ }),
 /* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (true) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLocation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return locationsAreEqual; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_resolve_pathname__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_value_equal__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PathUtils__ = __webpack_require__(23);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+var createLocation = function createLocation(path, state, key, currentLocation) {
+  var location = void 0;
+  if (typeof path === 'string') {
+    // Two-arg form: push(path, state)
+    location = Object(__WEBPACK_IMPORTED_MODULE_2__PathUtils__["d" /* parsePath */])(path);
+    location.state = state;
+  } else {
+    // One-arg form: push(location)
+    location = _extends({}, path);
+
+    if (location.pathname === undefined) location.pathname = '';
+
+    if (location.search) {
+      if (location.search.charAt(0) !== '?') location.search = '?' + location.search;
+    } else {
+      location.search = '';
+    }
+
+    if (location.hash) {
+      if (location.hash.charAt(0) !== '#') location.hash = '#' + location.hash;
+    } else {
+      location.hash = '';
+    }
+
+    if (state !== undefined && location.state === undefined) location.state = state;
+  }
+
+  try {
+    location.pathname = decodeURI(location.pathname);
+  } catch (e) {
+    if (e instanceof URIError) {
+      throw new URIError('Pathname "' + location.pathname + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.');
+    } else {
+      throw e;
+    }
+  }
+
+  if (key) location.key = key;
+
+  if (currentLocation) {
+    // Resolve incomplete/relative pathname relative to current location.
+    if (!location.pathname) {
+      location.pathname = currentLocation.pathname;
+    } else if (location.pathname.charAt(0) !== '/') {
+      location.pathname = Object(__WEBPACK_IMPORTED_MODULE_0_resolve_pathname__["default"])(location.pathname, currentLocation.pathname);
+    }
+  } else {
+    // When there is no prior location and pathname is empty, set it to /
+    if (!location.pathname) {
+      location.pathname = '/';
+    }
+  }
+
+  return location;
+};
+
+var locationsAreEqual = function locationsAreEqual(a, b) {
+  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && Object(__WEBPACK_IMPORTED_MODULE_1_value_equal__["default"])(a.state, b.state);
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports) {
+
+module.exports = {"version":"1.0.0","networkId":"1","marketplaceAddress":"0xfc9ec868f4c8c586d1bb7586870908cca53d5f38","kittyCoreAddress":"0x06012c8cf97BEaD5deAe237070F9587f8E7A266d","categories":{"memes":{"displayName":"Memes","items":[{"name":"Tie'd Pod","contract":"ItemMemeTidePod","tokenAddress":"0x9cbd70665cfc178dd5598bd8b9e3cccebe34f948","artist":"ADHDKitties","assetUrl":"tidepodbowtie"},{"name":"Cucumbers Behind Cats","contract":"ItemMemeCucumber","tokenAddress":"0x5c7c99a3ce83c3400ea21608651e7941a7ff1b92","artist":"BxKat","assetUrl":"cucumber"},{"name":"Chemistry Cat","contract":"ItemMemeScience","tokenAddress":"0xcc45a3f00a5a672b3f2f3efcf9a8325db9448bc0","artist":"BxKat","assetUrl":"chemistrycat"},{"name":"Breading","contract":"ItemMemeBread","tokenAddress":"0x2881d326f657c31fc538caa72c8c8ea5dc9da9a9","artist":"BxKat","assetUrl":"breading"},{"name":"Keyboard Cat","contract":"ItemMemeKeyboard","tokenAddress":"0x98f1ada35615e768aa30e217f62d52fa723bcda6","artist":"BxKat","assetUrl":"keyboard"},{"name":"Maru's Tiny Box","contract":"ItemMemeMaruBox","tokenAddress":"0xae49153ec8d6aed68d0d165a946684d9e27fd9b1","artist":"BxKat","assetUrl":"tinybox"},{"name":"More Treats?! Strawberry Hat","contract":"ItemMemeStrawberryHat","tokenAddress":"0x8d0d00744df3c57d434f82b15cb1a643ba46cd67","artist":"BxKat","assetUrl":"strawberryhat"},{"name":"More Treats?! Pumpkin Hat","contract":"ItemMemePumpkinHat","tokenAddress":"0xde4e1963fbd541bf51e6eeb8a95326623aca17a8","artist":"BxKat","assetUrl":"pumpkinhat"},{"name":"Deal With It Shades","contract":"ItemMemeDealWithItShades","tokenAddress":"0x7a72acc9b57c7c58189dd3370edbfb03621bd9a1","artist":"ParanoidLunatic","assetUrl":"dealwithit"}],"order":1},"accessories":{"displayName":"Accessories","items":[{"name":"Fuzzy Ball of Yarn","contract":"ItemYarn","tokenAddress":"0xb9e9ae95ffd4223f14b87e565ad0f00838a566f2","artist":"BxKat","assetUrl":"yarnball"},{"name":"Ethereum Collar","contract":"ItemEthereumCollar","tokenAddress":"0x280a511ebad860e945e1829e2c8435748b05d147","charity":"ASPCA and ETH Foundation","assetUrl":"collar"},{"name":"iWatch","contract":"ItemiWatch","tokenAddress":"0x54616a975dec9256f8fe26a99b2fcd6affbf6eaf","assetUrl":"iwatch"},{"name":"Lei","contract":"ItemLei","tokenAddress":"0x5e064285ec172449a85643c2000a4f1b390e16c2","assetUrl":"lei"},{"name":"Mom Tattoo","contract":"ItemMomTattoo","tokenAddress":"0x96e617630c15c3a4b4fde32f6eec434ae31b392f","assetUrl":"momtat"},{"name":"Bowtie","contract":"ItemBowtie","tokenAddress":"0xf6eb0570fb3f4ccfb21aea5603b3163d22070cf2","artist":"Kittyhawk","assetUrl":"bowtie"},{"name":"Ladybug Headband","contract":"ItemLadybug","tokenAddress":"0x04bc7647a545cc8eee31280b3e3eb3b2e8b2d978","artist":"Kittyhawk","assetUrl":"ladybug"},{"name":"Viking Shield","contract":"ItemVikingShield","tokenAddress":"0x7b412a4dafbdea838e646af207999d5e05d9f077","artist":"Kittyhawk","assetUrl":"vikingshield"},{"name":"Monocle","contract":"ItemMonocle","tokenAddress":"0xc08a7840a35bc9f11801479c81532b2ac72a7c82","artist":"Kittyhawk","assetUrl":"monocle"},{"name":"Paw Me Pls","contract":"ItemPawMePls","tokenAddress":"0xba79987d39d004802a157c27436aadcc16469503","artist":"Kittyhawk","assetUrl":"sign_pawmepls"},{"name":"Chocolate Pudding Headband","contract":"ItemChocoHeadband","tokenAddress":"0xf5353cb6ef1eeeeada2ff197d991492904fcfcad","artist":"Kittyhawk","assetUrl":"headband_choco"},{"name":"3D glasses","contract":"Item3dGlasses","tokenAddress":"0xddef3b261fa9a5995691838ce97eac616b34fcad","artist":"Kittyhawk","assetUrl":"glasses_3d"},{"name":"Time Machine","contract":"ItemTimeMachine","tokenAddress":"0x1f5a521d8fa643bf699b477b0c9edefd82864cab","artist":"Kittyhawk","assetUrl":"box_timemachine"},{"name":"Red Flower","contract":"ItemFlowerRed","tokenAddress":"0xe66ce7ea9738165a42fb898fe081ed10e50396c5","artist":"Kittyhawk","assetUrl":"flower_red"},{"name":"Bubbles For Sadie (#K4C)","contract":"ItemBubblesForSadie","tokenAddress":"0xb45287d3b10a60025d1973c995e015708e2fb23f","artist":"Kittyhawk","charity":"Kitties For a Cause","assetUrl":"bubbles4sadie"},{"name":"Dead Bird","contract":"ItemDeadBird","tokenAddress":"0x4ef99102c1bcd63dc441a1887c65b419ee0effac","artist":"ParanoidLunatic","assetUrl":"birdy"},{"name":"Diamond Bracelet","contract":"ItemSpikedBracelet","tokenAddress":"0x8518f0eb44247c62d07a5ff0d97137a6285554c8","artist":"janbro","assetUrl":"diamond_bracelet"}],"order":6},"valentines":{"displayName":"Valentines","items":[{"name":"Candy Hearts","contract":"ItemValentinesCandyHearts","tokenAddress":"0xe09a0238153a0c225e1157974990b8b9559cd2b6","artist":"BxKat","assetUrl":"candyhearts"},{"name":"Surrounded by Love","contract":"ItemValentinesHeartsBackground","tokenAddress":"0x104c09b7696744ad6f7a68af0d6cec10238a94a4","artist":"BxKat","assetUrl":"heartsbg"},{"name":"Hearts Headband","contract":"ItemValentinesHeartsHeadband","tokenAddress":"0x88a2213dc4340b1333afa386d4db7a3b7a425230","artist":"Kittyhawk","assetUrl":"headband_heart"}],"order":3},"shoes":{"displayName":"Shoes","items":[{"name":"Chucks","contract":"ItemChucks","tokenAddress":"0xd822ca23fcdbf5569b3ce746a81f039b27240b35","assetUrl":"chucks"},{"name":"Mittens","contract":"ItemMittens","tokenAddress":"0x944bf9dfee296df739a68b07e53c97df0396dbb3","assetUrl":"mittens"},{"name":"Ballet Slippers","contract":"ItemBlackBalletSlippers","tokenAddress":"0xac740ff5f0ed950f63c86ee32ad87c0e54b50488","artist":"Kittyhawk","assetUrl":"balletslippers"},{"name":"Yeezys","contract":"ItemYeezy","tokenAddress":"0x6615f387e7bc610c11066cb1e534ab0f07ed8424","assetUrl":"yeezy"}],"order":7},"hats":{"displayName":"Hats","items":[{"name":"Flat Brim","contract":"ItemFlatBrim","tokenAddress":"0x64e5e8fe8210bca8ad0571b4711d77161ac459a3","assetUrl":"flatbrim"},{"name":"Tiara","contract":"ItemTiara","tokenAddress":"0x2a7fa1308c075cf214e66c2caa67883da4fa508f","assetUrl":"tiara"},{"name":"Tin foil","contract":"ItemTinFoil","tokenAddress":"0xf3126a961abc4cef0cefcb2510be431ce2782b7f","charity":"ASPCA and ETH Foundation","assetUrl":"tinfoil"},{"name":"Top Hat","contract":"ItemTopHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"tophat"},{"name":"Trapper","contract":"ItemTrapper","tokenAddress":"0x8b3c87830bb23da1270803f92ff8ffa9d4a67338","charity":"Pussyhat Project","assetUrl":"trapper"},{"name":"Viking Helmet","contract":"ItemVikingHat","tokenAddress":"0xb106e0cfd724fca820d342b5a4ac2526108a6a56","artist":"Kittyhawk","assetUrl":"vikinghelmet"},{"name":"Birds of Prey Helmet","contract":"ItemHelmetBird","tokenAddress":"0x8f5155ddc1a859c22ba3d7a2f409175e69933cdc","artist":"Kittyhawk","assetUrl":"helmet_football_birdsofprey"},{"name":"Patriotic Helmet","contract":"ItemHelmetPat","tokenAddress":"0x0dd3b0163c8974e1673601c06ab2a45d762aaff8","artist":"Kittyhawk","assetUrl":"helmet_football_patriotic"},{"name":"Blue Top Hat","contract":"ItemTopHatBlue","tokenAddress":"0xf62215163b2dbbc0b8a57f7ce8238b4d7a3b8aea","artist":"Kittyhawk","assetUrl":"tophat_blue"},{"name":"Blue Beret","contract":"ItemBeret","tokenAddress":"0x075dd07ff62488810d30d61c93dc4be94eb31be9","artist":"Kittyhawk","assetUrl":"beret_blue"},{"name":"Shower Cap","contract":"ItemShowerCap","tokenAddress":"0xb7e485240fb515cb6d38ef06824b1fa1db05ff8b","artist":"LauraO","assetUrl":"shower_cap"},{"name":"Cheesehead Hat","contract":"ItemCheeseheadHat","tokenAddress":"0x17185d3b4d1e2630366886f78cb11d6ec807df40","artist":"ParanoidLunatic","assetUrl":"cheesehat"},{"name":"Construction Hat","contract":"ItemHardHat","tokenAddress":"0x0cc0bb67b6b0c92c56328271cd6d767caa8494ab","artist":"ParanoidLunatic","assetUrl":"construction"}],"order":5},"glasses":{"displayName":"Glasses","items":[{"name":"Nerd","contract":"ItemNerdGlasses","tokenAddress":"0x837e4831753e32437bac397cefc8da67f61a74e6","assetUrl":"nerd"},{"name":"Shutter Shades","contract":"ItemShutterShades","tokenAddress":"0xda51c77380e3653189b65f3f3ffeec63d88f3ae8","assetUrl":"shutter"},{"name":"Wayfarers","contract":"ItemWayfarers","tokenAddress":"0xb1df962bb6938deb7b27cdc01ea0b41395c5d426","assetUrl":"wayfarers"}],"order":8},"costumes":{"displayName":"Costumes","items":[{"name":"Bellhop","contract":"ItemBellhop","tokenAddress":"0x21fcc28ff374bb2ff28672c7047304e0950e22a6","artist":"Kittyhawk","assetUrl":"bellhop"},{"name":"Kittyhawk Costume","contract":"ItemKittyHawk","tokenAddress":"0x7f08f6489c177e6b7b754d65ec14d26cdeb5aeac","artist":"Kittyhawk","assetUrl":"kittyhawk_costume"},{"name":"Ballerina Outfit","contract":"ItemBalletCostume","tokenAddress":"0x2a11b2990dca671df8f9e71754b94eb49b62a516","artist":"Kittyhawk","assetUrl":"ballerina_costume"}],"order":4},"special":{"displayName":"special","items":[{"name":"411 Gold Medal Award","contract":"ItemJodiMedal","tokenAddress":"0xc722587e4bc7b6b7555514b2d6dd3326f3b3ec16","artist":"Kittyhawk","assetUrl":"gold_medal_411"},{"name":"Kitties for a Cause Exclusive","contract":"ItemBellaBalloon","tokenAddress":"0x1fed670f81162db861dd41b8125ec2ded36f26b3","artist":"Kittyhawk","assetUrl":"k4c_balloon"}],"order":9},"dada":{"displayName":"dada.nyc","items":[{"name":"The Scream","contract":"ItemDadaTheScream","tokenAddress":"0xc970e68462089faac863d01fec18f7c1a4878a27","artist":"BeatrizRamos@Dada","assetUrl":"dada-thescream","url":"https://dada.nyc/pa/78673?khf=on#78673"},{"name":"Self Portrait, Dedicated to Dr. Eloesser","contract":"ItemDadaFrida","tokenAddress":"0xe3244b78ba9d11c6ce0ea2d1a5e94c2a18930e8f","artist":"BeatrizRamos@Dada","assetUrl":"dada-frida","url":"https://dada.nyc/pa/79079?khf=on#79079"},{"name":"American Gothic","contract":"ItemDadaAmericanGothic","tokenAddress":"0xb8e8faf64d0328c3607e66b5d46660fdb935dae3","artist":"Betunski@Dada","assetUrl":"dada-americangothic","url":"https://dada.nyc/pa/79090?khf=on#79090"},{"name":"The Creation of Adam","contract":"ItemDadaCreationOfAdam","tokenAddress":"0x24d677155983fefedba09e754dabba356cbb25d7","artist":"BorisSZimunich@Dada","assetUrl":"dada-creationadam","url":"https://dada.nyc/pa/78095?khf=on#78095"},{"name":"The Temptation of St. Anthony","contract":"ItemDadaTemptation","tokenAddress":"0x022cf1ad0e4256a64dce8c095962e98cf09fa588","artist":"BorisToledo@Dada","assetUrl":"dada-temptation","url":"https://dada.nyc/pa/78484?khf=on#78484"},{"name":"Lady with an Ermine","contract":"ItemDadaLadyWithErmine","tokenAddress":"0x9f0cdf83bf574cc7fe51ad628e320f2f51330427","artist":"BorisToledo@Dada","assetUrl":"dada-ladywithermine","url":"https://dada.nyc/pa/82624?khf=on#82624"},{"name":"Mona Lisa","contract":"ItemDadaMonaLisa","tokenAddress":"0x28c1fd2567f12b5d7a97551619aa85a2a344b598","artist":"BorisToledo@Dada","assetUrl":"dada-monalisa","url":"https://dada.nyc/pa/78094?khf=on#78094"},{"name":"Bedroom in Arles","contract":"ItemDadaBedroomArles","tokenAddress":"0x4e775cef6adf0e2ad1f4cbb07218f70bfa2bd8e9","artist":"BorisToledo@Dada","assetUrl":"dada-bedroomarles","url":"https://dada.nyc/pa/78716?khf=on#78716"},{"name":"Girl with a Pearl Earring","contract":"ItemDadaPearlEarring","tokenAddress":"0x446a228541433c42c1df2381a1b5c0b08f1f61d3","artist":"BorisToledo@Dada","assetUrl":"dada-pearlearring","url":"https://dada.nyc/pa/79076?khf=on#79076"},{"name":"The Birth of Venus","contract":"ItemDadaBirthVenus","tokenAddress":"0xe61185af22c67c30484a315eb2a06879c7dfb376","artist":"Cromomaniaco@Dada","assetUrl":"dada-birthvenus","url":"https://dada.nyc/pa/78265?khf=on#78265"},{"name":"The Raft of the Medusa","contract":"ItemDadaRaftMedusa","tokenAddress":"0x5eb190083b940cb297531ab95ebf4707cbfbb3af","artist":"Cromomaniaco@Dada","assetUrl":"dada-raftmedusa","url":"https://dada.nyc/pa/78429?khf=on#78429"},{"name":"Las Meninas","contract":"ItemDadaLasMeninas","tokenAddress":"0xd4b1173b33664cbfcc61262286ca50de6bf140f2","artist":"Cromomaniaco@Dada","assetUrl":"dada-lasmeninas","url":"https://dada.nyc/pa/78945?khf=on#78945"},{"name":"The Anatomy Lesson of Dr. Nicolaes Tulp","contract":"ItemDadaAnatomyLesson","tokenAddress":"0x194603a59bd660f8f98e412bfbb5ebf8acf0a18d","artist":"JavierErrecarte@Dada","assetUrl":"dada-anatomylesson","url":"https://dada.nyc/pa/79135?khf=on#79135"},{"name":"Woman in Front of the Sun","contract":"ItemDadaWomanSun","tokenAddress":"0x195518075a8596e1c2f5a645b2391d08c030cf63","artist":"LorenaPinasco@Dada","assetUrl":"dada-womansun","url":"https://dada.nyc/pa/78729?khf=on#78729"},{"name":"Portrait of Adele Bloch-Bauer I","contract":"ItemDadaPortraitAdele","tokenAddress":"0x39fc7602c6de77b0e9dfe2217b2174c1fe617161","artist":"MaFerGarzon@Dada","assetUrl":"dada-portraitadele","url":"https://dada.nyc/pa/79477?khf=on#79477"},{"name":"Seated Dancer","contract":"ItemDadaSeatedDancer","tokenAddress":"0xbf3512424972f1e602515c775531b06a734eaf7a","artist":"Massel@Dada","assetUrl":"dada-seateddancer","url":"https://dada.nyc/pa/79083?khf=on#79083"},{"name":"The Dance Class","contract":"ItemDadaDanceClass","tokenAddress":"0x262d945acc14a0c38971c16812b6d292c3c10657","artist":"Massel@Dada","assetUrl":"dada-danceclass","url":"https://dada.nyc/pa/78708?khf=on#78708"},{"name":"Two Women at a Window","contract":"ItemDadaTwoWomen","tokenAddress":"0xe489a18c1dbc902881e0fcc71fc10e1c4b4264dd","artist":"Massel@Dada","assetUrl":"dada-twowomen","url":"https://dada.nyc/pa/82944?khf=on#82944"},{"name":"At the Moulin Rouge","contract":"ItemDadaMoulinRouge","tokenAddress":"0xcaf91cac15d94454652813a8e0ffcc69dc6ec66c","artist":"RaulAvila@Dada","assetUrl":"dada-moulinrogue","url":"https://dada.nyc/pa/78674?khf=on#78674"},{"name":"The Starry Night","contract":"ItemDadaStarryNight","tokenAddress":"0x6d71052ef96c45f4455bb96f2c511f03804c62f2","artist":"VanesaStati@Dada","assetUrl":"dada-starrynight","url":"https://dada.nyc/pa/78678?khf=on#78678"},{"name":"Whistler's Mother","contract":"ItemDadaWhistlersMother","tokenAddress":"0xdb88804df82a9598070ea7fdf2d6cb8c59cc05d8","artist":"VanesaStati@Dada","assetUrl":"dada-whistlersmother","url":"https://dada.nyc/pa/78869?khf=on#78869"},{"name":"Jupiter and Io","contract":"ItemDadaJupiterIo","tokenAddress":"0xba54d1d901328d5ba471e1c451bd87461e3b8e59","artist":"SerenaStelitano@Dada","assetUrl":"dada-jupiterlo","url":"https://dada.nyc/pa/79512?khf=on#79512"}],"order":2}}}
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports) {
+
+module.exports = {"version":"1.0.0","networkId":"5777","marketplaceAddress":"0xa509542ada3196a38bd6fd03b253547ee09220c4","kittyCoreAddress":"0x06012c8cf97BEaD5deAe237070F9587f8E7A266d","categories":{"memes":{"displayName":"Memes","items":[{"name":"Tie'd Pod","contract":"ItemMemeTidePod","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ADHDKitties","assetUrl":"tidepodbowtie"},{"name":"Cucumbers Behind Cats","contract":"ItemMemeCucumber","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"cucumber"},{"name":"Chemistry Cat","contract":"ItemMemeScience","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"chemistrycat"},{"name":"Breading","contract":"ItemMemeBread","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"breading"},{"name":"Keyboard Cat","contract":"ItemMemeKeyboard","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"keyboard"},{"name":"Maru's Tiny Box","contract":"ItemMemeMaruBox","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"tinybox"},{"name":"More Treats?! Strawberry Hat","contract":"ItemMemeStrawberryHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"strawberryhat"},{"name":"More Treats?! Pumpkin Hat","contract":"ItemMemePumpkinHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"pumpkinhat"},{"name":"Deal With It Shades","contract":"ItemMemeDealWithItShades","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ParanoidLunatic","assetUrl":"dealwithit"}],"order":1},"accessories":{"displayName":"Accessories","items":[{"name":"Fuzzy Ball of Yarn","contract":"ItemYarn","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"yarnball"},{"name":"Ethereum Collar","contract":"ItemEthereumCollar","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","charity":"ASPCA and ETH Foundation","assetUrl":"collar"},{"name":"iWatch","contract":"ItemiWatch","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"iwatch"},{"name":"Lei","contract":"ItemLei","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"lei"},{"name":"Mom Tattoo","contract":"ItemMomTattoo","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"momtat"},{"name":"Bowtie","contract":"ItemBowtie","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"bowtie"},{"name":"Ladybug Headband","contract":"ItemLadybug","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"ladybug"},{"name":"Viking Shield","contract":"ItemVikingShield","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"vikingshield"},{"name":"Monocle","contract":"ItemMonocle","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"monocle"},{"name":"Paw Me Pls","contract":"ItemPawMePls","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"sign_pawmepls"},{"name":"Chocolate Pudding Headband","contract":"ItemChocoHeadband","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"headband_choco"},{"name":"3D glasses","contract":"Item3dGlasses","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"glasses_3d"},{"name":"Time Machine","contract":"ItemTimeMachine","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"box_timemachine"},{"name":"Red Flower","contract":"ItemFlowerRed","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"flower_red"},{"name":"Bubbles For Sadie (#K4C)","contract":"ItemBubblesForSadie","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","charity":"Kitties For a Cause","assetUrl":"bubbles4sadie"},{"name":"Dead Bird","contract":"ItemDeadBird","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ParanoidLunatic","assetUrl":"birdy"},{"name":"Diamond Bracelet","contract":"ItemSpikedBracelet","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"janbro","assetUrl":"diamond_bracelet"}],"order":6},"valentines":{"displayName":"Valentines","items":[{"name":"Candy Hearts","contract":"ItemValentinesCandyHearts","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"candyhearts"},{"name":"Surrounded by Love","contract":"ItemValentinesHeartsBackground","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BxKat","assetUrl":"heartsbg"},{"name":"Hearts Headband","contract":"ItemValentinesHeartsHeadband","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"headband_heart"}],"order":3},"shoes":{"displayName":"Shoes","items":[{"name":"Chucks","contract":"ItemChucks","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"chucks"},{"name":"Mittens","contract":"ItemMittens","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"mittens"},{"name":"Ballet Slippers","contract":"ItemBlackBalletSlippers","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"balletslippers"},{"name":"Yeezys","contract":"ItemYeezy","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"yeezy"}],"order":7},"hats":{"displayName":"Hats","items":[{"name":"Flat Brim","contract":"ItemFlatBrim","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"flatbrim"},{"name":"Tiara","contract":"ItemTiara","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"tiara"},{"name":"Tin foil","contract":"ItemTinFoil","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","charity":"ASPCA and ETH Foundation","assetUrl":"tinfoil"},{"name":"Top Hat","contract":"ItemTopHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"tophat"},{"name":"Trapper","contract":"ItemTrapper","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","charity":"Pussyhat Project","assetUrl":"trapper"},{"name":"Viking Helmet","contract":"ItemVikingHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"vikinghelmet"},{"name":"Birds of Prey Helmet","contract":"ItemHelmetBird","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"helmet_football_birdsofprey"},{"name":"Patriotic Helmet","contract":"ItemHelmetPat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"helmet_football_patriotic"},{"name":"Blue Top Hat","contract":"ItemTopHatBlue","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"tophat_blue"},{"name":"Blue Beret","contract":"ItemBeret","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"beret_blue"},{"name":"Shower Cap","contract":"ItemShowerCap","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"LauraO","assetUrl":"shower_cap"},{"name":"Cheesehead Hat","contract":"ItemCheeseheadHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ParanoidLunatic","assetUrl":"cheesehat"},{"name":"Construction Hat","contract":"ItemHardHat","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"ParanoidLunatic","assetUrl":"construction"}],"order":5},"glasses":{"displayName":"Glasses","items":[{"name":"Nerd","contract":"ItemNerdGlasses","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"nerd"},{"name":"Shutter Shades","contract":"ItemShutterShades","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"shutter"},{"name":"Wayfarers","contract":"ItemWayfarers","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","assetUrl":"wayfarers"}],"order":8},"costumes":{"displayName":"Costumes","items":[{"name":"Bellhop","contract":"ItemBellhop","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"bellhop"},{"name":"Kittyhawk Costume","contract":"ItemKittyHawk","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"kittyhawk_costume"},{"name":"Ballerina Outfit","contract":"ItemBalletCostume","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"ballerina_costume"}],"order":4},"special":{"displayName":"special","items":[{"name":"411 Gold Medal Award","contract":"ItemJodiMedal","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"gold_medal_411"},{"name":"Kitties for a Cause Exclusive","contract":"ItemBellaBalloon","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Kittyhawk","assetUrl":"k4c_balloon"}],"order":9},"dada":{"displayName":"dada.nyc","items":[{"name":"The Scream","contract":"ItemDadaTheScream","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BeatrizRamos@Dada","assetUrl":"dada-thescream","url":"https://dada.nyc/pa/78673?khf=on#78673"},{"name":"Self Portrait, Dedicated to Dr. Eloesser","contract":"ItemDadaFrida","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BeatrizRamos@Dada","assetUrl":"dada-frida","url":"https://dada.nyc/pa/79079?khf=on#79079"},{"name":"American Gothic","contract":"ItemDadaAmericanGothic","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Betunski@Dada","assetUrl":"dada-americangothic","url":"https://dada.nyc/pa/79090?khf=on#79090"},{"name":"The Creation of Adam","contract":"ItemDadaCreationOfAdam","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisSZimunich@Dada","assetUrl":"dada-creationadam","url":"https://dada.nyc/pa/78095?khf=on#78095"},{"name":"The Temptation of St. Anthony","contract":"ItemDadaTemptation","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-temptation","url":"https://dada.nyc/pa/78484?khf=on#78484"},{"name":"Lady with an Ermine","contract":"ItemDadaLadyWithErmine","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-ladywithermine","url":"https://dada.nyc/pa/82624?khf=on#82624"},{"name":"Mona Lisa","contract":"ItemDadaMonaLisa","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-monalisa","url":"https://dada.nyc/pa/78094?khf=on#78094"},{"name":"Bedroom in Arles","contract":"ItemDadaBedroomArles","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-bedroomarles","url":"https://dada.nyc/pa/78716?khf=on#78716"},{"name":"Girl with a Pearl Earring","contract":"ItemDadaPearlEarring","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"BorisToledo@Dada","assetUrl":"dada-pearlearring","url":"https://dada.nyc/pa/79076?khf=on#79076"},{"name":"The Birth of Venus","contract":"ItemDadaBirthVenus","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Cromomaniaco@Dada","assetUrl":"dada-birthvenus","url":"https://dada.nyc/pa/78265?khf=on#78265"},{"name":"The Raft of the Medusa","contract":"ItemDadaRaftMedusa","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Cromomaniaco@Dada","assetUrl":"dada-raftmedusa","url":"https://dada.nyc/pa/78429?khf=on#78429"},{"name":"Las Meninas","contract":"ItemDadaLasMeninas","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Cromomaniaco@Dada","assetUrl":"dada-lasmeninas","url":"https://dada.nyc/pa/78945?khf=on#78945"},{"name":"The Anatomy Lesson of Dr. Nicolaes Tulp","contract":"ItemDadaAnatomyLesson","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"JavierErrecarte@Dada","assetUrl":"dada-anatomylesson","url":"https://dada.nyc/pa/79135?khf=on#79135"},{"name":"Woman in Front of the Sun","contract":"ItemDadaWomanSun","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"LorenaPinasco@Dada","assetUrl":"dada-womansun","url":"https://dada.nyc/pa/78729?khf=on#78729"},{"name":"Portrait of Adele Bloch-Bauer I","contract":"ItemDadaPortraitAdele","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"MaFerGarzon@Dada","assetUrl":"dada-portraitadele","url":"https://dada.nyc/pa/79477?khf=on#79477"},{"name":"Seated Dancer","contract":"ItemDadaSeatedDancer","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Massel@Dada","assetUrl":"dada-seateddancer","url":"https://dada.nyc/pa/79083?khf=on#79083"},{"name":"The Dance Class","contract":"ItemDadaDanceClass","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Massel@Dada","assetUrl":"dada-danceclass","url":"https://dada.nyc/pa/78708?khf=on#78708"},{"name":"Two Women at a Window","contract":"ItemDadaTwoWomen","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"Massel@Dada","assetUrl":"dada-twowomen","url":"https://dada.nyc/pa/82944?khf=on#82944"},{"name":"At the Moulin Rouge","contract":"ItemDadaMoulinRouge","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"RaulAvila@Dada","assetUrl":"dada-moulinrogue","url":"https://dada.nyc/pa/78674?khf=on#78674"},{"name":"The Starry Night","contract":"ItemDadaStarryNight","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"VanesaStati@Dada","assetUrl":"dada-starrynight","url":"https://dada.nyc/pa/78678?khf=on#78678"},{"name":"Whistler's Mother","contract":"ItemDadaWhistlersMother","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"VanesaStati@Dada","assetUrl":"dada-whistlersmother","url":"https://dada.nyc/pa/78869?khf=on#78869"},{"name":"Jupiter and Io","contract":"ItemDadaJupiterIo","tokenAddress":"0xcd1b3ecffeacdcfc01054848225eb627bc9c590f","artist":"SerenaStelitano@Dada","assetUrl":"dada-jupiterlo","url":"https://dada.nyc/pa/79512?khf=on#79512"}],"order":2}}}
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports) {
+
+module.exports = {"contractName":"KittyCoreExample","abi":[{"constant":false,"inputs":[{"name":"_kittyId","type":"uint256"},{"name":"_owner","type":"address"}],"name":"setOwnerOf","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_kittyId","type":"uint256"}],"name":"ownerOf","outputs":[{"name":"owner","type":"address"}],"payable":false,"stateMutability":"view","type":"function"}],"bytecode":"0x6060604052341561000f57600080fd5b6101d38061001e6000396000f30060606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806322e670b4146100515780636352211e146100ab575b600080fd5b341561005c57600080fd5b610091600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061010e565b604051808215151515815260200191505060405180910390f35b34156100b657600080fd5b6100cc600480803590602001909190505061016b565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60008160008085815260200190815260200160002060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506001905092915050565b600080600083815260200190815260200160002060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690509190505600a165627a7a72305820b41655c6bcaaa81dffe8c67d4e96b7b1d98707bb7d05985187a9971fb35b65a30029","deployedBytecode":"0x60606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806322e670b4146100515780636352211e146100ab575b600080fd5b341561005c57600080fd5b610091600480803590602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061010e565b604051808215151515815260200191505060405180910390f35b34156100b657600080fd5b6100cc600480803590602001909190505061016b565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b60008160008085815260200190815260200160002060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506001905092915050565b600080600083815260200190815260200160002060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690509190505600a165627a7a72305820b41655c6bcaaa81dffe8c67d4e96b7b1d98707bb7d05985187a9971fb35b65a30029","sourceMap":"25:333:35:-;;;;;;;;;;;;;;;;;","deployedSourceMap":"25:333:35:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;100:142;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;246:110;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;100:142;170:12;214:6;190:11;:21;202:8;190:21;;;;;;;;;;;;:30;;;;;;;;;;;;;;;;;;233:4;226:11;;100:142;;;;:::o;246:110::-;302:13;330:11;:21;342:8;330:21;;;;;;;;;;;;;;;;;;;;;323:28;;246:110;;;:::o","source":"pragma solidity ^0.4.8;\n\ncontract KittyCoreExample {\n  mapping (uint256 => address) kittyOwners;\n\n  function setOwnerOf(uint256 _kittyId, address _owner) public returns (bool success) {\n    kittyOwners[_kittyId] = _owner;\n    return true;\n  }\n\n  function ownerOf(uint256 _kittyId) view public returns (address owner) {\n    return kittyOwners[_kittyId];\n  }\n}\n","sourcePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyCoreExample.sol","ast":{"attributes":{"absolutePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyCoreExample.sol","exportedSymbols":{"KittyCoreExample":[246]}},"children":[{"attributes":{"literals":["solidity","^","0.4",".8"]},"id":211,"name":"PragmaDirective","src":"0:23:35"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":null,"fullyImplemented":true,"linearizedBaseContracts":[246],"name":"KittyCoreExample","scope":247},"children":[{"attributes":{"constant":false,"name":"kittyOwners","scope":246,"stateVariable":true,"storageLocation":"default","type":"mapping(uint256 => address)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(uint256 => address)"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":212,"name":"ElementaryTypeName","src":"64:7:35"},{"attributes":{"name":"address","type":"address"},"id":213,"name":"ElementaryTypeName","src":"75:7:35"}],"id":214,"name":"Mapping","src":"55:28:35"}],"id":215,"name":"VariableDeclaration","src":"55:40:35"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setOwnerOf","payable":false,"scope":246,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":233,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":216,"name":"ElementaryTypeName","src":"120:7:35"}],"id":217,"name":"VariableDeclaration","src":"120:16:35"},{"attributes":{"constant":false,"name":"_owner","scope":233,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":218,"name":"ElementaryTypeName","src":"138:7:35"}],"id":219,"name":"VariableDeclaration","src":"138:14:35"}],"id":220,"name":"ParameterList","src":"119:34:35"},{"children":[{"attributes":{"constant":false,"name":"success","scope":233,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":221,"name":"ElementaryTypeName","src":"170:4:35"}],"id":222,"name":"VariableDeclaration","src":"170:12:35"}],"id":223,"name":"ParameterList","src":"169:14:35"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":215,"type":"mapping(uint256 => address)","value":"kittyOwners"},"id":224,"name":"Identifier","src":"190:11:35"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":217,"type":"uint256","value":"_kittyId"},"id":225,"name":"Identifier","src":"202:8:35"}],"id":226,"name":"IndexAccess","src":"190:21:35"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":219,"type":"address","value":"_owner"},"id":227,"name":"Identifier","src":"214:6:35"}],"id":228,"name":"Assignment","src":"190:30:35"}],"id":229,"name":"ExpressionStatement","src":"190:30:35"},{"attributes":{"functionReturnParameters":223},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":230,"name":"Literal","src":"233:4:35"}],"id":231,"name":"Return","src":"226:11:35"}],"id":232,"name":"Block","src":"184:58:35"}],"id":233,"name":"FunctionDefinition","src":"100:142:35"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"ownerOf","payable":false,"scope":246,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":245,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":234,"name":"ElementaryTypeName","src":"263:7:35"}],"id":235,"name":"VariableDeclaration","src":"263:16:35"}],"id":236,"name":"ParameterList","src":"262:18:35"},{"children":[{"attributes":{"constant":false,"name":"owner","scope":245,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":237,"name":"ElementaryTypeName","src":"302:7:35"}],"id":238,"name":"VariableDeclaration","src":"302:13:35"}],"id":239,"name":"ParameterList","src":"301:15:35"},{"children":[{"attributes":{"functionReturnParameters":239},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":215,"type":"mapping(uint256 => address)","value":"kittyOwners"},"id":240,"name":"Identifier","src":"330:11:35"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":235,"type":"uint256","value":"_kittyId"},"id":241,"name":"Identifier","src":"342:8:35"}],"id":242,"name":"IndexAccess","src":"330:21:35"}],"id":243,"name":"Return","src":"323:28:35"}],"id":244,"name":"Block","src":"317:39:35"}],"id":245,"name":"FunctionDefinition","src":"246:110:35"}],"id":246,"name":"ContractDefinition","src":"25:333:35"}],"id":247,"name":"SourceUnit","src":"0:359:35"},"compiler":{"name":"solc","version":"0.4.18+commit.9cf6e910.Emscripten.clang"},"networks":{"3":{"events":{},"links":{},"address":"0x0ade7c9239b15e0e613c75e64c32ab9393627064"},"5777":{"events":{},"links":{},"address":"0x7bf7ae2da6013aa8de29627e29e4b9fa807d4469"}},"schemaVersion":"1.0.1","updatedAt":"2018-02-08T04:43:20.492Z"}
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports) {
+
+module.exports = {"contractName":"KittyItemMarket","abi":[{"constant":false,"inputs":[{"name":"_itemName","type":"string"},{"name":"_kittyId","type":"uint256"}],"name":"buyItemAndApply","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"},{"name":"_itemContract","type":"address"},{"name":"_cost","type":"uint256"},{"name":"_artist","type":"address"},{"name":"_split","type":"uint128"}],"name":"addItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_paused","type":"bool"}],"name":"setPaused","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"}],"name":"splitFunds","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"},{"name":"_itemContract","type":"address"},{"name":"_cost","type":"uint256"},{"name":"_artist","type":"address"},{"name":"_split","type":"uint128"}],"name":"modifyItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"paused","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"},{"name":"_amount","type":"uint256"}],"name":"buyItem","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_itemName","type":"string"}],"name":"returnTokensToOwner","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_itemName","type":"string"}],"name":"getItem","outputs":[{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"itemName","type":"string"}],"name":"Buy","type":"event"}],"bytecode":"0x60606040526000600260006101000a81548160ff021916908315150217905550341561002a57600080fd5b336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550611975806100796000396000f3006060604052600436106100af576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630a4bb260146100b45780630b2996301461010f57806316c38b3c146101ce5780633ab3bfc1146101f35780633bd0aa47146102505780635c975abb1461030f578063891a2f311461033c5780638da5cb5b146103975780639d6eaad5146103ec578063b6010fcd14610461578063f2fde38b14610546575b600080fd5b61010d600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001909190505061057f565b005b341561011a57600080fd5b6101cc600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356fffffffffffffffffffffffffffffffff1690602001909190505061087a565b005b34156101d957600080fd5b6101f160048080351515906020019091905050610b45565b005b34156101fe57600080fd5b61024e600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610bbd565b005b341561025b57600080fd5b61030d600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356fffffffffffffffffffffffffffffffff16906020019091905050610db0565b005b341561031a57600080fd5b610322611000565b604051808215151515815260200191505060405180910390f35b610395600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091908035906020019091905050611013565b005b34156103a257600080fd5b6103aa611310565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103f757600080fd5b610447600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050611335565b604051808215151515815260200191505060405180910390f35b341561046c57600080fd5b6104bc600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506115bd565b604051808673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018381526020018281526020019550505050505060405180910390f35b341561055157600080fd5b61057d600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611874565b005b60008060001515600260009054906101000a900460ff1615151415156105a457600080fd5b60006001856040518082805190602001908083835b6020831015156105de57805182526020820191506020810190506020830392506105b9565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff161415151561065857600080fd5b6001846040518082805190602001908083835b602083101515610690578051825260208201915060208101905060208303925061066b565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405180910390209150816001015434101515156106d857600080fd5b3482600401600082825401925050819055508160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690508073ffffffffffffffffffffffffffffffffffffffff1663e9121b1233856000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b15156107bc57600080fd5b6102c65a03f115156107cd57600080fd5b50505060405180519050507f353b106fdecdb1f25da8bb26e494673ac78af8663fd9dcb279f04c0c6c59c371846040518080602001828103825283818151815260200191508051906020019080838360005b8381101561083a57808201518184015260208101905061081f565b50505050905090810190601f1680156108675780820380516001836020036101000a031916815260200191505b509250505060405180910390a150505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156108d557600080fd5b60006001866040518082805190602001908083835b60208310151561090f57805182526020820191506020810190506020830392506108ea565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151561098857600080fd5b60a0604051908101604052808573ffffffffffffffffffffffffffffffffffffffff1681526020018481526020018373ffffffffffffffffffffffffffffffffffffffff168152602001826fffffffffffffffffffffffffffffffff16815260200160008152506001866040518082805190602001908083835b602083101515610a275780518252602082019150602081019050602083039250610a02565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506020820151816001015560408201518160020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060608201518160030160006101000a8154816fffffffffffffffffffffffffffffffff02191690836fffffffffffffffffffffffffffffffff160217905550608082015181600401559050505050505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610ba057600080fd5b80600260006101000a81548160ff02191690831515021790555050565b60008060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610c1d57600080fd5b6001846040518082805190602001908083835b602083101515610c555780518252602082019150602081019050602083039250610c30565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902092506127108360030160009054906101000a90046fffffffffffffffffffffffffffffffff166fffffffffffffffffffffffffffffffff16846004015402811515610ccf57fe5b0491508183600401540390508260020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc839081150290604051600060405180830381858888f193505050501515610d3f57600080fd5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f193505050501515610da057600080fd5b6000836004018190555050505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610e0d57600080fd5b60006001876040518082805190602001908083835b602083101515610e475780518252602082019150602081019050602083039250610e22565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151515610ec157600080fd5b6001866040518082805190602001908083835b602083101515610ef95780518252602082019150602081019050602083039250610ed4565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405180910390209050848160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550838160010181905550828160020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550818160030160006101000a8154816fffffffffffffffffffffffffffffffff02191690836fffffffffffffffffffffffffffffffff160217905550505050505050565b600260009054906101000a900460ff1681565b60008060001515600260009054906101000a900460ff16151514151561103857600080fd5b60006001856040518082805190602001908083835b602083101515611072578051825260208201915060208101905060208303925061104d565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16141515156110ec57600080fd5b6001846040518082805190602001908083835b60208310151561112457805182526020820191506020810190506020830392506110ff565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020915082826001015402341015151561116e57600080fd5b3482600401600082825401925050819055508160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690508073ffffffffffffffffffffffffffffffffffffffff1663a9059cbb33856000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b151561125257600080fd5b6102c65a03f1151561126357600080fd5b50505060405180519050507f353b106fdecdb1f25da8bb26e494673ac78af8663fd9dcb279f04c0c6c59c371846040518080602001828103825283818151815260200191508051906020019080838360005b838110156112d05780820151818401526020810190506112b5565b50505050905090810190601f1680156112fd5780820380516001836020036101000a031916815260200191505b509250505060405180910390a150505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000806000806000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561139657600080fd5b6001856040518082805190602001908083835b6020831015156113ce57805182526020820191506020810190506020830392506113a9565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902092508260000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1691508173ffffffffffffffffffffffffffffffffffffffff166370a08231306000604051602001526040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15156114cd57600080fd5b6102c65a03f115156114de57600080fd5b5050506040518051905090508173ffffffffffffffffffffffffffffffffffffffff1663a9059cbb33836000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b151561159557600080fd5b6102c65a03f115156115a657600080fd5b505050604051805190505060019350505050919050565b60008060008060006001866040518082805190602001908083835b6020831015156115fd57805182526020820191506020810190506020830392506115d8565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166001876040518082805190602001908083835b60208310151561168c5780518252602082019150602081019050602083039250611667565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020600101546001886040518082805190602001908083835b6020831015156116fb57805182526020820191506020810190506020830392506116d6565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166001896040518082805190602001908083835b60208310151561178a5780518252602082019150602081019050602083039250611765565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060030160009054906101000a90046fffffffffffffffffffffffffffffffff1660018a6040518082805190602001908083835b60208310151561181557805182526020820191506020810190506020830392506117f0565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060040154816fffffffffffffffffffffffffffffffff1691509450945094509450945091939590929450565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156118cf57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1614151561194657806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b505600a165627a7a72305820552b8763a0e244e7a5f5db9bfe2e8bf534967bd023629f8b752b03229a290c510029","deployedBytecode":"0x6060604052600436106100af576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630a4bb260146100b45780630b2996301461010f57806316c38b3c146101ce5780633ab3bfc1146101f35780633bd0aa47146102505780635c975abb1461030f578063891a2f311461033c5780638da5cb5b146103975780639d6eaad5146103ec578063b6010fcd14610461578063f2fde38b14610546575b600080fd5b61010d600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001909190505061057f565b005b341561011a57600080fd5b6101cc600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356fffffffffffffffffffffffffffffffff1690602001909190505061087a565b005b34156101d957600080fd5b6101f160048080351515906020019091905050610b45565b005b34156101fe57600080fd5b61024e600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610bbd565b005b341561025b57600080fd5b61030d600480803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190803573ffffffffffffffffffffffffffffffffffffffff169060200190919080356fffffffffffffffffffffffffffffffff16906020019091905050610db0565b005b341561031a57600080fd5b610322611000565b604051808215151515815260200191505060405180910390f35b610395600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091908035906020019091905050611013565b005b34156103a257600080fd5b6103aa611310565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103f757600080fd5b610447600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050611335565b604051808215151515815260200191505060405180910390f35b341561046c57600080fd5b6104bc600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506115bd565b604051808673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018581526020018473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020018381526020018281526020019550505050505060405180910390f35b341561055157600080fd5b61057d600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611874565b005b60008060001515600260009054906101000a900460ff1615151415156105a457600080fd5b60006001856040518082805190602001908083835b6020831015156105de57805182526020820191506020810190506020830392506105b9565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff161415151561065857600080fd5b6001846040518082805190602001908083835b602083101515610690578051825260208201915060208101905060208303925061066b565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405180910390209150816001015434101515156106d857600080fd5b3482600401600082825401925050819055508160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690508073ffffffffffffffffffffffffffffffffffffffff1663e9121b1233856000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b15156107bc57600080fd5b6102c65a03f115156107cd57600080fd5b50505060405180519050507f353b106fdecdb1f25da8bb26e494673ac78af8663fd9dcb279f04c0c6c59c371846040518080602001828103825283818151815260200191508051906020019080838360005b8381101561083a57808201518184015260208101905061081f565b50505050905090810190601f1680156108675780820380516001836020036101000a031916815260200191505b509250505060405180910390a150505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156108d557600080fd5b60006001866040518082805190602001908083835b60208310151561090f57805182526020820191506020810190506020830392506108ea565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151561098857600080fd5b60a0604051908101604052808573ffffffffffffffffffffffffffffffffffffffff1681526020018481526020018373ffffffffffffffffffffffffffffffffffffffff168152602001826fffffffffffffffffffffffffffffffff16815260200160008152506001866040518082805190602001908083835b602083101515610a275780518252602082019150602081019050602083039250610a02565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060008201518160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506020820151816001015560408201518160020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060608201518160030160006101000a8154816fffffffffffffffffffffffffffffffff02191690836fffffffffffffffffffffffffffffffff160217905550608082015181600401559050505050505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610ba057600080fd5b80600260006101000a81548160ff02191690831515021790555050565b60008060008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610c1d57600080fd5b6001846040518082805190602001908083835b602083101515610c555780518252602082019150602081019050602083039250610c30565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902092506127108360030160009054906101000a90046fffffffffffffffffffffffffffffffff166fffffffffffffffffffffffffffffffff16846004015402811515610ccf57fe5b0491508183600401540390508260020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc839081150290604051600060405180830381858888f193505050501515610d3f57600080fd5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f193505050501515610da057600080fd5b6000836004018190555050505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610e0d57600080fd5b60006001876040518082805190602001908083835b602083101515610e475780518252602082019150602081019050602083039250610e22565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1614151515610ec157600080fd5b6001866040518082805190602001908083835b602083101515610ef95780518252602082019150602081019050602083039250610ed4565b6001836020036101000a03801982511681845116808217855250505050505090500191505090815260200160405180910390209050848160000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550838160010181905550828160020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550818160030160006101000a8154816fffffffffffffffffffffffffffffffff02191690836fffffffffffffffffffffffffffffffff160217905550505050505050565b600260009054906101000a900460ff1681565b60008060001515600260009054906101000a900460ff16151514151561103857600080fd5b60006001856040518082805190602001908083835b602083101515611072578051825260208201915060208101905060208303925061104d565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16141515156110ec57600080fd5b6001846040518082805190602001908083835b60208310151561112457805182526020820191506020810190506020830392506110ff565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020915082826001015402341015151561116e57600080fd5b3482600401600082825401925050819055508160000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690508073ffffffffffffffffffffffffffffffffffffffff1663a9059cbb33856000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b151561125257600080fd5b6102c65a03f1151561126357600080fd5b50505060405180519050507f353b106fdecdb1f25da8bb26e494673ac78af8663fd9dcb279f04c0c6c59c371846040518080602001828103825283818151815260200191508051906020019080838360005b838110156112d05780820151818401526020810190506112b5565b50505050905090810190601f1680156112fd5780820380516001836020036101000a031916815260200191505b509250505060405180910390a150505050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000806000806000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561139657600080fd5b6001856040518082805190602001908083835b6020831015156113ce57805182526020820191506020810190506020830392506113a9565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902092508260000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1691508173ffffffffffffffffffffffffffffffffffffffff166370a08231306000604051602001526040518263ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050602060405180830381600087803b15156114cd57600080fd5b6102c65a03f115156114de57600080fd5b5050506040518051905090508173ffffffffffffffffffffffffffffffffffffffff1663a9059cbb33836000604051602001526040518363ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200182815260200192505050602060405180830381600087803b151561159557600080fd5b6102c65a03f115156115a657600080fd5b505050604051805190505060019350505050919050565b60008060008060006001866040518082805190602001908083835b6020831015156115fd57805182526020820191506020810190506020830392506115d8565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166001876040518082805190602001908083835b60208310151561168c5780518252602082019150602081019050602083039250611667565b6001836020036101000a0380198251168184511680821785525050505050509050019150509081526020016040518091039020600101546001886040518082805190602001908083835b6020831015156116fb57805182526020820191506020810190506020830392506116d6565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff166001896040518082805190602001908083835b60208310151561178a5780518252602082019150602081019050602083039250611765565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060030160009054906101000a90046fffffffffffffffffffffffffffffffff1660018a6040518082805190602001908083835b60208310151561181557805182526020820191506020810190506020830392506117f0565b6001836020036101000a038019825116818451168082178552505050505050905001915050908152602001604051809103902060040154816fffffffffffffffffffffffffffffffff1691509450945094509450945091939590929450565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156118cf57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1614151561194657806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b505600a165627a7a72305820552b8763a0e244e7a5f5db9bfe2e8bf534967bd023629f8b752b03229a290c510029","sourceMap":"392:5442:36:-;;;773:5;752:26;;;;;;;;;;;;;;;;;;;;871:63;;;;;;;;919:10;911:5;;:18;;;;;;;;;;;;;;;;;;392:5442;;;;;;","deployedSourceMap":"392:5442:36:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4117:599;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2247:303;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1393:101;;;;;;;;;;;;;;;;;;;;;;;;;;;;4850:403;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2869:392;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;752:26;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3396:559;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;694:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5460:371;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1639:251;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1095:155;;;;;;;;;;;;;;;;;;;;;;;;;;;;4117:599;4365:17;4570:18;4217:5;4207:15;;:6;;;;;;;;;;;:15;;;4199:24;;;;;;;;4325:3;4292:5;4298:9;4292:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;4292:29:36;;;;;;;;;;;;:36;;;;4284:45;;;;;;;;4385:5;4391:9;4385:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;4365:36:36;;4474:4;:9;;;4461;:22;;4453:31;;;;;;;;4555:9;4536:4;:15;;;:28;;;;;;;;;;;4606:4;:17;;;;;;;;;;;;4570:54;;4630:3;:20;;;4651:10;4663:8;4630:42;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4697:14;4701:9;4697:14;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4117:599:36;;;;:::o;2247:303::-;2388:5;;;;;;;;;;;2374:19;;:10;:19;;;2366:28;;;;;;;;2441:3;2408:5;2414:9;2408:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;2408:29:36;;;;;;;;;;;;:36;;;2400:45;;;;;;;;2499:46;;;;;;;;;2504:13;2499:46;;;;;;2519:5;2499:46;;;;2526:7;2499:46;;;;;;2535:6;2499:46;;;;;;2543:1;2499:46;;;2480:5;2486:9;2480:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;2480:65:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2247:303;;;;;:::o;1393:101::-;1461:5;;;;;;;;;;;1447:19;;:10;:19;;;1439:28;;;;;;;;1482:7;1473:6;;:16;;;;;;;;;;;;;;;;;;1393:101;:::o;4850:403::-;4935:17;5023:22;5090:21;4923:5;;;;;;;;;;;4909:19;;:10;:19;;;4901:28;;;;;;;;4955:5;4961:9;4955:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;4935:36:36;;5079:5;5066:4;:10;;;;;;;;;;;;5048:28;;:4;:15;;;:28;:36;;;;;;;;5023:61;;5132:14;5114:4;:15;;;:32;5090:56;;5152:4;:11;;;;;;;;;;;;:20;;:36;5173:14;5152:36;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5194:5;;;;;;;;;;;:14;;:29;5209:13;5194:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5247:1;5229:4;:15;;:19;;;;4850:403;;;;:::o;2869:392::-;3106:17;3013:5;;;;;;;;;;;2999:19;;:10;:19;;;2991:28;;;;;;;;3066:3;3033:5;3039:9;3033:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;3033:29:36;;;;;;;;;;;;:36;;;;3025:45;;;;;;;;3126:5;3132:9;3126:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;3106:36:36;;3168:13;3148:4;:17;;;:33;;;;;;;;;;;;;;;;;;3199:5;3187:4;:9;;:17;;;;3224:7;3210:4;:11;;;:21;;;;;;;;;;;;;;;;;;3250:6;3237:4;:10;;;:19;;;;;;;;;;;;;;;;;;2869:392;;;;;;:::o;752:26::-;;;;;;;;;;;;;:::o;3396:559::-;3580:17;3818:18;3487:5;3477:15;;:6;;;;;;;;;;;:15;;;3469:24;;;;;;;;3540:3;3507:5;3513:9;3507:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;3507:29:36;;;;;;;;;;;;:36;;;;3499:45;;;;;;;;3600:5;3606:9;3600:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;3580:36:36;;3701:7;3689:4;:9;;;:19;3676:9;:32;;3668:41;;;;;;;;3803:9;3784:4;:15;;;:28;;;;;;;;;;;3854:4;:17;;;;;;;;;;;;3818:54;;3878:3;:12;;;3891:10;3903:7;3878:33;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3936:14;3940:9;3936:14;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3396:559:36;;;;:::o;694:20::-;;;;;;;;;;;;;:::o;5460:371::-;5523:4;5569:17;5657:18;5717:23;5557:5;;;;;;;;;;;5543:19;;:10;:19;;;5535:28;;;;;;;;5589:5;5595:9;5589:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;5569:36:36;;5693:4;:17;;;;;;;;;;;;5657:54;;5743:3;:13;;;5757:4;5743:19;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5717:45;;5768:3;:12;;;5781:10;5793:15;5768:41;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5822:4;5815:11;;5460:371;;;;;;:::o;1639:251::-;1695:7;1704;1713;1722;1731;1754:5;1760:9;1754:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1754:29:36;;;;;;;;;;;;1785:5;1791:9;1785:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1785:21:36;;;1808:5;1814:9;1808:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1808:23:36;;;;;;;;;;;;1833:5;1839:9;1833:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1833:22:36;;;;;;;;;;;;1857:5;1863:9;1857:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;;;;;;1857:27:36;;;1746:139;;;;;;;;;;;;;;;1639:251;;;;;;;:::o;1095:155::-;1175:5;;;;;;;;;;;1161:19;;:10;:19;;;1153:28;;;;;;;;1211:1;1191:22;;:8;:22;;;;1187:59;;;1231:8;1223:5;;:16;;;;;;;;;;;;;;;;;;1187:59;1095:155;:::o","source":"pragma solidity ^0.4.8;\n\n/**\n * @title KittyItemToken interface \n */\ncontract KittyItemToken {\n  function transfer(address, uint256) public pure returns (bool) {}\n  function transferAndApply(address, uint256) public pure returns (bool) {}\n  function balanceOf(address) public pure returns (uint256) {}\n}\n\n/**\n * @title KittyItemMarket is a market contract for buying KittyItemTokens and \n */\ncontract KittyItemMarket {\n\n  struct Item {\n    address itemContract;\n    uint256 cost;  // in wei\n    address artist;\n    uint128 split;  // the percentage split the artist gets vs. KittyItemMarket.owner. A split of \"6666\" would mean the artist gets 66.66% of the funds\n    uint256 totalFunds;\n  }\n\n  address public owner;\n  mapping (string => Item) items;\n  bool public paused = false;\n\n  // events\n  event Buy(string itemName);\n\n  /**\n   * KittyItemMarket constructor\n   */\n  function KittyItemMarket() public {\n    owner = msg.sender;\n  }\n\n  /**\n   * @dev Allows the current owner to transfer control of the contract to a newOwner.\n   * @param newOwner The address to transfer ownership to.\n   */\n  function transferOwnership(address newOwner) public {\n    require(msg.sender == owner);\n    if (newOwner != address(0)) {\n      owner = newOwner;\n    }\n  }\n\n  /**\n   * @dev Pauses the market, not allowing any buyItem and buyItemAndApply\n   * @param _paused the paused state of the contract\n   */\n  function setPaused(bool _paused) public {\n    require(msg.sender == owner);\n    paused = _paused;\n  }\n\n  /**\n   * @dev You cannot return structs, return each attribute in Item struct\n   * @param _itemName the KittyItemToken name in items\n   */\n  function getItem(string _itemName) view public returns (address, uint256, address, uint256, uint256) {\n    return (items[_itemName].itemContract, items[_itemName].cost, items[_itemName].artist, items[_itemName].split, items[_itemName].totalFunds);\n  }\n\n  /**\n   * @dev Add a KittyItemToken contract to be sold in the market\n   * @param _itemName Name for items mapping\n   * @param _itemContract contract address of KittyItemToken we're adding\n   * @param _cost  cost of item in wei\n   * @param _artist  artist addess to send funds to\n   * @param _split  artist split. \"6666\" would be a 66.66% split.\n   */\n  function addItem(string _itemName, address _itemContract, uint256 _cost, address _artist, uint128 _split) public {\n    require(msg.sender == owner);\n    require(items[_itemName].itemContract == 0x0);  // item can't already exist\n    items[_itemName] = Item(_itemContract, _cost, _artist, _split, 0);\n  }\n\n  /**\n   * @dev Modify an item that is in the market\n   * @param _itemName Name of item to modify\n   * @param _itemContract modify KittyItemtoken contract address for item\n   * @param _cost modify cost of item\n   * @param _artist  modify artist addess to send funds to\n   * @param _split  modify artist split\n   */\n  function modifyItem(string _itemName, address _itemContract, uint256 _cost, address _artist, uint128 _split) public {\n    require(msg.sender == owner);\n    require(items[_itemName].itemContract != 0x0);  // item should already exist\n    Item storage item = items[_itemName];\n    item.itemContract = _itemContract;\n    item.cost = _cost;\n    item.artist = _artist;\n    item.split = _split;\n  }\n\n  /**\n   * @dev Buy item from the market\n   * @param _itemName Name of item to buy\n   * @param _amount amount of item to buy\n   */\n  function buyItem(string _itemName, uint256 _amount) public payable {\n    require(paused == false);\n    require(items[_itemName].itemContract != 0x0);  // item should already exist\n    Item storage item = items[_itemName];  // we're going to modify the item in storage\n    require(msg.value >= item.cost * _amount);  // make sure user sent enough eth for the number of items they want\n    item.totalFunds += msg.value;\n    KittyItemToken kit = KittyItemToken(item.itemContract);\n    kit.transfer(msg.sender, _amount);\n    // emit events\n    Buy(_itemName);\n  }\n\n  /**\n   * @dev Buy item from the market and apply to kittyId\n   * @param _itemName Name of item to buy\n   * @param _kittyId  KittyId to apply the item\n   */\n  function buyItemAndApply(string _itemName, uint256 _kittyId) public payable {\n    require(paused == false);\n    // NOTE - can only be used to buy and apply 1 item\n    require(items[_itemName].itemContract != 0x0);  // item should already exist\n    Item storage item = items[_itemName];  // we're going to modify the item in storage\n    require(msg.value >= item.cost);  // make sure user sent enough eth for 1 item\n    item.totalFunds += msg.value;\n    KittyItemToken kit = KittyItemToken(item.itemContract);\n    kit.transferAndApply(msg.sender, _kittyId);\n    // emit events\n    Buy(_itemName);\n  }\n\n  /**\n   * @dev split funds from Item sales between contract owner and artist\n   * @param _itemName Item to split funds for\n   */\n  function splitFunds(string _itemName) public {\n    require(msg.sender == owner);\n    Item storage item = items[_itemName];  // we're going to modify the item in storage\n    uint256 amountToArtist = item.totalFunds * item.split / 10000;\n    uint256 amountToOwner = item.totalFunds - amountToArtist;\n    item.artist.transfer(amountToArtist);\n    owner.transfer(amountToOwner);\n    item.totalFunds = 0;\n  }\n\n  /**\n   * @dev return all _itemName tokens help by contract to contract owner\n   * @param _itemName Item to return tokens to contract owner\n   * @return whether the transfer was successful or not\n   */\n  function returnTokensToOwner(string _itemName) public returns (bool) {\n    require(msg.sender == owner);\n    Item storage item = items[_itemName];  // we're going to modify the item in storage\n    KittyItemToken kit = KittyItemToken(item.itemContract);\n    uint256 contractBalance = kit.balanceOf(this);\n    kit.transfer(msg.sender, contractBalance);\n    return true;\n  }\n\n}\n","sourcePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyItemMarket.sol","ast":{"attributes":{"absolutePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyItemMarket.sol","exportedSymbols":{"KittyItemMarket":[721],"KittyItemToken":[277]}},"children":[{"attributes":{"literals":["solidity","^","0.4",".8"]},"id":248,"name":"PragmaDirective","src":"0:23:36"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":"@title KittyItemToken interface ","fullyImplemented":true,"linearizedBaseContracts":[277],"name":"KittyItemToken","scope":722},"children":[{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transfer","payable":false,"scope":277,"stateMutability":"pure","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"","scope":258,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":249,"name":"ElementaryTypeName","src":"115:7:36"}],"id":250,"name":"VariableDeclaration","src":"115:7:36"},{"attributes":{"constant":false,"name":"","scope":258,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":251,"name":"ElementaryTypeName","src":"124:7:36"}],"id":252,"name":"VariableDeclaration","src":"124:7:36"}],"id":253,"name":"ParameterList","src":"114:18:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":258,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":254,"name":"ElementaryTypeName","src":"154:4:36"}],"id":255,"name":"VariableDeclaration","src":"154:4:36"}],"id":256,"name":"ParameterList","src":"153:6:36"},{"attributes":{"statements":[null]},"children":[],"id":257,"name":"Block","src":"160:2:36"}],"id":258,"name":"FunctionDefinition","src":"97:65:36"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferAndApply","payable":false,"scope":277,"stateMutability":"pure","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"","scope":268,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":259,"name":"ElementaryTypeName","src":"191:7:36"}],"id":260,"name":"VariableDeclaration","src":"191:7:36"},{"attributes":{"constant":false,"name":"","scope":268,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":261,"name":"ElementaryTypeName","src":"200:7:36"}],"id":262,"name":"VariableDeclaration","src":"200:7:36"}],"id":263,"name":"ParameterList","src":"190:18:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":268,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":264,"name":"ElementaryTypeName","src":"230:4:36"}],"id":265,"name":"VariableDeclaration","src":"230:4:36"}],"id":266,"name":"ParameterList","src":"229:6:36"},{"attributes":{"statements":[null]},"children":[],"id":267,"name":"Block","src":"236:2:36"}],"id":268,"name":"FunctionDefinition","src":"165:73:36"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"balanceOf","payable":false,"scope":277,"stateMutability":"pure","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"","scope":276,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":269,"name":"ElementaryTypeName","src":"260:7:36"}],"id":270,"name":"VariableDeclaration","src":"260:7:36"}],"id":271,"name":"ParameterList","src":"259:9:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":276,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":272,"name":"ElementaryTypeName","src":"290:7:36"}],"id":273,"name":"VariableDeclaration","src":"290:7:36"}],"id":274,"name":"ParameterList","src":"289:9:36"},{"attributes":{"statements":[null]},"children":[],"id":275,"name":"Block","src":"299:2:36"}],"id":276,"name":"FunctionDefinition","src":"241:60:36"}],"id":277,"name":"ContractDefinition","src":"69:234:36"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":"@title KittyItemMarket is a market contract for buying KittyItemTokens and ","fullyImplemented":true,"linearizedBaseContracts":[721],"name":"KittyItemMarket","scope":722},"children":[{"attributes":{"canonicalName":"KittyItemMarket.Item","name":"Item","scope":721,"visibility":"public"},"children":[{"attributes":{"constant":false,"name":"itemContract","scope":288,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":278,"name":"ElementaryTypeName","src":"440:7:36"}],"id":279,"name":"VariableDeclaration","src":"440:20:36"},{"attributes":{"constant":false,"name":"cost","scope":288,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":280,"name":"ElementaryTypeName","src":"466:7:36"}],"id":281,"name":"VariableDeclaration","src":"466:12:36"},{"attributes":{"constant":false,"name":"artist","scope":288,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":282,"name":"ElementaryTypeName","src":"495:7:36"}],"id":283,"name":"VariableDeclaration","src":"495:14:36"},{"attributes":{"constant":false,"name":"split","scope":288,"stateVariable":false,"storageLocation":"default","type":"uint128","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint128","type":"uint128"},"id":284,"name":"ElementaryTypeName","src":"515:7:36"}],"id":285,"name":"VariableDeclaration","src":"515:13:36"},{"attributes":{"constant":false,"name":"totalFunds","scope":288,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":286,"name":"ElementaryTypeName","src":"667:7:36"}],"id":287,"name":"VariableDeclaration","src":"667:18:36"}],"id":288,"name":"StructDefinition","src":"422:268:36"},{"attributes":{"constant":false,"name":"owner","scope":721,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":289,"name":"ElementaryTypeName","src":"694:7:36"}],"id":290,"name":"VariableDeclaration","src":"694:20:36"},{"attributes":{"constant":false,"name":"items","scope":721,"stateVariable":true,"storageLocation":"default","type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":291,"name":"ElementaryTypeName","src":"727:6:36"},{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":292,"name":"UserDefinedTypeName","src":"737:4:36"}],"id":293,"name":"Mapping","src":"718:24:36"}],"id":294,"name":"VariableDeclaration","src":"718:30:36"},{"attributes":{"constant":false,"name":"paused","scope":721,"stateVariable":true,"storageLocation":"default","type":"bool","visibility":"public"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":295,"name":"ElementaryTypeName","src":"752:4:36"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":296,"name":"Literal","src":"773:5:36"}],"id":297,"name":"VariableDeclaration","src":"752:26:36"},{"attributes":{"anonymous":false,"name":"Buy"},"children":[{"children":[{"attributes":{"constant":false,"indexed":false,"name":"itemName","scope":301,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":298,"name":"ElementaryTypeName","src":"805:6:36"}],"id":299,"name":"VariableDeclaration","src":"805:15:36"}],"id":300,"name":"ParameterList","src":"804:17:36"}],"id":301,"name":"EventDefinition","src":"795:27:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":true,"modifiers":[null],"name":"KittyItemMarket","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":302,"name":"ParameterList","src":"895:2:36"},{"attributes":{"parameters":[null]},"children":[],"id":303,"name":"ParameterList","src":"905:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":304,"name":"Identifier","src":"911:5:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":305,"name":"Identifier","src":"919:3:36"}],"id":306,"name":"MemberAccess","src":"919:10:36"}],"id":307,"name":"Assignment","src":"911:18:36"}],"id":308,"name":"ExpressionStatement","src":"911:18:36"}],"id":309,"name":"Block","src":"905:29:36"}],"id":310,"name":"FunctionDefinition","src":"871:63:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferOwnership","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"newOwner","scope":334,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":311,"name":"ElementaryTypeName","src":"1122:7:36"}],"id":312,"name":"VariableDeclaration","src":"1122:16:36"}],"id":313,"name":"ParameterList","src":"1121:18:36"},{"attributes":{"parameters":[null]},"children":[],"id":314,"name":"ParameterList","src":"1147:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":315,"name":"Identifier","src":"1153:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":316,"name":"Identifier","src":"1161:3:36"}],"id":317,"name":"MemberAccess","src":"1161:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":318,"name":"Identifier","src":"1175:5:36"}],"id":319,"name":"BinaryOperation","src":"1161:19:36"}],"id":320,"name":"FunctionCall","src":"1153:28:36"}],"id":321,"name":"ExpressionStatement","src":"1153:28:36"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":312,"type":"address","value":"newOwner"},"id":322,"name":"Identifier","src":"1191:8:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_0_by_1","typeString":"int_const 0"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(address)","value":"address"},"id":323,"name":"ElementaryTypeNameExpression","src":"1203:7:36"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":324,"name":"Literal","src":"1211:1:36"}],"id":325,"name":"FunctionCall","src":"1203:10:36"}],"id":326,"name":"BinaryOperation","src":"1191:22:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":327,"name":"Identifier","src":"1223:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":312,"type":"address","value":"newOwner"},"id":328,"name":"Identifier","src":"1231:8:36"}],"id":329,"name":"Assignment","src":"1223:16:36"}],"id":330,"name":"ExpressionStatement","src":"1223:16:36"}],"id":331,"name":"Block","src":"1215:31:36"}],"id":332,"name":"IfStatement","src":"1187:59:36"}],"id":333,"name":"Block","src":"1147:103:36"}],"id":334,"name":"FunctionDefinition","src":"1095:155:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setPaused","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_paused","scope":351,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":335,"name":"ElementaryTypeName","src":"1412:4:36"}],"id":336,"name":"VariableDeclaration","src":"1412:12:36"}],"id":337,"name":"ParameterList","src":"1411:14:36"},{"attributes":{"parameters":[null]},"children":[],"id":338,"name":"ParameterList","src":"1433:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":339,"name":"Identifier","src":"1439:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":340,"name":"Identifier","src":"1447:3:36"}],"id":341,"name":"MemberAccess","src":"1447:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":342,"name":"Identifier","src":"1461:5:36"}],"id":343,"name":"BinaryOperation","src":"1447:19:36"}],"id":344,"name":"FunctionCall","src":"1439:28:36"}],"id":345,"name":"ExpressionStatement","src":"1439:28:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":297,"type":"bool","value":"paused"},"id":346,"name":"Identifier","src":"1473:6:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":336,"type":"bool","value":"_paused"},"id":347,"name":"Identifier","src":"1482:7:36"}],"id":348,"name":"Assignment","src":"1473:16:36"}],"id":349,"name":"ExpressionStatement","src":"1473:16:36"}],"id":350,"name":"Block","src":"1433:61:36"}],"id":351,"name":"FunctionDefinition","src":"1393:101:36"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"getItem","payable":false,"scope":721,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":389,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":352,"name":"ElementaryTypeName","src":"1656:6:36"}],"id":353,"name":"VariableDeclaration","src":"1656:16:36"}],"id":354,"name":"ParameterList","src":"1655:18:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":355,"name":"ElementaryTypeName","src":"1695:7:36"}],"id":356,"name":"VariableDeclaration","src":"1695:7:36"},{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":357,"name":"ElementaryTypeName","src":"1704:7:36"}],"id":358,"name":"VariableDeclaration","src":"1704:7:36"},{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":359,"name":"ElementaryTypeName","src":"1713:7:36"}],"id":360,"name":"VariableDeclaration","src":"1713:7:36"},{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":361,"name":"ElementaryTypeName","src":"1722:7:36"}],"id":362,"name":"VariableDeclaration","src":"1722:7:36"},{"attributes":{"constant":false,"name":"","scope":389,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":363,"name":"ElementaryTypeName","src":"1731:7:36"}],"id":364,"name":"VariableDeclaration","src":"1731:7:36"}],"id":365,"name":"ParameterList","src":"1694:45:36"},{"children":[{"attributes":{"functionReturnParameters":365},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isInlineArray":false,"isLValue":false,"isPure":false,"lValueRequested":false,"type":"tuple(address,uint256,address,uint128,uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":366,"name":"Identifier","src":"1754:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":367,"name":"Identifier","src":"1760:9:36"}],"id":368,"name":"IndexAccess","src":"1754:16:36"}],"id":369,"name":"MemberAccess","src":"1754:29:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"cost","referencedDeclaration":281,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":370,"name":"Identifier","src":"1785:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":371,"name":"Identifier","src":"1791:9:36"}],"id":372,"name":"IndexAccess","src":"1785:16:36"}],"id":373,"name":"MemberAccess","src":"1785:21:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"artist","referencedDeclaration":283,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":374,"name":"Identifier","src":"1808:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":375,"name":"Identifier","src":"1814:9:36"}],"id":376,"name":"IndexAccess","src":"1808:16:36"}],"id":377,"name":"MemberAccess","src":"1808:23:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"split","referencedDeclaration":285,"type":"uint128"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":378,"name":"Identifier","src":"1833:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":379,"name":"Identifier","src":"1839:9:36"}],"id":380,"name":"IndexAccess","src":"1833:16:36"}],"id":381,"name":"MemberAccess","src":"1833:22:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":382,"name":"Identifier","src":"1857:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":353,"type":"string memory","value":"_itemName"},"id":383,"name":"Identifier","src":"1863:9:36"}],"id":384,"name":"IndexAccess","src":"1857:16:36"}],"id":385,"name":"MemberAccess","src":"1857:27:36"}],"id":386,"name":"TupleExpression","src":"1753:132:36"}],"id":387,"name":"Return","src":"1746:139:36"}],"id":388,"name":"Block","src":"1740:150:36"}],"id":389,"name":"FunctionDefinition","src":"1639:251:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"addItem","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":431,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":390,"name":"ElementaryTypeName","src":"2264:6:36"}],"id":391,"name":"VariableDeclaration","src":"2264:16:36"},{"attributes":{"constant":false,"name":"_itemContract","scope":431,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":392,"name":"ElementaryTypeName","src":"2282:7:36"}],"id":393,"name":"VariableDeclaration","src":"2282:21:36"},{"attributes":{"constant":false,"name":"_cost","scope":431,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":394,"name":"ElementaryTypeName","src":"2305:7:36"}],"id":395,"name":"VariableDeclaration","src":"2305:13:36"},{"attributes":{"constant":false,"name":"_artist","scope":431,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":396,"name":"ElementaryTypeName","src":"2320:7:36"}],"id":397,"name":"VariableDeclaration","src":"2320:15:36"},{"attributes":{"constant":false,"name":"_split","scope":431,"stateVariable":false,"storageLocation":"default","type":"uint128","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint128","type":"uint128"},"id":398,"name":"ElementaryTypeName","src":"2337:7:36"}],"id":399,"name":"VariableDeclaration","src":"2337:14:36"}],"id":400,"name":"ParameterList","src":"2263:89:36"},{"attributes":{"parameters":[null]},"children":[],"id":401,"name":"ParameterList","src":"2360:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":402,"name":"Identifier","src":"2366:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":403,"name":"Identifier","src":"2374:3:36"}],"id":404,"name":"MemberAccess","src":"2374:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":405,"name":"Identifier","src":"2388:5:36"}],"id":406,"name":"BinaryOperation","src":"2374:19:36"}],"id":407,"name":"FunctionCall","src":"2366:28:36"}],"id":408,"name":"ExpressionStatement","src":"2366:28:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":409,"name":"Identifier","src":"2400:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":410,"name":"Identifier","src":"2408:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":391,"type":"string memory","value":"_itemName"},"id":411,"name":"Identifier","src":"2414:9:36"}],"id":412,"name":"IndexAccess","src":"2408:16:36"}],"id":413,"name":"MemberAccess","src":"2408:29:36"},{"attributes":{"argumentTypes":null,"hexvalue":"307830","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0x0"},"id":414,"name":"Literal","src":"2441:3:36"}],"id":415,"name":"BinaryOperation","src":"2408:36:36"}],"id":416,"name":"FunctionCall","src":"2400:45:36"}],"id":417,"name":"ExpressionStatement","src":"2400:45:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":418,"name":"Identifier","src":"2480:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":391,"type":"string memory","value":"_itemName"},"id":419,"name":"Identifier","src":"2486:9:36"}],"id":420,"name":"IndexAccess","src":"2480:16:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":true,"lValueRequested":false,"names":[null],"type":"struct KittyItemMarket.Item memory","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint128","typeString":"uint128"},{"typeIdentifier":"t_rational_0_by_1","typeString":"int_const 0"}],"overloadedDeclarations":[null],"referencedDeclaration":288,"type":"type(struct KittyItemMarket.Item storage pointer)","value":"Item"},"id":421,"name":"Identifier","src":"2499:4:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":393,"type":"address","value":"_itemContract"},"id":422,"name":"Identifier","src":"2504:13:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":395,"type":"uint256","value":"_cost"},"id":423,"name":"Identifier","src":"2519:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":397,"type":"address","value":"_artist"},"id":424,"name":"Identifier","src":"2526:7:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":399,"type":"uint128","value":"_split"},"id":425,"name":"Identifier","src":"2535:6:36"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":426,"name":"Literal","src":"2543:1:36"}],"id":427,"name":"FunctionCall","src":"2499:46:36"}],"id":428,"name":"Assignment","src":"2480:65:36"}],"id":429,"name":"ExpressionStatement","src":"2480:65:36"}],"id":430,"name":"Block","src":"2360:190:36"}],"id":431,"name":"FunctionDefinition","src":"2247:303:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"modifyItem","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":491,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":432,"name":"ElementaryTypeName","src":"2889:6:36"}],"id":433,"name":"VariableDeclaration","src":"2889:16:36"},{"attributes":{"constant":false,"name":"_itemContract","scope":491,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":434,"name":"ElementaryTypeName","src":"2907:7:36"}],"id":435,"name":"VariableDeclaration","src":"2907:21:36"},{"attributes":{"constant":false,"name":"_cost","scope":491,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":436,"name":"ElementaryTypeName","src":"2930:7:36"}],"id":437,"name":"VariableDeclaration","src":"2930:13:36"},{"attributes":{"constant":false,"name":"_artist","scope":491,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":438,"name":"ElementaryTypeName","src":"2945:7:36"}],"id":439,"name":"VariableDeclaration","src":"2945:15:36"},{"attributes":{"constant":false,"name":"_split","scope":491,"stateVariable":false,"storageLocation":"default","type":"uint128","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint128","type":"uint128"},"id":440,"name":"ElementaryTypeName","src":"2962:7:36"}],"id":441,"name":"VariableDeclaration","src":"2962:14:36"}],"id":442,"name":"ParameterList","src":"2888:89:36"},{"attributes":{"parameters":[null]},"children":[],"id":443,"name":"ParameterList","src":"2985:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":444,"name":"Identifier","src":"2991:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":445,"name":"Identifier","src":"2999:3:36"}],"id":446,"name":"MemberAccess","src":"2999:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":447,"name":"Identifier","src":"3013:5:36"}],"id":448,"name":"BinaryOperation","src":"2999:19:36"}],"id":449,"name":"FunctionCall","src":"2991:28:36"}],"id":450,"name":"ExpressionStatement","src":"2991:28:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":451,"name":"Identifier","src":"3025:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":452,"name":"Identifier","src":"3033:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":433,"type":"string memory","value":"_itemName"},"id":453,"name":"Identifier","src":"3039:9:36"}],"id":454,"name":"IndexAccess","src":"3033:16:36"}],"id":455,"name":"MemberAccess","src":"3033:29:36"},{"attributes":{"argumentTypes":null,"hexvalue":"307830","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0x0"},"id":456,"name":"Literal","src":"3066:3:36"}],"id":457,"name":"BinaryOperation","src":"3033:36:36"}],"id":458,"name":"FunctionCall","src":"3025:45:36"}],"id":459,"name":"ExpressionStatement","src":"3025:45:36"},{"attributes":{"assignments":[461]},"children":[{"attributes":{"constant":false,"name":"item","scope":491,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":460,"name":"UserDefinedTypeName","src":"3106:4:36"}],"id":461,"name":"VariableDeclaration","src":"3106:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":462,"name":"Identifier","src":"3126:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":433,"type":"string memory","value":"_itemName"},"id":463,"name":"Identifier","src":"3132:9:36"}],"id":464,"name":"IndexAccess","src":"3126:16:36"}],"id":465,"name":"VariableDeclarationStatement","src":"3106:36:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":461,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":466,"name":"Identifier","src":"3148:4:36"}],"id":468,"name":"MemberAccess","src":"3148:17:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":435,"type":"address","value":"_itemContract"},"id":469,"name":"Identifier","src":"3168:13:36"}],"id":470,"name":"Assignment","src":"3148:33:36"}],"id":471,"name":"ExpressionStatement","src":"3148:33:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"cost","referencedDeclaration":281,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":461,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":472,"name":"Identifier","src":"3187:4:36"}],"id":474,"name":"MemberAccess","src":"3187:9:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":437,"type":"uint256","value":"_cost"},"id":475,"name":"Identifier","src":"3199:5:36"}],"id":476,"name":"Assignment","src":"3187:17:36"}],"id":477,"name":"ExpressionStatement","src":"3187:17:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"artist","referencedDeclaration":283,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":461,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":478,"name":"Identifier","src":"3210:4:36"}],"id":480,"name":"MemberAccess","src":"3210:11:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":439,"type":"address","value":"_artist"},"id":481,"name":"Identifier","src":"3224:7:36"}],"id":482,"name":"Assignment","src":"3210:21:36"}],"id":483,"name":"ExpressionStatement","src":"3210:21:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint128"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"split","referencedDeclaration":285,"type":"uint128"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":461,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":484,"name":"Identifier","src":"3237:4:36"}],"id":486,"name":"MemberAccess","src":"3237:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":441,"type":"uint128","value":"_split"},"id":487,"name":"Identifier","src":"3250:6:36"}],"id":488,"name":"Assignment","src":"3237:19:36"}],"id":489,"name":"ExpressionStatement","src":"3237:19:36"}],"id":490,"name":"Block","src":"2985:276:36"}],"id":491,"name":"FunctionDefinition","src":"2869:392:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"buyItem","payable":true,"scope":721,"stateMutability":"payable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":556,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":492,"name":"ElementaryTypeName","src":"3413:6:36"}],"id":493,"name":"VariableDeclaration","src":"3413:16:36"},{"attributes":{"constant":false,"name":"_amount","scope":556,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":494,"name":"ElementaryTypeName","src":"3431:7:36"}],"id":495,"name":"VariableDeclaration","src":"3431:15:36"}],"id":496,"name":"ParameterList","src":"3412:35:36"},{"attributes":{"parameters":[null]},"children":[],"id":497,"name":"ParameterList","src":"3463:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":498,"name":"Identifier","src":"3469:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":297,"type":"bool","value":"paused"},"id":499,"name":"Identifier","src":"3477:6:36"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":500,"name":"Literal","src":"3487:5:36"}],"id":501,"name":"BinaryOperation","src":"3477:15:36"}],"id":502,"name":"FunctionCall","src":"3469:24:36"}],"id":503,"name":"ExpressionStatement","src":"3469:24:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":504,"name":"Identifier","src":"3499:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":505,"name":"Identifier","src":"3507:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":493,"type":"string memory","value":"_itemName"},"id":506,"name":"Identifier","src":"3513:9:36"}],"id":507,"name":"IndexAccess","src":"3507:16:36"}],"id":508,"name":"MemberAccess","src":"3507:29:36"},{"attributes":{"argumentTypes":null,"hexvalue":"307830","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0x0"},"id":509,"name":"Literal","src":"3540:3:36"}],"id":510,"name":"BinaryOperation","src":"3507:36:36"}],"id":511,"name":"FunctionCall","src":"3499:45:36"}],"id":512,"name":"ExpressionStatement","src":"3499:45:36"},{"attributes":{"assignments":[514]},"children":[{"attributes":{"constant":false,"name":"item","scope":556,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":513,"name":"UserDefinedTypeName","src":"3580:4:36"}],"id":514,"name":"VariableDeclaration","src":"3580:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":515,"name":"Identifier","src":"3600:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":493,"type":"string memory","value":"_itemName"},"id":516,"name":"Identifier","src":"3606:9:36"}],"id":517,"name":"IndexAccess","src":"3600:16:36"}],"id":518,"name":"VariableDeclarationStatement","src":"3580:36:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":519,"name":"Identifier","src":"3668:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"value","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":520,"name":"Identifier","src":"3676:3:36"}],"id":521,"name":"MemberAccess","src":"3676:9:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"*","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"cost","referencedDeclaration":281,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":514,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":522,"name":"Identifier","src":"3689:4:36"}],"id":523,"name":"MemberAccess","src":"3689:9:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":495,"type":"uint256","value":"_amount"},"id":524,"name":"Identifier","src":"3701:7:36"}],"id":525,"name":"BinaryOperation","src":"3689:19:36"}],"id":526,"name":"BinaryOperation","src":"3676:32:36"}],"id":527,"name":"FunctionCall","src":"3668:41:36"}],"id":528,"name":"ExpressionStatement","src":"3668:41:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":514,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":529,"name":"Identifier","src":"3784:4:36"}],"id":531,"name":"MemberAccess","src":"3784:15:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"value","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":532,"name":"Identifier","src":"3803:3:36"}],"id":533,"name":"MemberAccess","src":"3803:9:36"}],"id":534,"name":"Assignment","src":"3784:28:36"}],"id":535,"name":"ExpressionStatement","src":"3784:28:36"},{"attributes":{"assignments":[537]},"children":[{"attributes":{"constant":false,"name":"kit","scope":556,"stateVariable":false,"storageLocation":"default","type":"contract KittyItemToken","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"KittyItemToken","referencedDeclaration":277,"type":"contract KittyItemToken"},"id":536,"name":"UserDefinedTypeName","src":"3818:14:36"}],"id":537,"name":"VariableDeclaration","src":"3818:18:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract KittyItemToken","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":277,"type":"type(contract KittyItemToken)","value":"KittyItemToken"},"id":538,"name":"Identifier","src":"3839:14:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":514,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":539,"name":"Identifier","src":"3854:4:36"}],"id":540,"name":"MemberAccess","src":"3854:17:36"}],"id":541,"name":"FunctionCall","src":"3839:33:36"}],"id":542,"name":"VariableDeclarationStatement","src":"3818:54:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bool","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":258,"type":"function (address,uint256) pure external returns (bool)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":537,"type":"contract KittyItemToken","value":"kit"},"id":543,"name":"Identifier","src":"3878:3:36"}],"id":545,"name":"MemberAccess","src":"3878:12:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":546,"name":"Identifier","src":"3891:3:36"}],"id":547,"name":"MemberAccess","src":"3891:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":495,"type":"uint256","value":"_amount"},"id":548,"name":"Identifier","src":"3903:7:36"}],"id":549,"name":"FunctionCall","src":"3878:33:36"}],"id":550,"name":"ExpressionStatement","src":"3878:33:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_memory_ptr","typeString":"string memory"}],"overloadedDeclarations":[null],"referencedDeclaration":301,"type":"function (string memory)","value":"Buy"},"id":551,"name":"Identifier","src":"3936:3:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":493,"type":"string memory","value":"_itemName"},"id":552,"name":"Identifier","src":"3940:9:36"}],"id":553,"name":"FunctionCall","src":"3936:14:36"}],"id":554,"name":"ExpressionStatement","src":"3936:14:36"}],"id":555,"name":"Block","src":"3463:492:36"}],"id":556,"name":"FunctionDefinition","src":"3396:559:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"buyItemAndApply","payable":true,"scope":721,"stateMutability":"payable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":619,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":557,"name":"ElementaryTypeName","src":"4142:6:36"}],"id":558,"name":"VariableDeclaration","src":"4142:16:36"},{"attributes":{"constant":false,"name":"_kittyId","scope":619,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":559,"name":"ElementaryTypeName","src":"4160:7:36"}],"id":560,"name":"VariableDeclaration","src":"4160:16:36"}],"id":561,"name":"ParameterList","src":"4141:36:36"},{"attributes":{"parameters":[null]},"children":[],"id":562,"name":"ParameterList","src":"4193:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":563,"name":"Identifier","src":"4199:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":297,"type":"bool","value":"paused"},"id":564,"name":"Identifier","src":"4207:6:36"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":565,"name":"Literal","src":"4217:5:36"}],"id":566,"name":"BinaryOperation","src":"4207:15:36"}],"id":567,"name":"FunctionCall","src":"4199:24:36"}],"id":568,"name":"ExpressionStatement","src":"4199:24:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":569,"name":"Identifier","src":"4284:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":570,"name":"Identifier","src":"4292:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":558,"type":"string memory","value":"_itemName"},"id":571,"name":"Identifier","src":"4298:9:36"}],"id":572,"name":"IndexAccess","src":"4292:16:36"}],"id":573,"name":"MemberAccess","src":"4292:29:36"},{"attributes":{"argumentTypes":null,"hexvalue":"307830","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0x0"},"id":574,"name":"Literal","src":"4325:3:36"}],"id":575,"name":"BinaryOperation","src":"4292:36:36"}],"id":576,"name":"FunctionCall","src":"4284:45:36"}],"id":577,"name":"ExpressionStatement","src":"4284:45:36"},{"attributes":{"assignments":[579]},"children":[{"attributes":{"constant":false,"name":"item","scope":619,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":578,"name":"UserDefinedTypeName","src":"4365:4:36"}],"id":579,"name":"VariableDeclaration","src":"4365:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":580,"name":"Identifier","src":"4385:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":558,"type":"string memory","value":"_itemName"},"id":581,"name":"Identifier","src":"4391:9:36"}],"id":582,"name":"IndexAccess","src":"4385:16:36"}],"id":583,"name":"VariableDeclarationStatement","src":"4365:36:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":584,"name":"Identifier","src":"4453:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"value","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":585,"name":"Identifier","src":"4461:3:36"}],"id":586,"name":"MemberAccess","src":"4461:9:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"cost","referencedDeclaration":281,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":579,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":587,"name":"Identifier","src":"4474:4:36"}],"id":588,"name":"MemberAccess","src":"4474:9:36"}],"id":589,"name":"BinaryOperation","src":"4461:22:36"}],"id":590,"name":"FunctionCall","src":"4453:31:36"}],"id":591,"name":"ExpressionStatement","src":"4453:31:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":579,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":592,"name":"Identifier","src":"4536:4:36"}],"id":594,"name":"MemberAccess","src":"4536:15:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"value","referencedDeclaration":null,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":595,"name":"Identifier","src":"4555:3:36"}],"id":596,"name":"MemberAccess","src":"4555:9:36"}],"id":597,"name":"Assignment","src":"4536:28:36"}],"id":598,"name":"ExpressionStatement","src":"4536:28:36"},{"attributes":{"assignments":[600]},"children":[{"attributes":{"constant":false,"name":"kit","scope":619,"stateVariable":false,"storageLocation":"default","type":"contract KittyItemToken","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"KittyItemToken","referencedDeclaration":277,"type":"contract KittyItemToken"},"id":599,"name":"UserDefinedTypeName","src":"4570:14:36"}],"id":600,"name":"VariableDeclaration","src":"4570:18:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract KittyItemToken","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":277,"type":"type(contract KittyItemToken)","value":"KittyItemToken"},"id":601,"name":"Identifier","src":"4591:14:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":579,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":602,"name":"Identifier","src":"4606:4:36"}],"id":603,"name":"MemberAccess","src":"4606:17:36"}],"id":604,"name":"FunctionCall","src":"4591:33:36"}],"id":605,"name":"VariableDeclarationStatement","src":"4570:54:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bool","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transferAndApply","referencedDeclaration":268,"type":"function (address,uint256) pure external returns (bool)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":600,"type":"contract KittyItemToken","value":"kit"},"id":606,"name":"Identifier","src":"4630:3:36"}],"id":608,"name":"MemberAccess","src":"4630:20:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":609,"name":"Identifier","src":"4651:3:36"}],"id":610,"name":"MemberAccess","src":"4651:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":560,"type":"uint256","value":"_kittyId"},"id":611,"name":"Identifier","src":"4663:8:36"}],"id":612,"name":"FunctionCall","src":"4630:42:36"}],"id":613,"name":"ExpressionStatement","src":"4630:42:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_memory_ptr","typeString":"string memory"}],"overloadedDeclarations":[null],"referencedDeclaration":301,"type":"function (string memory)","value":"Buy"},"id":614,"name":"Identifier","src":"4697:3:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":558,"type":"string memory","value":"_itemName"},"id":615,"name":"Identifier","src":"4701:9:36"}],"id":616,"name":"FunctionCall","src":"4697:14:36"}],"id":617,"name":"ExpressionStatement","src":"4697:14:36"}],"id":618,"name":"Block","src":"4193:523:36"}],"id":619,"name":"FunctionDefinition","src":"4117:599:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"splitFunds","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":675,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":620,"name":"ElementaryTypeName","src":"4870:6:36"}],"id":621,"name":"VariableDeclaration","src":"4870:16:36"}],"id":622,"name":"ParameterList","src":"4869:18:36"},{"attributes":{"parameters":[null]},"children":[],"id":623,"name":"ParameterList","src":"4895:0:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":624,"name":"Identifier","src":"4901:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":625,"name":"Identifier","src":"4909:3:36"}],"id":626,"name":"MemberAccess","src":"4909:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":627,"name":"Identifier","src":"4923:5:36"}],"id":628,"name":"BinaryOperation","src":"4909:19:36"}],"id":629,"name":"FunctionCall","src":"4901:28:36"}],"id":630,"name":"ExpressionStatement","src":"4901:28:36"},{"attributes":{"assignments":[632]},"children":[{"attributes":{"constant":false,"name":"item","scope":675,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":631,"name":"UserDefinedTypeName","src":"4935:4:36"}],"id":632,"name":"VariableDeclaration","src":"4935:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":633,"name":"Identifier","src":"4955:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":621,"type":"string memory","value":"_itemName"},"id":634,"name":"Identifier","src":"4961:9:36"}],"id":635,"name":"IndexAccess","src":"4955:16:36"}],"id":636,"name":"VariableDeclarationStatement","src":"4935:36:36"},{"attributes":{"assignments":[638]},"children":[{"attributes":{"constant":false,"name":"amountToArtist","scope":675,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":637,"name":"ElementaryTypeName","src":"5023:7:36"}],"id":638,"name":"VariableDeclaration","src":"5023:22:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"/","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"*","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":639,"name":"Identifier","src":"5048:4:36"}],"id":640,"name":"MemberAccess","src":"5048:15:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"split","referencedDeclaration":285,"type":"uint128"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":641,"name":"Identifier","src":"5066:4:36"}],"id":642,"name":"MemberAccess","src":"5066:10:36"}],"id":643,"name":"BinaryOperation","src":"5048:28:36"},{"attributes":{"argumentTypes":null,"hexvalue":"3130303030","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 10000","value":"10000"},"id":644,"name":"Literal","src":"5079:5:36"}],"id":645,"name":"BinaryOperation","src":"5048:36:36"}],"id":646,"name":"VariableDeclarationStatement","src":"5023:61:36"},{"attributes":{"assignments":[648]},"children":[{"attributes":{"constant":false,"name":"amountToOwner","scope":675,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":647,"name":"ElementaryTypeName","src":"5090:7:36"}],"id":648,"name":"VariableDeclaration","src":"5090:21:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":649,"name":"Identifier","src":"5114:4:36"}],"id":650,"name":"MemberAccess","src":"5114:15:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":638,"type":"uint256","value":"amountToArtist"},"id":651,"name":"Identifier","src":"5132:14:36"}],"id":652,"name":"BinaryOperation","src":"5114:32:36"}],"id":653,"name":"VariableDeclarationStatement","src":"5090:56:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":null,"type":"function (uint256)"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"artist","referencedDeclaration":283,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":654,"name":"Identifier","src":"5152:4:36"}],"id":657,"name":"MemberAccess","src":"5152:11:36"}],"id":658,"name":"MemberAccess","src":"5152:20:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":638,"type":"uint256","value":"amountToArtist"},"id":659,"name":"Identifier","src":"5173:14:36"}],"id":660,"name":"FunctionCall","src":"5152:36:36"}],"id":661,"name":"ExpressionStatement","src":"5152:36:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":null,"type":"function (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":662,"name":"Identifier","src":"5194:5:36"}],"id":664,"name":"MemberAccess","src":"5194:14:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":648,"type":"uint256","value":"amountToOwner"},"id":665,"name":"Identifier","src":"5209:13:36"}],"id":666,"name":"FunctionCall","src":"5194:29:36"}],"id":667,"name":"ExpressionStatement","src":"5194:29:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"member_name":"totalFunds","referencedDeclaration":287,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":632,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":668,"name":"Identifier","src":"5229:4:36"}],"id":670,"name":"MemberAccess","src":"5229:15:36"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":671,"name":"Literal","src":"5247:1:36"}],"id":672,"name":"Assignment","src":"5229:19:36"}],"id":673,"name":"ExpressionStatement","src":"5229:19:36"}],"id":674,"name":"Block","src":"4895:358:36"}],"id":675,"name":"FunctionDefinition","src":"4850:403:36"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"returnTokensToOwner","payable":false,"scope":721,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_itemName","scope":720,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":676,"name":"ElementaryTypeName","src":"5489:6:36"}],"id":677,"name":"VariableDeclaration","src":"5489:16:36"}],"id":678,"name":"ParameterList","src":"5488:18:36"},{"children":[{"attributes":{"constant":false,"name":"","scope":720,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":679,"name":"ElementaryTypeName","src":"5523:4:36"}],"id":680,"name":"VariableDeclaration","src":"5523:4:36"}],"id":681,"name":"ParameterList","src":"5522:6:36"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":1409,"type":"function (bool) pure","value":"require"},"id":682,"name":"Identifier","src":"5535:7:36"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":683,"name":"Identifier","src":"5543:3:36"}],"id":684,"name":"MemberAccess","src":"5543:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":290,"type":"address","value":"owner"},"id":685,"name":"Identifier","src":"5557:5:36"}],"id":686,"name":"BinaryOperation","src":"5543:19:36"}],"id":687,"name":"FunctionCall","src":"5535:28:36"}],"id":688,"name":"ExpressionStatement","src":"5535:28:36"},{"attributes":{"assignments":[690]},"children":[{"attributes":{"constant":false,"name":"item","scope":720,"stateVariable":false,"storageLocation":"storage","type":"struct KittyItemMarket.Item storage pointer","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"Item","referencedDeclaration":288,"type":"struct KittyItemMarket.Item storage pointer"},"id":689,"name":"UserDefinedTypeName","src":"5569:4:36"}],"id":690,"name":"VariableDeclaration","src":"5569:17:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"struct KittyItemMarket.Item storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":294,"type":"mapping(string memory => struct KittyItemMarket.Item storage ref)","value":"items"},"id":691,"name":"Identifier","src":"5589:5:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":677,"type":"string memory","value":"_itemName"},"id":692,"name":"Identifier","src":"5595:9:36"}],"id":693,"name":"IndexAccess","src":"5589:16:36"}],"id":694,"name":"VariableDeclarationStatement","src":"5569:36:36"},{"attributes":{"assignments":[696]},"children":[{"attributes":{"constant":false,"name":"kit","scope":720,"stateVariable":false,"storageLocation":"default","type":"contract KittyItemToken","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"KittyItemToken","referencedDeclaration":277,"type":"contract KittyItemToken"},"id":695,"name":"UserDefinedTypeName","src":"5657:14:36"}],"id":696,"name":"VariableDeclaration","src":"5657:18:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract KittyItemToken","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":277,"type":"type(contract KittyItemToken)","value":"KittyItemToken"},"id":697,"name":"Identifier","src":"5678:14:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"member_name":"itemContract","referencedDeclaration":279,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":690,"type":"struct KittyItemMarket.Item storage pointer","value":"item"},"id":698,"name":"Identifier","src":"5693:4:36"}],"id":699,"name":"MemberAccess","src":"5693:17:36"}],"id":700,"name":"FunctionCall","src":"5678:33:36"}],"id":701,"name":"VariableDeclarationStatement","src":"5657:54:36"},{"attributes":{"assignments":[703]},"children":[{"attributes":{"constant":false,"name":"contractBalance","scope":720,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":702,"name":"ElementaryTypeName","src":"5717:7:36"}],"id":703,"name":"VariableDeclaration","src":"5717:23:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"uint256","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_contract$_KittyItemMarket_$721","typeString":"contract KittyItemMarket"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"balanceOf","referencedDeclaration":276,"type":"function (address) pure external returns (uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":696,"type":"contract KittyItemToken","value":"kit"},"id":704,"name":"Identifier","src":"5743:3:36"}],"id":705,"name":"MemberAccess","src":"5743:13:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1497,"type":"contract KittyItemMarket","value":"this"},"id":706,"name":"Identifier","src":"5757:4:36"}],"id":707,"name":"FunctionCall","src":"5743:19:36"}],"id":708,"name":"VariableDeclarationStatement","src":"5717:45:36"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bool","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"transfer","referencedDeclaration":258,"type":"function (address,uint256) pure external returns (bool)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":696,"type":"contract KittyItemToken","value":"kit"},"id":709,"name":"Identifier","src":"5768:3:36"}],"id":711,"name":"MemberAccess","src":"5768:12:36"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":1406,"type":"msg","value":"msg"},"id":712,"name":"Identifier","src":"5781:3:36"}],"id":713,"name":"MemberAccess","src":"5781:10:36"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":703,"type":"uint256","value":"contractBalance"},"id":714,"name":"Identifier","src":"5793:15:36"}],"id":715,"name":"FunctionCall","src":"5768:41:36"}],"id":716,"name":"ExpressionStatement","src":"5768:41:36"},{"attributes":{"functionReturnParameters":681},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":717,"name":"Literal","src":"5822:4:36"}],"id":718,"name":"Return","src":"5815:11:36"}],"id":719,"name":"Block","src":"5529:302:36"}],"id":720,"name":"FunctionDefinition","src":"5460:371:36"}],"id":721,"name":"ContractDefinition","src":"392:5442:36"}],"id":722,"name":"SourceUnit","src":"0:5835:36"},"compiler":{"name":"solc","version":"0.4.18+commit.9cf6e910.Emscripten.clang"},"networks":{"1":{"events":{},"links":{},"address":"0xfc9ec868f4c8c586d1bb7586870908cca53d5f38"},"3":{"events":{},"links":{},"address":"0x7d36c91ba6ab2b6eb11c0c7293bf29cda3a44b92"},"5777":{"events":{},"links":{},"address":"0xa509542ada3196a38bd6fd03b253547ee09220c4"}},"schemaVersion":"1.0.1","updatedAt":"2018-02-08T04:43:20.494Z"}
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports) {
+
+module.exports = {"contractName":"KittyItemToken","abi":[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_ipfsHash","type":"string"}],"name":"updateIpfsHash","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_canApply","type":"address"}],"name":"setCanApplyAddress","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"canApply","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_totalSupply","type":"uint256"},{"name":"_symbol","type":"string"},{"name":"_name","type":"string"}],"name":"setupToken","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_kittyId","type":"uint256"}],"name":"applied","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_kittyId","type":"uint256"}],"name":"removeItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_addr","type":"address"}],"name":"setKittyCoreAddress","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"ipfsHash","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_receiveAddress","type":"address"},{"name":"_kittyId","type":"uint256"}],"name":"transferAndApply","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_kittyId","type":"uint256"}],"name":"applyItem","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"kittyId","type":"uint256"}],"name":"Apply","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"kittyId","type":"uint256"}],"name":"Remove","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"}],"bytecode":"0x60606040526000805560206040519081016040528060008152506001908051906020019062000030929190620000d6565b5060206040519081016040528060008152506002908051906020019062000059929190620000d6565b5060206040519081016040528060008152506003908051906020019062000082929190620000d6565b5034156200008f57600080fd5b33600460006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555062000185565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106200011957805160ff19168380011785556200014a565b828001600101855582156200014a579182015b82811115620001495782518255916020019190600101906200012c565b5b5090506200015991906200015d565b5090565b6200018291905b808211156200017e57600081600090555060010162000164565b5090565b90565b611d2d80620001956000396000f30060606040526004361061011d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306fdde03146101225780630913348f146101b0578063095ea7b31461020d57806318160ddd14610267578063223095ff1461029057806323b872dd146102c95780632a05bbcb14610342578063313ce5671461039757806332c12ca7146103c6578063344456c81461046f57806370a08231146104aa57806371329171146104f757806378a7b8041461051a5780638da5cb5b1461055357806395d89b41146105a8578063a9059cbb14610636578063c623674f14610690578063dd62ed3e1461071e578063e9121b121461078a578063f2fde38b146107cc578063fdbf198914610805575b600080fd5b341561012d57600080fd5b610135610828565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561017557808201518184015260208101905061015a565b50505050905090810190601f1680156101a25780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156101bb57600080fd5b61020b600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506108c6565b005b341561021857600080fd5b61024d600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061093c565b604051808215151515815260200191505060405180910390f35b341561027257600080fd5b61027a610a2e565b6040518082815260200191505060405180910390f35b341561029b57600080fd5b6102c7600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610a34565b005b34156102d457600080fd5b610328600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610ad4565b604051808215151515815260200191505060405180910390f35b341561034d57600080fd5b610355610d6e565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103a257600080fd5b6103aa610d94565b604051808260ff1660ff16815260200191505060405180910390f35b34156103d157600080fd5b61046d600480803590602001909190803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610d99565b005b341561047a57600080fd5b61049060048080359060200190919050506110e4565b604051808215151515815260200191505060405180910390f35b34156104b557600080fd5b6104e1600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061110e565b6040518082815260200191505060405180910390f35b341561050257600080fd5b6105186004808035906020019091905050611157565b005b341561052557600080fd5b610551600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506112aa565b005b341561055e57600080fd5b61056661134a565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156105b357600080fd5b6105bb611370565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156105fb5780820151818401526020810190506105e0565b50505050905090810190601f1680156106285780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561064157600080fd5b610676600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061140e565b604051808215151515815260200191505060405180910390f35b341561069b57600080fd5b6106a3611567565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156106e35780820151818401526020810190506106c8565b50505050905090810190601f1680156107105780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561072957600080fd5b610774600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611605565b6040518082815260200191505060405180910390f35b341561079557600080fd5b6107ca600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061168c565b005b34156107d757600080fd5b610803600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611963565b005b341561081057600080fd5b6108266004808035906020019091905050611a3a565b005b60028054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156108be5780601f10610893576101008083540402835291602001916108be565b820191906000526020600020905b8154815290600101906020018083116108a157829003601f168201915b505050505081565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561092257600080fd5b8060039080519060200190610938929190611c5c565b5050565b600081600760003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925846040518082815260200191505060405180910390a36001905092915050565b60005481565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610a9057600080fd5b80600560006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600080600760008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905082600660008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205410158015610ba55750828110155b1515610bb057600080fd5b82600660008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254019250508190555082600660008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff811015610cfd5782600760008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055505b8373ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef856040518082815260200191505060405180910390a360019150509392505050565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600081565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610df557600080fd5b60008054141515610e0557600080fd5b60405180600001905060405180910390206000191660016040518082805460018160011615610100020316600290048015610e775780601f10610e55576101008083540402835291820191610e77565b820191906000526020600020905b815481529060010190602001808311610e63575b5050915050604051809103902060001916141515610e9457600080fd5b60405180600001905060405180910390206000191660026040518082805460018160011615610100020316600290048015610f065780601f10610ee4576101008083540402835291820191610f06565b820191906000526020600020905b815481529060010190602001808311610ef2575b5050915050604051809103902060001916141515610f2357600080fd5b600083111515610f3257600080fd5b604051806000019050604051809103902060001916826040518082805190602001908083835b602083101515610f7d5780518252602082019150602081019050602083039250610f58565b6001836020036101000a03801982511681845116808217855250505050505090500191505060405180910390206000191614151515610fbb57600080fd5b604051806000019050604051809103902060001916816040518082805190602001908083835b6020831015156110065780518252602082019150602081019050602083039250610fe1565b6001836020036101000a0380198251168184511680821785525050505050509050019150506040518091039020600019161415151561104457600080fd5b826000819055508160019080519060200190611061929190611c5c565b508060029080519060200190611078929190611c5c565b508260066000600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550505050565b60006008600083815260200190815260200160002060009054906101000a900460ff169050919050565b6000600660008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b15156111f057600080fd5b6102c65a03f1151561120157600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561124457600080fd5b60006008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055507f476e4aa4bb19dbdea8700b4db99d81ad2fefcf51924ba5d493b7be6393f82201816040518082815260200191505060405180910390a150565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561130657600080fd5b80600960006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156114065780601f106113db57610100808354040283529160200191611406565b820191906000526020600020905b8154815290600101906020018083116113e957829003601f168201915b505050505081565b600081600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541015151561145e57600080fd5b81600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254039250508190555081600660008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825401925050819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60038054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156115fd5780601f106115d2576101008083540402835291602001916115fd565b820191906000526020600020905b8154815290600101906020018083116115e057829003601f168201915b505050505081565b6000600760008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905092915050565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614806117355750600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16145b151561174057600080fd5b6000600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205411151561178e57600080fd5b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b151561182757600080fd5b6102c65a03f1151561183857600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff1614151561187b57600080fd5b600015156008600083815260200190815260200160002060009054906101000a900460ff1615151415156118ae57600080fd5b60016008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055506001600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507f2fc96119a3d9277e338f2f7b673fd2a522fd9f9d6c58ddc6c661d4bd41e7d995816040518082815260200191505060405180910390a15050565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156119bf57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515611a375780600460006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b50565b6000600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054111515611a8857600080fd5b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b1515611b2157600080fd5b6102c65a03f11515611b3257600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515611b7557600080fd5b600015156008600083815260200190815260200160002060009054906101000a900460ff161515141515611ba857600080fd5b60016008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055506001600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507f2fc96119a3d9277e338f2f7b673fd2a522fd9f9d6c58ddc6c661d4bd41e7d995816040518082815260200191505060405180910390a150565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10611c9d57805160ff1916838001178555611ccb565b82800160010185558215611ccb579182015b82811115611cca578251825591602001919060010190611caf565b5b509050611cd89190611cdc565b5090565b611cfe91905b80821115611cfa576000816000905550600101611ce2565b5090565b905600a165627a7a72305820159d10db35d054fe3435ff65d984afb8bf689e8057bb84307e5399fbf46bd0080029","deployedBytecode":"0x60606040526004361061011d576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306fdde03146101225780630913348f146101b0578063095ea7b31461020d57806318160ddd14610267578063223095ff1461029057806323b872dd146102c95780632a05bbcb14610342578063313ce5671461039757806332c12ca7146103c6578063344456c81461046f57806370a08231146104aa57806371329171146104f757806378a7b8041461051a5780638da5cb5b1461055357806395d89b41146105a8578063a9059cbb14610636578063c623674f14610690578063dd62ed3e1461071e578063e9121b121461078a578063f2fde38b146107cc578063fdbf198914610805575b600080fd5b341561012d57600080fd5b610135610828565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561017557808201518184015260208101905061015a565b50505050905090810190601f1680156101a25780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156101bb57600080fd5b61020b600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437820191505050505050919050506108c6565b005b341561021857600080fd5b61024d600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061093c565b604051808215151515815260200191505060405180910390f35b341561027257600080fd5b61027a610a2e565b6040518082815260200191505060405180910390f35b341561029b57600080fd5b6102c7600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610a34565b005b34156102d457600080fd5b610328600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610ad4565b604051808215151515815260200191505060405180910390f35b341561034d57600080fd5b610355610d6e565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156103a257600080fd5b6103aa610d94565b604051808260ff1660ff16815260200191505060405180910390f35b34156103d157600080fd5b61046d600480803590602001909190803590602001908201803590602001908080601f0160208091040260200160405190810160405280939291908181526020018383808284378201915050505050509190803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610d99565b005b341561047a57600080fd5b61049060048080359060200190919050506110e4565b604051808215151515815260200191505060405180910390f35b34156104b557600080fd5b6104e1600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061110e565b6040518082815260200191505060405180910390f35b341561050257600080fd5b6105186004808035906020019091905050611157565b005b341561052557600080fd5b610551600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506112aa565b005b341561055e57600080fd5b61056661134a565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b34156105b357600080fd5b6105bb611370565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156105fb5780820151818401526020810190506105e0565b50505050905090810190601f1680156106285780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561064157600080fd5b610676600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061140e565b604051808215151515815260200191505060405180910390f35b341561069b57600080fd5b6106a3611567565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156106e35780820151818401526020810190506106c8565b50505050905090810190601f1680156107105780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561072957600080fd5b610774600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611605565b6040518082815260200191505060405180910390f35b341561079557600080fd5b6107ca600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061168c565b005b34156107d757600080fd5b610803600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050611963565b005b341561081057600080fd5b6108266004808035906020019091905050611a3a565b005b60028054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156108be5780601f10610893576101008083540402835291602001916108be565b820191906000526020600020905b8154815290600101906020018083116108a157829003601f168201915b505050505081565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561092257600080fd5b8060039080519060200190610938929190611c5c565b5050565b600081600760003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925846040518082815260200191505060405180910390a36001905092915050565b60005481565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610a9057600080fd5b80600560006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600080600760008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905082600660008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205410158015610ba55750828110155b1515610bb057600080fd5b82600660008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254019250508190555082600660008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff811015610cfd5782600760008773ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055505b8373ffffffffffffffffffffffffffffffffffffffff168573ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef856040518082815260200191505060405180910390a360019150509392505050565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600081565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610df557600080fd5b60008054141515610e0557600080fd5b60405180600001905060405180910390206000191660016040518082805460018160011615610100020316600290048015610e775780601f10610e55576101008083540402835291820191610e77565b820191906000526020600020905b815481529060010190602001808311610e63575b5050915050604051809103902060001916141515610e9457600080fd5b60405180600001905060405180910390206000191660026040518082805460018160011615610100020316600290048015610f065780601f10610ee4576101008083540402835291820191610f06565b820191906000526020600020905b815481529060010190602001808311610ef2575b5050915050604051809103902060001916141515610f2357600080fd5b600083111515610f3257600080fd5b604051806000019050604051809103902060001916826040518082805190602001908083835b602083101515610f7d5780518252602082019150602081019050602083039250610f58565b6001836020036101000a03801982511681845116808217855250505050505090500191505060405180910390206000191614151515610fbb57600080fd5b604051806000019050604051809103902060001916816040518082805190602001908083835b6020831015156110065780518252602082019150602081019050602083039250610fe1565b6001836020036101000a0380198251168184511680821785525050505050509050019150506040518091039020600019161415151561104457600080fd5b826000819055508160019080519060200190611061929190611c5c565b508060029080519060200190611078929190611c5c565b508260066000600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550505050565b60006008600083815260200190815260200160002060009054906101000a900460ff169050919050565b6000600660008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b15156111f057600080fd5b6102c65a03f1151561120157600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561124457600080fd5b60006008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055507f476e4aa4bb19dbdea8700b4db99d81ad2fefcf51924ba5d493b7be6393f82201816040518082815260200191505060405180910390a150565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561130657600080fd5b80600960006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156114065780601f106113db57610100808354040283529160200191611406565b820191906000526020600020905b8154815290600101906020018083116113e957829003601f168201915b505050505081565b600081600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541015151561145e57600080fd5b81600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254039250508190555081600660008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825401925050819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60038054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156115fd5780601f106115d2576101008083540402835291602001916115fd565b820191906000526020600020905b8154815290600101906020018083116115e057829003601f168201915b505050505081565b6000600760008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054905092915050565b600560009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614806117355750600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16145b151561174057600080fd5b6000600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205411151561178e57600080fd5b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b151561182757600080fd5b6102c65a03f1151561183857600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff168273ffffffffffffffffffffffffffffffffffffffff1614151561187b57600080fd5b600015156008600083815260200190815260200160002060009054906101000a900460ff1615151415156118ae57600080fd5b60016008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055506001600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507f2fc96119a3d9277e338f2f7b673fd2a522fd9f9d6c58ddc6c661d4bd41e7d995816040518082815260200191505060405180910390a15050565b600460009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156119bf57600080fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141515611a375780600460006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b50565b6000600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054111515611a8857600080fd5b600960009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16636352211e826000604051602001526040518263ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040180828152602001915050602060405180830381600087803b1515611b2157600080fd5b6102c65a03f11515611b3257600080fd5b5050506040518051905073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515611b7557600080fd5b600015156008600083815260200190815260200160002060009054906101000a900460ff161515141515611ba857600080fd5b60016008600083815260200190815260200160002060006101000a81548160ff0219169083151502179055506001600660003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825403925050819055507f2fc96119a3d9277e338f2f7b673fd2a522fd9f9d6c58ddc6c661d4bd41e7d995816040518082815260200191505060405180910390a150565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10611c9d57805160ff1916838001178555611ccb565b82800160010185558215611ccb579182015b82811115611cca578251825591602001919060010190611caf565b5b509050611cd89190611cdc565b5090565b611cfe91905b80821115611cfa576000816000905550600101611ce2565b5090565b905600a165627a7a72305820159d10db35d054fe3435ff65d984afb8bf689e8057bb84307e5399fbf46bd0080029","sourceMap":"773:6748:1:-;;;638:1:2;609:30;;855:25:1;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;884:23;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;911:27;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;1336:62;;;;;;;;1383:10;1375:5;;:18;;;;;;;;;;;;;;;;;;773:6748;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;","deployedSourceMap":"773:6748:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;884:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3636:114:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5252:191;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;609:30:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2260:119:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;4418:641;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1004:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;942:34;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2804:716;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7408:111;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5107:99;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7077:192;;;;;;;;;;;;;;;;;;;;;;;;;;1879:125;;;;;;;;;;;;;;;;;;;;;;;;;;;;980:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;855:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3797:570:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;911:27;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5491:126:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6254:719;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1563:158;;;;;;;;;;;;;;;;;;;;;;;;;;;;5729:334;;;;;;;;;;;;;;;;;;;;;;;;;;884:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;3636:114::-;3713:5;;;;;;;;;;;3699:19;;:10;:19;;;3691:28;;;;;;;;3736:9;3725:8;:20;;;;;;;;;;;;:::i;:::-;;3636:114;:::o;5252:191::-;5319:12;5371:6;5339:7;:19;5347:10;5339:19;;;;;;;;;;;;;;;:29;5359:8;5339:29;;;;;;;;;;;;;;;:38;;;;5404:8;5383:38;;5392:10;5383:38;;;5414:6;5383:38;;;;;;;;;;;;;;;;;;5434:4;5427:11;;5252:191;;;;:::o;609:30:2:-;;;;:::o;2260:119:1:-;2342:5;;;;;;;;;;;2328:19;;:10;:19;;;2320:28;;;;;;;;2365:9;2354:8;;:20;;;;;;;;;;;;;;;;;;2260:119;:::o;4418:641::-;4500:12;4749:17;4769:7;:14;4777:5;4769:14;;;;;;;;;;;;;;;:26;4784:10;4769:26;;;;;;;;;;;;;;;;4749:46;;4828:6;4809:8;:15;4818:5;4809:15;;;;;;;;;;;;;;;;:25;;:48;;;;;4851:6;4838:9;:19;;4809:48;4801:57;;;;;;;;4881:6;4864:8;:13;4873:3;4864:13;;;;;;;;;;;;;;;;:23;;;;;;;;;;;4912:6;4893:8;:15;4902:5;4893:15;;;;;;;;;;;;;;;;:25;;;;;;;;;;;841:10;4928:9;:23;4924:80;;;4991:6;4961:7;:14;4969:5;4961:14;;;;;;;;;;;;;;;:26;4976:10;4961:26;;;;;;;;;;;;;;;;:36;;;;;;;;;;;4924:80;5025:3;5009:28;;5018:5;5009:28;;;5030:6;5009:28;;;;;;;;;;;;;;;;;;5050:4;5043:11;;4418:641;;;;;;:::o;1004:23::-;;;;;;;;;;;;;:::o;942:34::-;975:1;942:34;:::o;2804:716::-;2968:5;;;;;;;;;;;2954:19;;:10;:19;;;2946:28;;;;;;;;3119:1;3104:11;;:16;3096:25;;;;;;;;3156:13;;;;;;;;;;;;;;3135:34;;;3145:6;3135:17;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:34;;;;3127:43;;;;;;;;3203:13;;;;;;;;;;;;;;3184:32;;;3194:4;3184:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:32;;;;3176:41;;;;;;;;3306:1;3291:12;:16;3283:25;;;;;;;;3344:13;;;;;;;;;;;;;;3322:35;;;3332:7;3322:18;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;3322:35:1;;;;;3314:44;;;;;;;;3392:13;;;;;;;;;;;;;;3372:33;;;3382:5;3372:16;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:2;51:6;36:153;;;182:3;176:5;171:3;164:6;98:2;93:3;89;82:19;;123:2;118:3;114;107:19;;148:2;143:3;139;132:19;;36:153;;;274:1;267:3;263:2;259:3;254;250;246;315:4;311:3;305;299:5;295:3;356:4;350:3;344:5;340:3;389:7;380;377:2;372:3;365:6;3:399;;;;;;;;;;;;;;;;;;;3372:33:1;;;;;3364:42;;;;;;;;3427:12;3413:11;:26;;;;3454:7;3445:6;:16;;;;;;;;;;;;:::i;:::-;;3474:5;3467:4;:12;;;;;;;;;;;;:::i;:::-;;3503;3485:8;:15;3494:5;;;;;;;;;;;3485:15;;;;;;;;;;;;;;;:30;;;;2804:716;;;:::o;7408:111::-;7464:4;7483:21;:31;7505:8;7483:31;;;;;;;;;;;;;;;;;;;;;7476:38;;7408:111;;;:::o;5107:99::-;5163:7;5185:8;:16;5194:6;5185:16;;;;;;;;;;;;;;;;5178:23;;5107:99;;;:::o;7077:192::-;7150:10;;;;;;;;;;;:18;;;7169:8;7150:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7136:42;;:10;:42;;;7128:51;;;;;;;;7219:5;7185:21;:31;7207:8;7185:31;;;;;;;;;;;;:39;;;;;;;;;;;;;;;;;;7248:16;7255:8;7248:16;;;;;;;;;;;;;;;;;;7077:192;:::o;1879:125::-;1958:5;;;;;;;;;;;1944:19;;:10;:19;;;1936:28;;;;;;;;1993:5;1970:10;;:29;;;;;;;;;;;;;;;;;;1879:125;:::o;980:20::-;;;;;;;;;;;;;:::o;855:25::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;3797:570::-;3860:12;4234:6;4210:8;:20;4219:10;4210:20;;;;;;;;;;;;;;;;:30;;4202:39;;;;;;;;4271:6;4247:8;:20;4256:10;4247:20;;;;;;;;;;;;;;;;:30;;;;;;;;;;;4300:6;4283:8;:13;4292:3;4283:13;;;;;;;;;;;;;;;;:23;;;;;;;;;;;4333:3;4312:33;;4321:10;4312:33;;;4338:6;4312:33;;;;;;;;;;;;;;;;;;4358:4;4351:11;;3797:570;;;;:::o;911:27::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;5491:126::-;5565:7;5587;:15;5595:6;5587:15;;;;;;;;;;;;;;;:25;5603:8;5587:25;;;;;;;;;;;;;;;;5580:32;;5491:126;;;;:::o;6254:719::-;6493:8;;;;;;;;;;;6479:22;;:10;:22;;;:45;;;;6519:5;;;;;;;;;;;6505:19;;:10;:19;;;6479:45;6471:54;;;;;;;;6613:1;6590:8;:20;6599:10;6590:20;;;;;;;;;;;;;;;;:24;6582:33;;;;;;;;6698:10;;;;;;;;;;;:18;;;6717:8;6698:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6679:47;;:15;:47;;;6671:56;;;;;;;;6828:5;6793:40;;:21;:31;6815:8;6793:31;;;;;;;;;;;;;;;;;;;;;:40;;;6785:49;;;;;;;;6893:4;6859:21;:31;6881:8;6859:31;;;;;;;;;;;;:38;;;;;;;;;;;;;;;;;;6927:1;6903:8;:20;6912:10;6903:20;;;;;;;;;;;;;;;;:25;;;;;;;;;;;6953:15;6959:8;6953:15;;;;;;;;;;;;;;;;;;6254:719;;:::o;1563:158::-;1643:5;;;;;;;;;;;1629:19;;:10;:19;;;1621:28;;;;;;;;1679:1;1659:22;;:8;:22;;;;1655:59;;;1699:8;1691:5;;:16;;;;;;;;;;;;;;;;;;1655:59;1563:158;:::o;5729:334::-;5810:1;5787:8;:20;5796:10;5787:20;;;;;;;;;;;;;;;;:24;5779:33;;;;;;;;5840:10;;;;;;;;;;;:18;;;5859:8;5840:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5826:42;;:10;:42;;;5818:51;;;;;;;;5918:5;5883:40;;:21;:31;5905:8;5883:31;;;;;;;;;;;;;;;;;;;;;:40;;;5875:49;;;;;;;;5983:4;5949:21;:31;5971:8;5949:31;;;;;;;;;;;;:38;;;;;;;;;;;;;;;;;;6017:1;5993:8;:20;6002:10;5993:20;;;;;;;;;;;;;;;;:25;;;;;;;;;;;6043:15;6049:8;6043:15;;;;;;;;;;;;;;;;;;5729:334;:::o;773:6748::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o","source":"/*\nYou should inherit from StandardToken or, for a token like you would want to\ndeploy in something like Mist, see HumanStandardToken.sol.\n(This implements ONLY the standard functions and NOTHING else.\nIf you deploy this, you won't have anything useful.)\n\nImplements ERC 20 Token standard: https://github.com/ethereum/EIPs/issues/20\n.*/\npragma solidity ^0.4.8;\n\nimport \"./Token.sol\";\n\n\n/**\n * @title KittyCore contract interface\n * https://ethereum.stackexchange.com/a/24721/25445\n * https://etherscan.io/address/0x06012c8cf97bead5deae237070f9587f8e7a266d#code\n */\ncontract KittyCore {\n  function ownerOf(uint256 _tokenId) external view returns (address owner);\n}\n\n\n/**\n * @title KittyItemToken is an ERC20 token with some extra functions for applying items to kitties\n */\ncontract KittyItemToken is Token {\n  uint256 constant MAX_UINT256 = 2**256 - 1;\n  string public symbol = \"\";\n  string public name = \"\";\n  string public ipfsHash = \"\";\n  uint8 public constant decimals = 0;\n  address public owner;\n  address public canApply;\n  mapping (address => uint256) balances;\n  mapping (address => mapping (address => uint256)) allowed;\n  mapping (uint256 => bool) appliedToKittyMapping;\n  KittyCore _kittyCore;\n\n  // Events\n  event Apply(uint256 kittyId);\n  event Remove(uint256 kittyId);\n\n  /**\n   * @dev KittyItemToken constructor\n   */\n  function KittyItemToken() public {\n    owner = msg.sender;\n  }\n\n  /** \n   * @dev Allows the current owner to transfer control of the contract to a newOwner.\n   * @param newOwner The address to transfer ownership to. \n   */  \n  function transferOwnership(address newOwner) public {\n    require(msg.sender == owner);\n    if (newOwner != address(0)) {\n      owner = newOwner;\n    }   \n  }\n\n  /**\n   * @dev sets the KittyCore contract address - https://ethereum.stackexchange.com/a/24721/25445\n   * @param _addr KittyCore contract address\n   */\n  function setKittyCoreAddress(address _addr) public {\n    require(msg.sender == owner);\n    _kittyCore = KittyCore(_addr);\n  }\n\n  /**\n   * @dev Sets the address other than the token holder that is allowed to apply items to kitties.\n   *      This is always the KittyItemMarket address\n   * @param _canApply address that can apply items to any Kitty, regardless of ownership\n   */\n  function setCanApplyAddress(address _canApply) public {\n    require(msg.sender == owner);\n    canApply = _canApply;\n  }\n\n  /**\n   * @dev Sets up the token total supply, symbol, name. This is normally done through the constructor but\n   *      an old version of Truffle didn't have the ability to do this. Dev made a bad assumption that Truffle 4.0 still\n   *      lacked this feature. Ran out of time to fix.\n   * @param _totalSupply Total supply of the token\n   * @param _symbol Symbol of the token\n   * @param _name Name of the token\n   */\n  function setupToken(uint256 _totalSupply, string _symbol, string _name) public {\n    // only the owner can modify the contract attributes\n    require(msg.sender == owner);\n\n    // make sure the contract hasn't already been modified\n    // https://ethereum.stackexchange.com/a/11754/25445\n    require(totalSupply == 0);\n    require(keccak256(symbol) == keccak256(\"\"));\n    require(keccak256(name) == keccak256(\"\"));\n\n    // make sure the contract hasn't already been modified\n    require(_totalSupply > 0);\n    require(keccak256(_symbol) != keccak256(\"\"));\n    require(keccak256(_name) != keccak256(\"\"));\n\n    totalSupply = _totalSupply;\n    symbol = _symbol;\n    name = _name;\n    balances[owner] = _totalSupply;\n  }\n\n  /**\n   * @dev Updates the IPFS hash for the token art\n   * @param _ipfsHash IPFS Hash for the token art\n   */\n  function updateIpfsHash(string _ipfsHash) public {\n    require(msg.sender == owner);\n    ipfsHash = _ipfsHash;\n  }\n\n  /**\n   * @dev Basic ERC20 transfer\n   */\n  function transfer(address _to, uint256 _value) public returns (bool success) {\n    //Default assumes totalSupply can't be over max (2^256 - 1).\n    //If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.\n    //Replace the if with this one instead.\n    //require(balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]);\n    require(balances[msg.sender] >= _value);\n    balances[msg.sender] -= _value;\n    balances[_to] += _value;\n    Transfer(msg.sender, _to, _value);\n    return true;\n  }\n\n  /**\n   * @dev Basic ERC20 transferFrom\n   */\n  function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {\n    //same as above. Replace this line with the following if you want to protect against wrapping uints.\n    //require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]);\n    uint256 allowance = allowed[_from][msg.sender];\n    require(balances[_from] >= _value && allowance >= _value);\n    balances[_to] += _value;\n    balances[_from] -= _value;\n    if (allowance < MAX_UINT256) {\n      allowed[_from][msg.sender] -= _value;\n    }\n    Transfer(_from, _to, _value);\n    return true;\n  }\n\n  /**\n   * @dev Basic ERC20 balanceOf\n   */\n  function balanceOf(address _owner) view public returns (uint256) {\n    return balances[_owner];\n  }\n\n  /**\n   * @dev Basic ERC20 approve\n   */\n  function approve(address _spender, uint256 _value) public returns (bool success) {\n    allowed[msg.sender][_spender] = _value;\n    Approval(msg.sender, _spender, _value);\n    return true;\n  }\n\n  /**\n   * @dev Basic ERC20 allowance\n   */\n  function allowance(address _owner, address _spender) view public returns (uint256) {\n    return allowed[_owner][_spender];\n  }\n\n  /**\n   * @dev Applies item to a kitty and burns token\n   * @param _kittyId KittyId to apply item to\n   */\n  function applyItem(uint256 _kittyId) public {\n    require(balances[msg.sender] > 0);\n    require(msg.sender == _kittyCore.ownerOf(_kittyId));\n    require(appliedToKittyMapping[_kittyId] == false);  // can't re-apply\n    appliedToKittyMapping[_kittyId] = true;\n    balances[msg.sender] -= 1;\n    // emit events\n    Apply(_kittyId);\n  }\n\n  /**\n   * @dev Burns one token from ender and applies item to KittyId\n   * @param _receiveAddress address that will \"receive\" a token\n   * @param _kittyId KittyId to apply item to\n   */\n  function transferAndApply(address _receiveAddress, uint256 _kittyId) public {\n    // NOTE - there is no transfer of item that takes place.\n    // Only the `owner` and the `canApply` address can use this function.\n    require(msg.sender == canApply || msg.sender == owner);  // owner and canApply address can apply a sticker\n    require(balances[msg.sender] > 0);  // market contract or owner must own > 1 sticker\n    require(_receiveAddress == _kittyCore.ownerOf(_kittyId));  // make sure the _receiveAddress owns the _kittyId\n    require(appliedToKittyMapping[_kittyId] == false);  // can't re-apply\n    appliedToKittyMapping[_kittyId] = true;\n    balances[msg.sender] -= 1;\n    // emit events\n    Apply(_kittyId);\n  }\n\n  /**\n   * @dev Removes an item from KittyId\n   * @param _kittyId KittyId to remove item from\n   */\n  function removeItem(uint256 _kittyId) public {\n    require(msg.sender == _kittyCore.ownerOf(_kittyId));\n    appliedToKittyMapping[_kittyId] = false;\n    //emit events\n    Remove(_kittyId);\n  }\n\n  /**\n   * @dev Return whether or not the item is applied to KittyId\n   * @param _kittyId KittyId to check if item is applied to\n   */\n  function applied(uint256 _kittyId) view public returns (bool) {\n    return appliedToKittyMapping[_kittyId];\n  }\n}\n","sourcePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyItemToken.sol","ast":{"attributes":{"absolutePath":"/home/ubuntu/kitty-hats-truffle/contracts/KittyItemToken.sol","exportedSymbols":{"KittyCore":[16],"KittyItemToken":[554]}},"children":[{"attributes":{"literals":["solidity","^","0.4",".8"]},"id":7,"name":"PragmaDirective","src":"337:23:1"},{"attributes":{"SourceUnit":622,"absolutePath":"/home/ubuntu/kitty-hats-truffle/contracts/Token.sol","file":"./Token.sol","scope":555,"symbolAliases":[null],"unitAlias":""},"id":8,"name":"ImportDirective","src":"362:21:1"},{"attributes":{"baseContracts":[null],"contractDependencies":[null],"contractKind":"contract","documentation":"@title KittyCore contract interface\nhttps://ethereum.stackexchange.com/a/24721/25445\nhttps://etherscan.io/address/0x06012c8cf97bead5deae237070f9587f8e7a266d#code","fullyImplemented":false,"linearizedBaseContracts":[16],"name":"KittyCore","scope":555},"children":[{"attributes":{"body":null,"constant":true,"implemented":false,"isConstructor":false,"modifiers":[null],"name":"ownerOf","payable":false,"scope":16,"stateMutability":"view","superFunction":null,"visibility":"external"},"children":[{"children":[{"attributes":{"constant":false,"name":"_tokenId","scope":15,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":9,"name":"ElementaryTypeName","src":"605:7:1"}],"id":10,"name":"VariableDeclaration","src":"605:16:1"}],"id":11,"name":"ParameterList","src":"604:18:1"},{"children":[{"attributes":{"constant":false,"name":"owner","scope":15,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":12,"name":"ElementaryTypeName","src":"646:7:1"}],"id":13,"name":"VariableDeclaration","src":"646:13:1"}],"id":14,"name":"ParameterList","src":"645:15:1"}],"id":15,"name":"FunctionDefinition","src":"588:73:1"}],"id":16,"name":"ContractDefinition","src":"565:98:1"},{"attributes":{"contractDependencies":[621],"contractKind":"contract","documentation":"@title KittyItemToken is an ERC20 token with some extra functions for applying items to kitties","fullyImplemented":true,"linearizedBaseContracts":[554,621],"name":"KittyItemToken","scope":555},"children":[{"attributes":{"arguments":[null]},"children":[{"attributes":{"contractScope":null,"name":"Token","referencedDeclaration":621,"type":"contract Token"},"id":17,"name":"UserDefinedTypeName","src":"800:5:1"}],"id":18,"name":"InheritanceSpecifier","src":"800:5:1"},{"attributes":{"constant":true,"name":"MAX_UINT256","scope":554,"stateVariable":true,"storageLocation":"default","type":"uint256","visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":19,"name":"ElementaryTypeName","src":"810:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_rational_115792089237316195423570985008687907853269984665640564039457584007913129639935_by_1","typeString":"int_const 115792089237316195423570985008687907853269984665640564039457584007913129639935"},"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"operator":"-","type":"int_const 115792089237316195423570985008687907853269984665640564039457584007913129639935"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_rational_115792089237316195423570985008687907853269984665640564039457584007913129639936_by_1","typeString":"int_const 115792089237316195423570985008687907853269984665640564039457584007913129639936"},"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"operator":"**","type":"int_const 115792089237316195423570985008687907853269984665640564039457584007913129639936"},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"32","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 2","value":"2"},"id":20,"name":"Literal","src":"841:1:1"},{"attributes":{"argumentTypes":null,"hexvalue":"323536","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 256","value":"256"},"id":21,"name":"Literal","src":"844:3:1"}],"id":22,"name":"BinaryOperation","src":"841:6:1"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":23,"name":"Literal","src":"850:1:1"}],"id":24,"name":"BinaryOperation","src":"841:10:1"}],"id":25,"name":"VariableDeclaration","src":"810:41:1"},{"attributes":{"constant":false,"name":"symbol","scope":554,"stateVariable":true,"storageLocation":"default","type":"string storage ref","visibility":"public"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":26,"name":"ElementaryTypeName","src":"855:6:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":27,"name":"Literal","src":"878:2:1"}],"id":28,"name":"VariableDeclaration","src":"855:25:1"},{"attributes":{"constant":false,"name":"name","scope":554,"stateVariable":true,"storageLocation":"default","type":"string storage ref","visibility":"public"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":29,"name":"ElementaryTypeName","src":"884:6:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":30,"name":"Literal","src":"905:2:1"}],"id":31,"name":"VariableDeclaration","src":"884:23:1"},{"attributes":{"constant":false,"name":"ipfsHash","scope":554,"stateVariable":true,"storageLocation":"default","type":"string storage ref","visibility":"public"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":32,"name":"ElementaryTypeName","src":"911:6:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":33,"name":"Literal","src":"936:2:1"}],"id":34,"name":"VariableDeclaration","src":"911:27:1"},{"attributes":{"constant":true,"name":"decimals","scope":554,"stateVariable":true,"storageLocation":"default","type":"uint8","visibility":"public"},"children":[{"attributes":{"name":"uint8","type":"uint8"},"id":35,"name":"ElementaryTypeName","src":"942:5:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":36,"name":"Literal","src":"975:1:1"}],"id":37,"name":"VariableDeclaration","src":"942:34:1"},{"attributes":{"constant":false,"name":"owner","scope":554,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":38,"name":"ElementaryTypeName","src":"980:7:1"}],"id":39,"name":"VariableDeclaration","src":"980:20:1"},{"attributes":{"constant":false,"name":"canApply","scope":554,"stateVariable":true,"storageLocation":"default","type":"address","value":null,"visibility":"public"},"children":[{"attributes":{"name":"address","type":"address"},"id":40,"name":"ElementaryTypeName","src":"1004:7:1"}],"id":41,"name":"VariableDeclaration","src":"1004:23:1"},{"attributes":{"constant":false,"name":"balances","scope":554,"stateVariable":true,"storageLocation":"default","type":"mapping(address => uint256)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(address => uint256)"},"children":[{"attributes":{"name":"address","type":"address"},"id":42,"name":"ElementaryTypeName","src":"1040:7:1"},{"attributes":{"name":"uint256","type":"uint256"},"id":43,"name":"ElementaryTypeName","src":"1051:7:1"}],"id":44,"name":"Mapping","src":"1031:28:1"}],"id":45,"name":"VariableDeclaration","src":"1031:37:1"},{"attributes":{"constant":false,"name":"allowed","scope":554,"stateVariable":true,"storageLocation":"default","type":"mapping(address => mapping(address => uint256))","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(address => mapping(address => uint256))"},"children":[{"attributes":{"name":"address","type":"address"},"id":46,"name":"ElementaryTypeName","src":"1081:7:1"},{"attributes":{"type":"mapping(address => uint256)"},"children":[{"attributes":{"name":"address","type":"address"},"id":47,"name":"ElementaryTypeName","src":"1101:7:1"},{"attributes":{"name":"uint256","type":"uint256"},"id":48,"name":"ElementaryTypeName","src":"1112:7:1"}],"id":49,"name":"Mapping","src":"1092:28:1"}],"id":50,"name":"Mapping","src":"1072:49:1"}],"id":51,"name":"VariableDeclaration","src":"1072:57:1"},{"attributes":{"constant":false,"name":"appliedToKittyMapping","scope":554,"stateVariable":true,"storageLocation":"default","type":"mapping(uint256 => bool)","value":null,"visibility":"internal"},"children":[{"attributes":{"type":"mapping(uint256 => bool)"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":52,"name":"ElementaryTypeName","src":"1142:7:1"},{"attributes":{"name":"bool","type":"bool"},"id":53,"name":"ElementaryTypeName","src":"1153:4:1"}],"id":54,"name":"Mapping","src":"1133:25:1"}],"id":55,"name":"VariableDeclaration","src":"1133:47:1"},{"attributes":{"constant":false,"name":"_kittyCore","scope":554,"stateVariable":true,"storageLocation":"default","type":"contract KittyCore","value":null,"visibility":"internal"},"children":[{"attributes":{"contractScope":null,"name":"KittyCore","referencedDeclaration":16,"type":"contract KittyCore"},"id":56,"name":"UserDefinedTypeName","src":"1184:9:1"}],"id":57,"name":"VariableDeclaration","src":"1184:20:1"},{"attributes":{"anonymous":false,"name":"Apply"},"children":[{"children":[{"attributes":{"constant":false,"indexed":false,"name":"kittyId","scope":61,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":58,"name":"ElementaryTypeName","src":"1233:7:1"}],"id":59,"name":"VariableDeclaration","src":"1233:15:1"}],"id":60,"name":"ParameterList","src":"1232:17:1"}],"id":61,"name":"EventDefinition","src":"1221:29:1"},{"attributes":{"anonymous":false,"name":"Remove"},"children":[{"children":[{"attributes":{"constant":false,"indexed":false,"name":"kittyId","scope":65,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":62,"name":"ElementaryTypeName","src":"1266:7:1"}],"id":63,"name":"VariableDeclaration","src":"1266:15:1"}],"id":64,"name":"ParameterList","src":"1265:17:1"}],"id":65,"name":"EventDefinition","src":"1253:30:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":true,"modifiers":[null],"name":"KittyItemToken","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"attributes":{"parameters":[null]},"children":[],"id":66,"name":"ParameterList","src":"1359:2:1"},{"attributes":{"parameters":[null]},"children":[],"id":67,"name":"ParameterList","src":"1369:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":68,"name":"Identifier","src":"1375:5:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":69,"name":"Identifier","src":"1383:3:1"}],"id":70,"name":"MemberAccess","src":"1383:10:1"}],"id":71,"name":"Assignment","src":"1375:18:1"}],"id":72,"name":"ExpressionStatement","src":"1375:18:1"}],"id":73,"name":"Block","src":"1369:29:1"}],"id":74,"name":"FunctionDefinition","src":"1336:62:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferOwnership","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"newOwner","scope":98,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":75,"name":"ElementaryTypeName","src":"1590:7:1"}],"id":76,"name":"VariableDeclaration","src":"1590:16:1"}],"id":77,"name":"ParameterList","src":"1589:18:1"},{"attributes":{"parameters":[null]},"children":[],"id":78,"name":"ParameterList","src":"1615:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":79,"name":"Identifier","src":"1621:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":80,"name":"Identifier","src":"1629:3:1"}],"id":81,"name":"MemberAccess","src":"1629:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":82,"name":"Identifier","src":"1643:5:1"}],"id":83,"name":"BinaryOperation","src":"1629:19:1"}],"id":84,"name":"FunctionCall","src":"1621:28:1"}],"id":85,"name":"ExpressionStatement","src":"1621:28:1"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":76,"type":"address","value":"newOwner"},"id":86,"name":"Identifier","src":"1659:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_rational_0_by_1","typeString":"int_const 0"}],"isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"type":"type(address)","value":"address"},"id":87,"name":"ElementaryTypeNameExpression","src":"1671:7:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":88,"name":"Literal","src":"1679:1:1"}],"id":89,"name":"FunctionCall","src":"1671:10:1"}],"id":90,"name":"BinaryOperation","src":"1659:22:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":91,"name":"Identifier","src":"1691:5:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":76,"type":"address","value":"newOwner"},"id":92,"name":"Identifier","src":"1699:8:1"}],"id":93,"name":"Assignment","src":"1691:16:1"}],"id":94,"name":"ExpressionStatement","src":"1691:16:1"}],"id":95,"name":"Block","src":"1683:31:1"}],"id":96,"name":"IfStatement","src":"1655:59:1"}],"id":97,"name":"Block","src":"1615:106:1"}],"id":98,"name":"FunctionDefinition","src":"1563:158:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setKittyCoreAddress","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_addr","scope":117,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":99,"name":"ElementaryTypeName","src":"1908:7:1"}],"id":100,"name":"VariableDeclaration","src":"1908:13:1"}],"id":101,"name":"ParameterList","src":"1907:15:1"},{"attributes":{"parameters":[null]},"children":[],"id":102,"name":"ParameterList","src":"1930:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":103,"name":"Identifier","src":"1936:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":104,"name":"Identifier","src":"1944:3:1"}],"id":105,"name":"MemberAccess","src":"1944:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":106,"name":"Identifier","src":"1958:5:1"}],"id":107,"name":"BinaryOperation","src":"1944:19:1"}],"id":108,"name":"FunctionCall","src":"1936:28:1"}],"id":109,"name":"ExpressionStatement","src":"1936:28:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"contract KittyCore"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":57,"type":"contract KittyCore","value":"_kittyCore"},"id":110,"name":"Identifier","src":"1970:10:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"contract KittyCore","type_conversion":true},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"}],"overloadedDeclarations":[null],"referencedDeclaration":16,"type":"type(contract KittyCore)","value":"KittyCore"},"id":111,"name":"Identifier","src":"1983:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":100,"type":"address","value":"_addr"},"id":112,"name":"Identifier","src":"1993:5:1"}],"id":113,"name":"FunctionCall","src":"1983:16:1"}],"id":114,"name":"Assignment","src":"1970:29:1"}],"id":115,"name":"ExpressionStatement","src":"1970:29:1"}],"id":116,"name":"Block","src":"1930:74:1"}],"id":117,"name":"FunctionDefinition","src":"1879:125:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setCanApplyAddress","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_canApply","scope":134,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":118,"name":"ElementaryTypeName","src":"2288:7:1"}],"id":119,"name":"VariableDeclaration","src":"2288:17:1"}],"id":120,"name":"ParameterList","src":"2287:19:1"},{"attributes":{"parameters":[null]},"children":[],"id":121,"name":"ParameterList","src":"2314:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":122,"name":"Identifier","src":"2320:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":123,"name":"Identifier","src":"2328:3:1"}],"id":124,"name":"MemberAccess","src":"2328:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":125,"name":"Identifier","src":"2342:5:1"}],"id":126,"name":"BinaryOperation","src":"2328:19:1"}],"id":127,"name":"FunctionCall","src":"2320:28:1"}],"id":128,"name":"ExpressionStatement","src":"2320:28:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":41,"type":"address","value":"canApply"},"id":129,"name":"Identifier","src":"2354:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":119,"type":"address","value":"_canApply"},"id":130,"name":"Identifier","src":"2365:9:1"}],"id":131,"name":"Assignment","src":"2354:20:1"}],"id":132,"name":"ExpressionStatement","src":"2354:20:1"}],"id":133,"name":"Block","src":"2314:65:1"}],"id":134,"name":"FunctionDefinition","src":"2260:119:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"setupToken","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_totalSupply","scope":221,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":135,"name":"ElementaryTypeName","src":"2824:7:1"}],"id":136,"name":"VariableDeclaration","src":"2824:20:1"},{"attributes":{"constant":false,"name":"_symbol","scope":221,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":137,"name":"ElementaryTypeName","src":"2846:6:1"}],"id":138,"name":"VariableDeclaration","src":"2846:14:1"},{"attributes":{"constant":false,"name":"_name","scope":221,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":139,"name":"ElementaryTypeName","src":"2862:6:1"}],"id":140,"name":"VariableDeclaration","src":"2862:12:1"}],"id":141,"name":"ParameterList","src":"2823:52:1"},{"attributes":{"parameters":[null]},"children":[],"id":142,"name":"ParameterList","src":"2883:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":143,"name":"Identifier","src":"2946:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":144,"name":"Identifier","src":"2954:3:1"}],"id":145,"name":"MemberAccess","src":"2954:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":146,"name":"Identifier","src":"2968:5:1"}],"id":147,"name":"BinaryOperation","src":"2954:19:1"}],"id":148,"name":"FunctionCall","src":"2946:28:1"}],"id":149,"name":"ExpressionStatement","src":"2946:28:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":150,"name":"Identifier","src":"3096:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":559,"type":"uint256","value":"totalSupply"},"id":151,"name":"Identifier","src":"3104:11:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":152,"name":"Literal","src":"3119:1:1"}],"id":153,"name":"BinaryOperation","src":"3104:16:1"}],"id":154,"name":"FunctionCall","src":"3096:25:1"}],"id":155,"name":"ExpressionStatement","src":"3096:25:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":156,"name":"Identifier","src":"3127:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_storage","typeString":"string storage ref"}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":157,"name":"Identifier","src":"3135:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":28,"type":"string storage ref","value":"symbol"},"id":158,"name":"Identifier","src":"3145:6:1"}],"id":159,"name":"FunctionCall","src":"3135:17:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470","typeString":"literal_string \"\""}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":160,"name":"Identifier","src":"3156:9:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":161,"name":"Literal","src":"3166:2:1"}],"id":162,"name":"FunctionCall","src":"3156:13:1"}],"id":163,"name":"BinaryOperation","src":"3135:34:1"}],"id":164,"name":"FunctionCall","src":"3127:43:1"}],"id":165,"name":"ExpressionStatement","src":"3127:43:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":166,"name":"Identifier","src":"3176:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_storage","typeString":"string storage ref"}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":167,"name":"Identifier","src":"3184:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":31,"type":"string storage ref","value":"name"},"id":168,"name":"Identifier","src":"3194:4:1"}],"id":169,"name":"FunctionCall","src":"3184:15:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470","typeString":"literal_string \"\""}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":170,"name":"Identifier","src":"3203:9:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":171,"name":"Literal","src":"3213:2:1"}],"id":172,"name":"FunctionCall","src":"3203:13:1"}],"id":173,"name":"BinaryOperation","src":"3184:32:1"}],"id":174,"name":"FunctionCall","src":"3176:41:1"}],"id":175,"name":"ExpressionStatement","src":"3176:41:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":176,"name":"Identifier","src":"3283:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":136,"type":"uint256","value":"_totalSupply"},"id":177,"name":"Identifier","src":"3291:12:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":178,"name":"Literal","src":"3306:1:1"}],"id":179,"name":"BinaryOperation","src":"3291:16:1"}],"id":180,"name":"FunctionCall","src":"3283:25:1"}],"id":181,"name":"ExpressionStatement","src":"3283:25:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":182,"name":"Identifier","src":"3314:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_memory_ptr","typeString":"string memory"}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":183,"name":"Identifier","src":"3322:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":138,"type":"string memory","value":"_symbol"},"id":184,"name":"Identifier","src":"3332:7:1"}],"id":185,"name":"FunctionCall","src":"3322:18:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470","typeString":"literal_string \"\""}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":186,"name":"Identifier","src":"3344:9:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":187,"name":"Literal","src":"3354:2:1"}],"id":188,"name":"FunctionCall","src":"3344:13:1"}],"id":189,"name":"BinaryOperation","src":"3322:35:1"}],"id":190,"name":"FunctionCall","src":"3314:44:1"}],"id":191,"name":"ExpressionStatement","src":"3314:44:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":192,"name":"Identifier","src":"3364:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bytes32","typeString":"bytes32"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"!=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_string_memory_ptr","typeString":"string memory"}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":193,"name":"Identifier","src":"3372:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":140,"type":"string memory","value":"_name"},"id":194,"name":"Identifier","src":"3382:5:1"}],"id":195,"name":"FunctionCall","src":"3372:16:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":true,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"bytes32","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_stringliteral_c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470","typeString":"literal_string \"\""}],"overloadedDeclarations":[null],"referencedDeclaration":627,"type":"function () pure returns (bytes32)","value":"keccak256"},"id":196,"name":"Identifier","src":"3392:9:1"},{"attributes":{"argumentTypes":null,"hexvalue":"","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"string","type":"literal_string \"\"","value":""},"id":197,"name":"Literal","src":"3402:2:1"}],"id":198,"name":"FunctionCall","src":"3392:13:1"}],"id":199,"name":"BinaryOperation","src":"3372:33:1"}],"id":200,"name":"FunctionCall","src":"3364:42:1"}],"id":201,"name":"ExpressionStatement","src":"3364:42:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":559,"type":"uint256","value":"totalSupply"},"id":202,"name":"Identifier","src":"3413:11:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":136,"type":"uint256","value":"_totalSupply"},"id":203,"name":"Identifier","src":"3427:12:1"}],"id":204,"name":"Assignment","src":"3413:26:1"}],"id":205,"name":"ExpressionStatement","src":"3413:26:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"string storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":28,"type":"string storage ref","value":"symbol"},"id":206,"name":"Identifier","src":"3445:6:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":138,"type":"string memory","value":"_symbol"},"id":207,"name":"Identifier","src":"3454:7:1"}],"id":208,"name":"Assignment","src":"3445:16:1"}],"id":209,"name":"ExpressionStatement","src":"3445:16:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"string storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":31,"type":"string storage ref","value":"name"},"id":210,"name":"Identifier","src":"3467:4:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":140,"type":"string memory","value":"_name"},"id":211,"name":"Identifier","src":"3474:5:1"}],"id":212,"name":"Assignment","src":"3467:12:1"}],"id":213,"name":"ExpressionStatement","src":"3467:12:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":214,"name":"Identifier","src":"3485:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":215,"name":"Identifier","src":"3494:5:1"}],"id":216,"name":"IndexAccess","src":"3485:15:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":136,"type":"uint256","value":"_totalSupply"},"id":217,"name":"Identifier","src":"3503:12:1"}],"id":218,"name":"Assignment","src":"3485:30:1"}],"id":219,"name":"ExpressionStatement","src":"3485:30:1"}],"id":220,"name":"Block","src":"2883:637:1"}],"id":221,"name":"FunctionDefinition","src":"2804:716:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"updateIpfsHash","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_ipfsHash","scope":238,"stateVariable":false,"storageLocation":"default","type":"string memory","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"string","type":"string storage pointer"},"id":222,"name":"ElementaryTypeName","src":"3660:6:1"}],"id":223,"name":"VariableDeclaration","src":"3660:16:1"}],"id":224,"name":"ParameterList","src":"3659:18:1"},{"attributes":{"parameters":[null]},"children":[],"id":225,"name":"ParameterList","src":"3685:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":226,"name":"Identifier","src":"3691:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":227,"name":"Identifier","src":"3699:3:1"}],"id":228,"name":"MemberAccess","src":"3699:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":229,"name":"Identifier","src":"3713:5:1"}],"id":230,"name":"BinaryOperation","src":"3699:19:1"}],"id":231,"name":"FunctionCall","src":"3691:28:1"}],"id":232,"name":"ExpressionStatement","src":"3691:28:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"string storage ref"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":34,"type":"string storage ref","value":"ipfsHash"},"id":233,"name":"Identifier","src":"3725:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":223,"type":"string memory","value":"_ipfsHash"},"id":234,"name":"Identifier","src":"3736:9:1"}],"id":235,"name":"Assignment","src":"3725:20:1"}],"id":236,"name":"ExpressionStatement","src":"3725:20:1"}],"id":237,"name":"Block","src":"3685:65:1"}],"id":238,"name":"FunctionDefinition","src":"3636:114:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transfer","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":575,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_to","scope":279,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":239,"name":"ElementaryTypeName","src":"3815:7:1"}],"id":240,"name":"VariableDeclaration","src":"3815:11:1"},{"attributes":{"constant":false,"name":"_value","scope":279,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":241,"name":"ElementaryTypeName","src":"3828:7:1"}],"id":242,"name":"VariableDeclaration","src":"3828:14:1"}],"id":243,"name":"ParameterList","src":"3814:29:1"},{"children":[{"attributes":{"constant":false,"name":"success","scope":279,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":244,"name":"ElementaryTypeName","src":"3860:4:1"}],"id":245,"name":"VariableDeclaration","src":"3860:12:1"}],"id":246,"name":"ParameterList","src":"3859:14:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":247,"name":"Identifier","src":"4202:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":248,"name":"Identifier","src":"4210:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":249,"name":"Identifier","src":"4219:3:1"}],"id":250,"name":"MemberAccess","src":"4219:10:1"}],"id":251,"name":"IndexAccess","src":"4210:20:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":242,"type":"uint256","value":"_value"},"id":252,"name":"Identifier","src":"4234:6:1"}],"id":253,"name":"BinaryOperation","src":"4210:30:1"}],"id":254,"name":"FunctionCall","src":"4202:39:1"}],"id":255,"name":"ExpressionStatement","src":"4202:39:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":256,"name":"Identifier","src":"4247:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":257,"name":"Identifier","src":"4256:3:1"}],"id":258,"name":"MemberAccess","src":"4256:10:1"}],"id":259,"name":"IndexAccess","src":"4247:20:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":242,"type":"uint256","value":"_value"},"id":260,"name":"Identifier","src":"4271:6:1"}],"id":261,"name":"Assignment","src":"4247:30:1"}],"id":262,"name":"ExpressionStatement","src":"4247:30:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":263,"name":"Identifier","src":"4283:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":240,"type":"address","value":"_to"},"id":264,"name":"Identifier","src":"4292:3:1"}],"id":265,"name":"IndexAccess","src":"4283:13:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":242,"type":"uint256","value":"_value"},"id":266,"name":"Identifier","src":"4300:6:1"}],"id":267,"name":"Assignment","src":"4283:23:1"}],"id":268,"name":"ExpressionStatement","src":"4283:23:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":612,"type":"function (address,address,uint256)","value":"Transfer"},"id":269,"name":"Identifier","src":"4312:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":270,"name":"Identifier","src":"4321:3:1"}],"id":271,"name":"MemberAccess","src":"4321:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":240,"type":"address","value":"_to"},"id":272,"name":"Identifier","src":"4333:3:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":242,"type":"uint256","value":"_value"},"id":273,"name":"Identifier","src":"4338:6:1"}],"id":274,"name":"FunctionCall","src":"4312:33:1"}],"id":275,"name":"ExpressionStatement","src":"4312:33:1"},{"attributes":{"functionReturnParameters":246},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":276,"name":"Literal","src":"4358:4:1"}],"id":277,"name":"Return","src":"4351:11:1"}],"id":278,"name":"Block","src":"3874:493:1"}],"id":279,"name":"FunctionDefinition","src":"3797:570:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferFrom","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":586,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_from","scope":346,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":280,"name":"ElementaryTypeName","src":"4440:7:1"}],"id":281,"name":"VariableDeclaration","src":"4440:13:1"},{"attributes":{"constant":false,"name":"_to","scope":346,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":282,"name":"ElementaryTypeName","src":"4455:7:1"}],"id":283,"name":"VariableDeclaration","src":"4455:11:1"},{"attributes":{"constant":false,"name":"_value","scope":346,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":284,"name":"ElementaryTypeName","src":"4468:7:1"}],"id":285,"name":"VariableDeclaration","src":"4468:14:1"}],"id":286,"name":"ParameterList","src":"4439:44:1"},{"children":[{"attributes":{"constant":false,"name":"success","scope":346,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":287,"name":"ElementaryTypeName","src":"4500:4:1"}],"id":288,"name":"VariableDeclaration","src":"4500:12:1"}],"id":289,"name":"ParameterList","src":"4499:14:1"},{"children":[{"attributes":{"assignments":[291]},"children":[{"attributes":{"constant":false,"name":"allowance","scope":346,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":290,"name":"ElementaryTypeName","src":"4749:7:1"}],"id":291,"name":"VariableDeclaration","src":"4749:17:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":51,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":292,"name":"Identifier","src":"4769:7:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":293,"name":"Identifier","src":"4777:5:1"}],"id":294,"name":"IndexAccess","src":"4769:14:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":295,"name":"Identifier","src":"4784:3:1"}],"id":296,"name":"MemberAccess","src":"4784:10:1"}],"id":297,"name":"IndexAccess","src":"4769:26:1"}],"id":298,"name":"VariableDeclarationStatement","src":"4749:46:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":299,"name":"Identifier","src":"4801:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"&&","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":300,"name":"Identifier","src":"4809:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":301,"name":"Identifier","src":"4818:5:1"}],"id":302,"name":"IndexAccess","src":"4809:15:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":303,"name":"Identifier","src":"4828:6:1"}],"id":304,"name":"BinaryOperation","src":"4809:25:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":291,"type":"uint256","value":"allowance"},"id":305,"name":"Identifier","src":"4838:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":306,"name":"Identifier","src":"4851:6:1"}],"id":307,"name":"BinaryOperation","src":"4838:19:1"}],"id":308,"name":"BinaryOperation","src":"4809:48:1"}],"id":309,"name":"FunctionCall","src":"4801:57:1"}],"id":310,"name":"ExpressionStatement","src":"4801:57:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"+=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":311,"name":"Identifier","src":"4864:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":283,"type":"address","value":"_to"},"id":312,"name":"Identifier","src":"4873:3:1"}],"id":313,"name":"IndexAccess","src":"4864:13:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":314,"name":"Identifier","src":"4881:6:1"}],"id":315,"name":"Assignment","src":"4864:23:1"}],"id":316,"name":"ExpressionStatement","src":"4864:23:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":317,"name":"Identifier","src":"4893:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":318,"name":"Identifier","src":"4902:5:1"}],"id":319,"name":"IndexAccess","src":"4893:15:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":320,"name":"Identifier","src":"4912:6:1"}],"id":321,"name":"Assignment","src":"4893:25:1"}],"id":322,"name":"ExpressionStatement","src":"4893:25:1"},{"attributes":{"falseBody":null},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"<","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":291,"type":"uint256","value":"allowance"},"id":323,"name":"Identifier","src":"4928:9:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":25,"type":"uint256","value":"MAX_UINT256"},"id":324,"name":"Identifier","src":"4940:11:1"}],"id":325,"name":"BinaryOperation","src":"4928:23:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":51,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":326,"name":"Identifier","src":"4961:7:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":327,"name":"Identifier","src":"4969:5:1"}],"id":330,"name":"IndexAccess","src":"4961:14:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":328,"name":"Identifier","src":"4976:3:1"}],"id":329,"name":"MemberAccess","src":"4976:10:1"}],"id":331,"name":"IndexAccess","src":"4961:26:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":332,"name":"Identifier","src":"4991:6:1"}],"id":333,"name":"Assignment","src":"4961:36:1"}],"id":334,"name":"ExpressionStatement","src":"4961:36:1"}],"id":335,"name":"Block","src":"4953:51:1"}],"id":336,"name":"IfStatement","src":"4924:80:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":612,"type":"function (address,address,uint256)","value":"Transfer"},"id":337,"name":"Identifier","src":"5009:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":281,"type":"address","value":"_from"},"id":338,"name":"Identifier","src":"5018:5:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":283,"type":"address","value":"_to"},"id":339,"name":"Identifier","src":"5025:3:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":285,"type":"uint256","value":"_value"},"id":340,"name":"Identifier","src":"5030:6:1"}],"id":341,"name":"FunctionCall","src":"5009:28:1"}],"id":342,"name":"ExpressionStatement","src":"5009:28:1"},{"attributes":{"functionReturnParameters":289},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":343,"name":"Literal","src":"5050:4:1"}],"id":344,"name":"Return","src":"5043:11:1"}],"id":345,"name":"Block","src":"4514:545:1"}],"id":346,"name":"FunctionDefinition","src":"4418:641:1"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"balanceOf","payable":false,"scope":554,"stateMutability":"view","superFunction":566,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_owner","scope":358,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":347,"name":"ElementaryTypeName","src":"5126:7:1"}],"id":348,"name":"VariableDeclaration","src":"5126:14:1"}],"id":349,"name":"ParameterList","src":"5125:16:1"},{"children":[{"attributes":{"constant":false,"name":"","scope":358,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":350,"name":"ElementaryTypeName","src":"5163:7:1"}],"id":351,"name":"VariableDeclaration","src":"5163:7:1"}],"id":352,"name":"ParameterList","src":"5162:9:1"},{"children":[{"attributes":{"functionReturnParameters":352},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":353,"name":"Identifier","src":"5185:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":348,"type":"address","value":"_owner"},"id":354,"name":"Identifier","src":"5194:6:1"}],"id":355,"name":"IndexAccess","src":"5185:16:1"}],"id":356,"name":"Return","src":"5178:23:1"}],"id":357,"name":"Block","src":"5172:34:1"}],"id":358,"name":"FunctionDefinition","src":"5107:99:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"approve","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":595,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_spender","scope":386,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":359,"name":"ElementaryTypeName","src":"5269:7:1"}],"id":360,"name":"VariableDeclaration","src":"5269:16:1"},{"attributes":{"constant":false,"name":"_value","scope":386,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":361,"name":"ElementaryTypeName","src":"5287:7:1"}],"id":362,"name":"VariableDeclaration","src":"5287:14:1"}],"id":363,"name":"ParameterList","src":"5268:34:1"},{"children":[{"attributes":{"constant":false,"name":"success","scope":386,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":364,"name":"ElementaryTypeName","src":"5319:4:1"}],"id":365,"name":"VariableDeclaration","src":"5319:12:1"}],"id":366,"name":"ParameterList","src":"5318:14:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":51,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":367,"name":"Identifier","src":"5339:7:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":368,"name":"Identifier","src":"5347:3:1"}],"id":369,"name":"MemberAccess","src":"5347:10:1"}],"id":371,"name":"IndexAccess","src":"5339:19:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":360,"type":"address","value":"_spender"},"id":370,"name":"Identifier","src":"5359:8:1"}],"id":372,"name":"IndexAccess","src":"5339:29:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":362,"type":"uint256","value":"_value"},"id":373,"name":"Identifier","src":"5371:6:1"}],"id":374,"name":"Assignment","src":"5339:38:1"}],"id":375,"name":"ExpressionStatement","src":"5339:38:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_address","typeString":"address"},{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":620,"type":"function (address,address,uint256)","value":"Approval"},"id":376,"name":"Identifier","src":"5383:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":377,"name":"Identifier","src":"5392:3:1"}],"id":378,"name":"MemberAccess","src":"5392:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":360,"type":"address","value":"_spender"},"id":379,"name":"Identifier","src":"5404:8:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":362,"type":"uint256","value":"_value"},"id":380,"name":"Identifier","src":"5414:6:1"}],"id":381,"name":"FunctionCall","src":"5383:38:1"}],"id":382,"name":"ExpressionStatement","src":"5383:38:1"},{"attributes":{"functionReturnParameters":366},"children":[{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":383,"name":"Literal","src":"5434:4:1"}],"id":384,"name":"Return","src":"5427:11:1"}],"id":385,"name":"Block","src":"5333:110:1"}],"id":386,"name":"FunctionDefinition","src":"5252:191:1"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"allowance","payable":false,"scope":554,"stateMutability":"view","superFunction":604,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_owner","scope":402,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":387,"name":"ElementaryTypeName","src":"5510:7:1"}],"id":388,"name":"VariableDeclaration","src":"5510:14:1"},{"attributes":{"constant":false,"name":"_spender","scope":402,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":389,"name":"ElementaryTypeName","src":"5526:7:1"}],"id":390,"name":"VariableDeclaration","src":"5526:16:1"}],"id":391,"name":"ParameterList","src":"5509:34:1"},{"children":[{"attributes":{"constant":false,"name":"","scope":402,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":392,"name":"ElementaryTypeName","src":"5565:7:1"}],"id":393,"name":"VariableDeclaration","src":"5565:7:1"}],"id":394,"name":"ParameterList","src":"5564:9:1"},{"children":[{"attributes":{"functionReturnParameters":394},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"mapping(address => uint256)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":51,"type":"mapping(address => mapping(address => uint256))","value":"allowed"},"id":395,"name":"Identifier","src":"5587:7:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":388,"type":"address","value":"_owner"},"id":396,"name":"Identifier","src":"5595:6:1"}],"id":397,"name":"IndexAccess","src":"5587:15:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":390,"type":"address","value":"_spender"},"id":398,"name":"Identifier","src":"5603:8:1"}],"id":399,"name":"IndexAccess","src":"5587:25:1"}],"id":400,"name":"Return","src":"5580:32:1"}],"id":401,"name":"Block","src":"5574:43:1"}],"id":402,"name":"FunctionDefinition","src":"5491:126:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"applyItem","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":452,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":403,"name":"ElementaryTypeName","src":"5748:7:1"}],"id":404,"name":"VariableDeclaration","src":"5748:16:1"}],"id":405,"name":"ParameterList","src":"5747:18:1"},{"attributes":{"parameters":[null]},"children":[],"id":406,"name":"ParameterList","src":"5773:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":407,"name":"Identifier","src":"5779:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":408,"name":"Identifier","src":"5787:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":409,"name":"Identifier","src":"5796:3:1"}],"id":410,"name":"MemberAccess","src":"5796:10:1"}],"id":411,"name":"IndexAccess","src":"5787:20:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":412,"name":"Literal","src":"5810:1:1"}],"id":413,"name":"BinaryOperation","src":"5787:24:1"}],"id":414,"name":"FunctionCall","src":"5779:33:1"}],"id":415,"name":"ExpressionStatement","src":"5779:33:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":416,"name":"Identifier","src":"5818:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":417,"name":"Identifier","src":"5826:3:1"}],"id":418,"name":"MemberAccess","src":"5826:10:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"ownerOf","referencedDeclaration":15,"type":"function (uint256) view external returns (address)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":57,"type":"contract KittyCore","value":"_kittyCore"},"id":419,"name":"Identifier","src":"5840:10:1"}],"id":420,"name":"MemberAccess","src":"5840:18:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":404,"type":"uint256","value":"_kittyId"},"id":421,"name":"Identifier","src":"5859:8:1"}],"id":422,"name":"FunctionCall","src":"5840:28:1"}],"id":423,"name":"BinaryOperation","src":"5826:42:1"}],"id":424,"name":"FunctionCall","src":"5818:51:1"}],"id":425,"name":"ExpressionStatement","src":"5818:51:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":426,"name":"Identifier","src":"5875:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":427,"name":"Identifier","src":"5883:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":404,"type":"uint256","value":"_kittyId"},"id":428,"name":"Identifier","src":"5905:8:1"}],"id":429,"name":"IndexAccess","src":"5883:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":430,"name":"Literal","src":"5918:5:1"}],"id":431,"name":"BinaryOperation","src":"5883:40:1"}],"id":432,"name":"FunctionCall","src":"5875:49:1"}],"id":433,"name":"ExpressionStatement","src":"5875:49:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":434,"name":"Identifier","src":"5949:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":404,"type":"uint256","value":"_kittyId"},"id":435,"name":"Identifier","src":"5971:8:1"}],"id":436,"name":"IndexAccess","src":"5949:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":437,"name":"Literal","src":"5983:4:1"}],"id":438,"name":"Assignment","src":"5949:38:1"}],"id":439,"name":"ExpressionStatement","src":"5949:38:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":440,"name":"Identifier","src":"5993:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":441,"name":"Identifier","src":"6002:3:1"}],"id":442,"name":"MemberAccess","src":"6002:10:1"}],"id":443,"name":"IndexAccess","src":"5993:20:1"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":444,"name":"Literal","src":"6017:1:1"}],"id":445,"name":"Assignment","src":"5993:25:1"}],"id":446,"name":"ExpressionStatement","src":"5993:25:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":61,"type":"function (uint256)","value":"Apply"},"id":447,"name":"Identifier","src":"6043:5:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":404,"type":"uint256","value":"_kittyId"},"id":448,"name":"Identifier","src":"6049:8:1"}],"id":449,"name":"FunctionCall","src":"6043:15:1"}],"id":450,"name":"ExpressionStatement","src":"6043:15:1"}],"id":451,"name":"Block","src":"5773:290:1"}],"id":452,"name":"FunctionDefinition","src":"5729:334:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"transferAndApply","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_receiveAddress","scope":515,"stateVariable":false,"storageLocation":"default","type":"address","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"address","type":"address"},"id":453,"name":"ElementaryTypeName","src":"6280:7:1"}],"id":454,"name":"VariableDeclaration","src":"6280:23:1"},{"attributes":{"constant":false,"name":"_kittyId","scope":515,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":455,"name":"ElementaryTypeName","src":"6305:7:1"}],"id":456,"name":"VariableDeclaration","src":"6305:16:1"}],"id":457,"name":"ParameterList","src":"6279:43:1"},{"attributes":{"parameters":[null]},"children":[],"id":458,"name":"ParameterList","src":"6330:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":459,"name":"Identifier","src":"6471:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"||","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":460,"name":"Identifier","src":"6479:3:1"}],"id":461,"name":"MemberAccess","src":"6479:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":41,"type":"address","value":"canApply"},"id":462,"name":"Identifier","src":"6493:8:1"}],"id":463,"name":"BinaryOperation","src":"6479:22:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":464,"name":"Identifier","src":"6505:3:1"}],"id":465,"name":"MemberAccess","src":"6505:10:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":39,"type":"address","value":"owner"},"id":466,"name":"Identifier","src":"6519:5:1"}],"id":467,"name":"BinaryOperation","src":"6505:19:1"}],"id":468,"name":"BinaryOperation","src":"6479:45:1"}],"id":469,"name":"FunctionCall","src":"6471:54:1"}],"id":470,"name":"ExpressionStatement","src":"6471:54:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":471,"name":"Identifier","src":"6582:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_uint256","typeString":"uint256"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":">","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":472,"name":"Identifier","src":"6590:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":473,"name":"Identifier","src":"6599:3:1"}],"id":474,"name":"MemberAccess","src":"6599:10:1"}],"id":475,"name":"IndexAccess","src":"6590:20:1"},{"attributes":{"argumentTypes":null,"hexvalue":"30","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 0","value":"0"},"id":476,"name":"Literal","src":"6613:1:1"}],"id":477,"name":"BinaryOperation","src":"6590:24:1"}],"id":478,"name":"FunctionCall","src":"6582:33:1"}],"id":479,"name":"ExpressionStatement","src":"6582:33:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":480,"name":"Identifier","src":"6671:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":454,"type":"address","value":"_receiveAddress"},"id":481,"name":"Identifier","src":"6679:15:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"ownerOf","referencedDeclaration":15,"type":"function (uint256) view external returns (address)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":57,"type":"contract KittyCore","value":"_kittyCore"},"id":482,"name":"Identifier","src":"6698:10:1"}],"id":483,"name":"MemberAccess","src":"6698:18:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":456,"type":"uint256","value":"_kittyId"},"id":484,"name":"Identifier","src":"6717:8:1"}],"id":485,"name":"FunctionCall","src":"6698:28:1"}],"id":486,"name":"BinaryOperation","src":"6679:47:1"}],"id":487,"name":"FunctionCall","src":"6671:56:1"}],"id":488,"name":"ExpressionStatement","src":"6671:56:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":489,"name":"Identifier","src":"6785:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_bool","typeString":"bool"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":490,"name":"Identifier","src":"6793:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":456,"type":"uint256","value":"_kittyId"},"id":491,"name":"Identifier","src":"6815:8:1"}],"id":492,"name":"IndexAccess","src":"6793:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":493,"name":"Literal","src":"6828:5:1"}],"id":494,"name":"BinaryOperation","src":"6793:40:1"}],"id":495,"name":"FunctionCall","src":"6785:49:1"}],"id":496,"name":"ExpressionStatement","src":"6785:49:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":497,"name":"Identifier","src":"6859:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":456,"type":"uint256","value":"_kittyId"},"id":498,"name":"Identifier","src":"6881:8:1"}],"id":499,"name":"IndexAccess","src":"6859:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"74727565","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"true"},"id":500,"name":"Literal","src":"6893:4:1"}],"id":501,"name":"Assignment","src":"6859:38:1"}],"id":502,"name":"ExpressionStatement","src":"6859:38:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"-=","type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"uint256"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":45,"type":"mapping(address => uint256)","value":"balances"},"id":503,"name":"Identifier","src":"6903:8:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":504,"name":"Identifier","src":"6912:3:1"}],"id":505,"name":"MemberAccess","src":"6912:10:1"}],"id":506,"name":"IndexAccess","src":"6903:20:1"},{"attributes":{"argumentTypes":null,"hexvalue":"31","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"number","type":"int_const 1","value":"1"},"id":507,"name":"Literal","src":"6927:1:1"}],"id":508,"name":"Assignment","src":"6903:25:1"}],"id":509,"name":"ExpressionStatement","src":"6903:25:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":61,"type":"function (uint256)","value":"Apply"},"id":510,"name":"Identifier","src":"6953:5:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":456,"type":"uint256","value":"_kittyId"},"id":511,"name":"Identifier","src":"6959:8:1"}],"id":512,"name":"FunctionCall","src":"6953:15:1"}],"id":513,"name":"ExpressionStatement","src":"6953:15:1"}],"id":514,"name":"Block","src":"6330:643:1"}],"id":515,"name":"FunctionDefinition","src":"6254:719:1"},{"attributes":{"constant":false,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"removeItem","payable":false,"scope":554,"stateMutability":"nonpayable","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":541,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":516,"name":"ElementaryTypeName","src":"7097:7:1"}],"id":517,"name":"VariableDeclaration","src":"7097:16:1"}],"id":518,"name":"ParameterList","src":"7096:18:1"},{"attributes":{"parameters":[null]},"children":[],"id":519,"name":"ParameterList","src":"7122:0:1"},{"children":[{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_bool","typeString":"bool"}],"overloadedDeclarations":[null],"referencedDeclaration":636,"type":"function (bool) pure","value":"require"},"id":520,"name":"Identifier","src":"7128:7:1"},{"attributes":{"argumentTypes":null,"commonType":{"typeIdentifier":"t_address","typeString":"address"},"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"==","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"sender","referencedDeclaration":null,"type":"address"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":633,"type":"msg","value":"msg"},"id":521,"name":"Identifier","src":"7136:3:1"}],"id":522,"name":"MemberAccess","src":"7136:10:1"},{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"address","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"member_name":"ownerOf","referencedDeclaration":15,"type":"function (uint256) view external returns (address)"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":57,"type":"contract KittyCore","value":"_kittyCore"},"id":523,"name":"Identifier","src":"7150:10:1"}],"id":524,"name":"MemberAccess","src":"7150:18:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":517,"type":"uint256","value":"_kittyId"},"id":525,"name":"Identifier","src":"7169:8:1"}],"id":526,"name":"FunctionCall","src":"7150:28:1"}],"id":527,"name":"BinaryOperation","src":"7136:42:1"}],"id":528,"name":"FunctionCall","src":"7128:51:1"}],"id":529,"name":"ExpressionStatement","src":"7128:51:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"lValueRequested":false,"operator":"=","type":"bool"},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":true,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":530,"name":"Identifier","src":"7185:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":517,"type":"uint256","value":"_kittyId"},"id":531,"name":"Identifier","src":"7207:8:1"}],"id":532,"name":"IndexAccess","src":"7185:31:1"},{"attributes":{"argumentTypes":null,"hexvalue":"66616c7365","isConstant":false,"isLValue":false,"isPure":true,"lValueRequested":false,"subdenomination":null,"token":"bool","type":"bool","value":"false"},"id":533,"name":"Literal","src":"7219:5:1"}],"id":534,"name":"Assignment","src":"7185:39:1"}],"id":535,"name":"ExpressionStatement","src":"7185:39:1"},{"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":false,"isPure":false,"isStructConstructorCall":false,"lValueRequested":false,"names":[null],"type":"tuple()","type_conversion":false},"children":[{"attributes":{"argumentTypes":[{"typeIdentifier":"t_uint256","typeString":"uint256"}],"overloadedDeclarations":[null],"referencedDeclaration":65,"type":"function (uint256)","value":"Remove"},"id":536,"name":"Identifier","src":"7248:6:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":517,"type":"uint256","value":"_kittyId"},"id":537,"name":"Identifier","src":"7255:8:1"}],"id":538,"name":"FunctionCall","src":"7248:16:1"}],"id":539,"name":"ExpressionStatement","src":"7248:16:1"}],"id":540,"name":"Block","src":"7122:147:1"}],"id":541,"name":"FunctionDefinition","src":"7077:192:1"},{"attributes":{"constant":true,"implemented":true,"isConstructor":false,"modifiers":[null],"name":"applied","payable":false,"scope":554,"stateMutability":"view","superFunction":null,"visibility":"public"},"children":[{"children":[{"attributes":{"constant":false,"name":"_kittyId","scope":553,"stateVariable":false,"storageLocation":"default","type":"uint256","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"uint256","type":"uint256"},"id":542,"name":"ElementaryTypeName","src":"7425:7:1"}],"id":543,"name":"VariableDeclaration","src":"7425:16:1"}],"id":544,"name":"ParameterList","src":"7424:18:1"},{"children":[{"attributes":{"constant":false,"name":"","scope":553,"stateVariable":false,"storageLocation":"default","type":"bool","value":null,"visibility":"internal"},"children":[{"attributes":{"name":"bool","type":"bool"},"id":545,"name":"ElementaryTypeName","src":"7464:4:1"}],"id":546,"name":"VariableDeclaration","src":"7464:4:1"}],"id":547,"name":"ParameterList","src":"7463:6:1"},{"children":[{"attributes":{"functionReturnParameters":547},"children":[{"attributes":{"argumentTypes":null,"isConstant":false,"isLValue":true,"isPure":false,"lValueRequested":false,"type":"bool"},"children":[{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":55,"type":"mapping(uint256 => bool)","value":"appliedToKittyMapping"},"id":548,"name":"Identifier","src":"7483:21:1"},{"attributes":{"argumentTypes":null,"overloadedDeclarations":[null],"referencedDeclaration":543,"type":"uint256","value":"_kittyId"},"id":549,"name":"Identifier","src":"7505:8:1"}],"id":550,"name":"IndexAccess","src":"7483:31:1"}],"id":551,"name":"Return","src":"7476:38:1"}],"id":552,"name":"Block","src":"7470:49:1"}],"id":553,"name":"FunctionDefinition","src":"7408:111:1"}],"id":554,"name":"ContractDefinition","src":"773:6748:1"}],"id":555,"name":"SourceUnit","src":"337:7185:1"},"compiler":{"name":"solc","version":"0.4.18+commit.9cf6e910.Emscripten.clang"},"networks":{},"schemaVersion":"1.0.1","updatedAt":"2018-04-23T16:03:21.118Z"}
+
+/***/ }),
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
-var bind = __webpack_require__(9);
-var Axios = __webpack_require__(29);
-var defaults = __webpack_require__(6);
+var utils = __webpack_require__(1);
+var bind = __webpack_require__(16);
+var Axios = __webpack_require__(38);
+var defaults = __webpack_require__(11);
 
 /**
  * Create an instance of Axios
@@ -28621,15 +29181,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(13);
-axios.CancelToken = __webpack_require__(44);
-axios.isCancel = __webpack_require__(12);
+axios.Cancel = __webpack_require__(20);
+axios.CancelToken = __webpack_require__(53);
+axios.isCancel = __webpack_require__(19);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(45);
+axios.spread = __webpack_require__(54);
 
 module.exports = axios;
 
@@ -28638,7 +29198,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 28 */
+/* 37 */
 /***/ (function(module, exports) {
 
 /*!
@@ -28665,16 +29225,16 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 29 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(6);
-var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(39);
-var dispatchRequest = __webpack_require__(40);
+var defaults = __webpack_require__(11);
+var utils = __webpack_require__(1);
+var InterceptorManager = __webpack_require__(48);
+var dispatchRequest = __webpack_require__(49);
 
 /**
  * Create a new instance of Axios
@@ -28751,7 +29311,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 30 */
+/* 39 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -28941,13 +29501,13 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 31 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -28960,13 +29520,13 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 32 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(11);
+var createError = __webpack_require__(18);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -28993,7 +29553,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 33 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29021,13 +29581,13 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 34 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -29096,13 +29656,13 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 35 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -29156,13 +29716,13 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 36 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -29231,7 +29791,7 @@ module.exports = (
 
 
 /***/ }),
-/* 37 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29274,13 +29834,13 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 38 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -29334,13 +29894,13 @@ module.exports = (
 
 
 /***/ }),
-/* 39 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -29393,18 +29953,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 40 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
-var transformData = __webpack_require__(41);
-var isCancel = __webpack_require__(12);
-var defaults = __webpack_require__(6);
-var isAbsoluteURL = __webpack_require__(42);
-var combineURLs = __webpack_require__(43);
+var utils = __webpack_require__(1);
+var transformData = __webpack_require__(50);
+var isCancel = __webpack_require__(19);
+var defaults = __webpack_require__(11);
+var isAbsoluteURL = __webpack_require__(51);
+var combineURLs = __webpack_require__(52);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -29486,13 +30046,13 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 41 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(1);
 
 /**
  * Transform the data for a request or a response
@@ -29513,7 +30073,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 42 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29534,7 +30094,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 43 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29555,13 +30115,13 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 44 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(13);
+var Cancel = __webpack_require__(20);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -29619,7 +30179,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 45 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29653,104 +30213,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-
-/***/ }),
-/* 47 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29764,9 +30227,9 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 if (true) {
-  var invariant = __webpack_require__(16);
-  var warning = __webpack_require__(17);
-  var ReactPropTypesSecret = __webpack_require__(49);
+  var invariant = __webpack_require__(7);
+  var warning = __webpack_require__(8);
+  var ReactPropTypesSecret = __webpack_require__(65);
   var loggedTypeFailures = {};
 }
 
@@ -29816,76 +30279,474 @@ module.exports = checkPropTypes;
 
 
 /***/ }),
-/* 48 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
 
 
+exports.__esModule = true;
+exports.locationsAreEqual = exports.createLocation = undefined;
 
-var emptyObject = {};
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-if (true) {
-  Object.freeze(emptyObject);
-}
+var _resolvePathname = __webpack_require__(67);
 
-module.exports = emptyObject;
+var _resolvePathname2 = _interopRequireDefault(_resolvePathname);
+
+var _valueEqual = __webpack_require__(68);
+
+var _valueEqual2 = _interopRequireDefault(_valueEqual);
+
+var _PathUtils = __webpack_require__(22);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createLocation = exports.createLocation = function createLocation(path, state, key, currentLocation) {
+  var location = void 0;
+  if (typeof path === 'string') {
+    // Two-arg form: push(path, state)
+    location = (0, _PathUtils.parsePath)(path);
+    location.state = state;
+  } else {
+    // One-arg form: push(location)
+    location = _extends({}, path);
+
+    if (location.pathname === undefined) location.pathname = '';
+
+    if (location.search) {
+      if (location.search.charAt(0) !== '?') location.search = '?' + location.search;
+    } else {
+      location.search = '';
+    }
+
+    if (location.hash) {
+      if (location.hash.charAt(0) !== '#') location.hash = '#' + location.hash;
+    } else {
+      location.hash = '';
+    }
+
+    if (state !== undefined && location.state === undefined) location.state = state;
+  }
+
+  try {
+    location.pathname = decodeURI(location.pathname);
+  } catch (e) {
+    if (e instanceof URIError) {
+      throw new URIError('Pathname "' + location.pathname + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.');
+    } else {
+      throw e;
+    }
+  }
+
+  if (key) location.key = key;
+
+  if (currentLocation) {
+    // Resolve incomplete/relative pathname relative to current location.
+    if (!location.pathname) {
+      location.pathname = currentLocation.pathname;
+    } else if (location.pathname.charAt(0) !== '/') {
+      location.pathname = (0, _resolvePathname2.default)(location.pathname, currentLocation.pathname);
+    }
+  } else {
+    // When there is no prior location and pathname is empty, set it to /
+    if (!location.pathname) {
+      location.pathname = '/';
+    }
+  }
+
+  return location;
+};
+
+var locationsAreEqual = exports.locationsAreEqual = function locationsAreEqual(a, b) {
+  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && (0, _valueEqual2.default)(a.state, b.state);
+};
 
 /***/ }),
-/* 49 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
 
 
+exports.__esModule = true;
 
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+var _warning = __webpack_require__(2);
 
-module.exports = ReactPropTypesSecret;
+var _warning2 = _interopRequireDefault(_warning);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var createTransitionManager = function createTransitionManager() {
+  var prompt = null;
+
+  var setPrompt = function setPrompt(nextPrompt) {
+    (0, _warning2.default)(prompt == null, 'A history supports only one prompt at a time');
+
+    prompt = nextPrompt;
+
+    return function () {
+      if (prompt === nextPrompt) prompt = null;
+    };
+  };
+
+  var confirmTransitionTo = function confirmTransitionTo(location, action, getUserConfirmation, callback) {
+    // TODO: If another transition starts while we're still confirming
+    // the previous one, we may end up in a weird state. Figure out the
+    // best way to handle this.
+    if (prompt != null) {
+      var result = typeof prompt === 'function' ? prompt(location, action) : prompt;
+
+      if (typeof result === 'string') {
+        if (typeof getUserConfirmation === 'function') {
+          getUserConfirmation(result, callback);
+        } else {
+          (0, _warning2.default)(false, 'A history needs a getUserConfirmation function in order to use a prompt message');
+
+          callback(true);
+        }
+      } else {
+        // Return false from a transition hook to cancel the transition.
+        callback(result !== false);
+      }
+    } else {
+      callback(true);
+    }
+  };
+
+  var listeners = [];
+
+  var appendListener = function appendListener(fn) {
+    var isActive = true;
+
+    var listener = function listener() {
+      if (isActive) fn.apply(undefined, arguments);
+    };
+
+    listeners.push(listener);
+
+    return function () {
+      isActive = false;
+      listeners = listeners.filter(function (item) {
+        return item !== listener;
+      });
+    };
+  };
+
+  var notifyListeners = function notifyListeners() {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    listeners.forEach(function (listener) {
+      return listener.apply(undefined, args);
+    });
+  };
+
+  return {
+    setPrompt: setPrompt,
+    confirmTransitionTo: confirmTransitionTo,
+    appendListener: appendListener,
+    notifyListeners: notifyListeners
+  };
+};
+
+exports.default = createTransitionManager;
 
 /***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_Router__ = __webpack_require__(59);
+// Written in this round about way for babel-transform-imports
 
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.BackgroundColor = {
-    coral: { color: '#45f0f4', tint: '#c5eefa' },
-    babyblue: { color: '#4eb4f9', tint: '#dcebfc' },
-    topaz: { color: '#0ba09c', tint: '#d1eeeb' },
-    mintgreen: { color: '#43edac', tint: '#cdf5d4' },
-    limegreen: { color: '#aef72f', tint: '#d9f5cb' },
-    babypuke: { color: '#bcba5e', tint: '#eff1e0' },
-    chestnut: { color: '#a56429', tint: '#efe1da' },
-    strawberry: { color: '#ef4b62', tint: '#fcdede' },
-    pumpkin: { color: '#ffa039', tint: '#fae1ca' },
-    gold: { color: '#fcdf35', tint: '#faf4cf' },
-    sizzurp: { color: '#7c40ff', tint: '#dfdffa' },
-    bubblegum: { color: '#ef52d1', tint: '#fadff4' },
-    violet: { color: '#ba8aff', tint: '#ede2f5' },
-    thundergrey: { color: '#828282', tint: '#eee9e8' },
-    sapphire: { color: '#4c7aef', tint: '#a2c2eb' },
-    coralsunrise: { color: '#ef9088', tint: '#fde9e4' }
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_Router__["a" /* default */]);
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+/**
+ * The public API for putting history on context.
+ */
+
+var Router = function (_React$Component) {
+  _inherits(Router, _React$Component);
+
+  function Router() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Router);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.state = {
+      match: _this.computeMatch(_this.props.history.location.pathname)
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  Router.prototype.getChildContext = function getChildContext() {
+    return {
+      router: _extends({}, this.context.router, {
+        history: this.props.history,
+        route: {
+          location: this.props.history.location,
+          match: this.state.match
+        }
+      })
+    };
+  };
+
+  Router.prototype.computeMatch = function computeMatch(pathname) {
+    return {
+      path: '/',
+      url: '/',
+      params: {},
+      isExact: pathname === '/'
+    };
+  };
+
+  Router.prototype.componentWillMount = function componentWillMount() {
+    var _this2 = this;
+
+    var _props = this.props,
+        children = _props.children,
+        history = _props.history;
+
+
+    __WEBPACK_IMPORTED_MODULE_1_invariant___default()(children == null || __WEBPACK_IMPORTED_MODULE_2_react___default.a.Children.count(children) === 1, 'A <Router> may have only one child element');
+
+    // Do this here so we can setState when a <Redirect> changes the
+    // location in componentWillMount. This happens e.g. when doing
+    // server rendering using a <StaticRouter>.
+    this.unlisten = history.listen(function () {
+      _this2.setState({
+        match: _this2.computeMatch(history.location.pathname)
+      });
+    });
+  };
+
+  Router.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(this.props.history === nextProps.history, 'You cannot change <Router history>');
+  };
+
+  Router.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.unlisten();
+  };
+
+  Router.prototype.render = function render() {
+    var children = this.props.children;
+
+    return children ? __WEBPACK_IMPORTED_MODULE_2_react___default.a.Children.only(children) : null;
+  };
+
+  return Router;
+}(__WEBPACK_IMPORTED_MODULE_2_react___default.a.Component);
+
+Router.propTypes = {
+  history: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object.isRequired,
+  children: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.node
+};
+Router.contextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object
+};
+Router.childContextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object.isRequired
 };
 
 
+/* harmony default export */ __webpack_exports__["a"] = (Router);
+
 /***/ }),
-/* 51 */
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path_to_regexp__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_path_to_regexp___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_path_to_regexp__);
+
+
+var patternCache = {};
+var cacheLimit = 10000;
+var cacheCount = 0;
+
+var compilePath = function compilePath(pattern, options) {
+  var cacheKey = '' + options.end + options.strict + options.sensitive;
+  var cache = patternCache[cacheKey] || (patternCache[cacheKey] = {});
+
+  if (cache[pattern]) return cache[pattern];
+
+  var keys = [];
+  var re = __WEBPACK_IMPORTED_MODULE_0_path_to_regexp___default()(pattern, keys, options);
+  var compiledPattern = { re: re, keys: keys };
+
+  if (cacheCount < cacheLimit) {
+    cache[pattern] = compiledPattern;
+    cacheCount++;
+  }
+
+  return compiledPattern;
+};
+
+/**
+ * Public API for matching a URL pathname to a path pattern.
+ */
+var matchPath = function matchPath(pathname) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  if (typeof options === 'string') options = { path: options };
+
+  var _options = options,
+      _options$path = _options.path,
+      path = _options$path === undefined ? '/' : _options$path,
+      _options$exact = _options.exact,
+      exact = _options$exact === undefined ? false : _options$exact,
+      _options$strict = _options.strict,
+      strict = _options$strict === undefined ? false : _options$strict,
+      _options$sensitive = _options.sensitive,
+      sensitive = _options$sensitive === undefined ? false : _options$sensitive;
+
+  var _compilePath = compilePath(path, { end: exact, strict: strict, sensitive: sensitive }),
+      re = _compilePath.re,
+      keys = _compilePath.keys;
+
+  var match = re.exec(pathname);
+
+  if (!match) return null;
+
+  var url = match[0],
+      values = match.slice(1);
+
+  var isExact = pathname === url;
+
+  if (exact && !isExact) return null;
+
+  return {
+    path: path, // the path pattern used to match
+    url: path === '/' && url === '' ? '/' : url, // the matched portion of the URL
+    isExact: isExact, // whether or not we matched exactly
+    params: keys.reduce(function (memo, key, index) {
+      memo[key.name] = values[index];
+      return memo;
+    }, {})
+  };
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (matchPath);
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+
+
+var createTransitionManager = function createTransitionManager() {
+  var prompt = null;
+
+  var setPrompt = function setPrompt(nextPrompt) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(prompt == null, 'A history supports only one prompt at a time');
+
+    prompt = nextPrompt;
+
+    return function () {
+      if (prompt === nextPrompt) prompt = null;
+    };
+  };
+
+  var confirmTransitionTo = function confirmTransitionTo(location, action, getUserConfirmation, callback) {
+    // TODO: If another transition starts while we're still confirming
+    // the previous one, we may end up in a weird state. Figure out the
+    // best way to handle this.
+    if (prompt != null) {
+      var result = typeof prompt === 'function' ? prompt(location, action) : prompt;
+
+      if (typeof result === 'string') {
+        if (typeof getUserConfirmation === 'function') {
+          getUserConfirmation(result, callback);
+        } else {
+          __WEBPACK_IMPORTED_MODULE_0_warning___default()(false, 'A history needs a getUserConfirmation function in order to use a prompt message');
+
+          callback(true);
+        }
+      } else {
+        // Return false from a transition hook to cancel the transition.
+        callback(result !== false);
+      }
+    } else {
+      callback(true);
+    }
+  };
+
+  var listeners = [];
+
+  var appendListener = function appendListener(fn) {
+    var isActive = true;
+
+    var listener = function listener() {
+      if (isActive) fn.apply(undefined, arguments);
+    };
+
+    listeners.push(listener);
+
+    return function () {
+      isActive = false;
+      listeners = listeners.filter(function (item) {
+        return item !== listener;
+      });
+    };
+  };
+
+  var notifyListeners = function notifyListeners() {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    listeners.forEach(function (listener) {
+      return listener.apply(undefined, args);
+    });
+  };
+
+  return {
+    setPrompt: setPrompt,
+    confirmTransitionTo: confirmTransitionTo,
+    appendListener: appendListener,
+    notifyListeners: notifyListeners
+  };
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (createTransitionManager);
+
+/***/ }),
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29898,18 +30759,7 @@ exports.logError = console.error;
 
 
 /***/ }),
-/* 52 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-const web3 = window.web3;
-/* harmony export (immutable) */ __webpack_exports__["web3"] = web3;
-
-
-
-/***/ }),
-/* 53 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29924,11 +30774,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable:no-namespace
-const axios_1 = __webpack_require__(8);
-const log_1 = __webpack_require__(51);
-const web3_1 = __webpack_require__(52);
-const utils_1 = __webpack_require__(7);
-const config_1 = __webpack_require__(5);
+const axios_1 = __webpack_require__(15);
+const log_1 = __webpack_require__(62);
+const web3_1 = __webpack_require__(76);
+const utils_1 = __webpack_require__(10);
+const config_1 = __webpack_require__(6);
 var KittyItem;
 (function (KittyItem) {
     KittyItem.items = {}; // Mapping of itemAddresses to their contract instances;
@@ -30221,36 +31071,678 @@ var KittyItem;
 
 
 /***/ }),
-/* 54 */,
-/* 55 */
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var emptyObject = {};
+
+if (true) {
+  Object.freeze(emptyObject);
+}
+
+module.exports = emptyObject;
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function isAbsolute(pathname) {
+  return pathname.charAt(0) === '/';
+}
+
+// About 1.5x faster than the two-arg version of Array#splice()
+function spliceOne(list, index) {
+  for (var i = index, k = i + 1, n = list.length; k < n; i += 1, k += 1) {
+    list[i] = list[k];
+  }
+
+  list.pop();
+}
+
+// This implementation is based heavily on node's url.parse
+function resolvePathname(to) {
+  var from = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+  var toParts = to && to.split('/') || [];
+  var fromParts = from && from.split('/') || [];
+
+  var isToAbs = to && isAbsolute(to);
+  var isFromAbs = from && isAbsolute(from);
+  var mustEndAbs = isToAbs || isFromAbs;
+
+  if (to && isAbsolute(to)) {
+    // to is absolute
+    fromParts = toParts;
+  } else if (toParts.length) {
+    // to is relative, drop the filename
+    fromParts.pop();
+    fromParts = fromParts.concat(toParts);
+  }
+
+  if (!fromParts.length) return '/';
+
+  var hasTrailingSlash = void 0;
+  if (fromParts.length) {
+    var last = fromParts[fromParts.length - 1];
+    hasTrailingSlash = last === '.' || last === '..' || last === '';
+  } else {
+    hasTrailingSlash = false;
+  }
+
+  var up = 0;
+  for (var i = fromParts.length; i >= 0; i--) {
+    var part = fromParts[i];
+
+    if (part === '.') {
+      spliceOne(fromParts, i);
+    } else if (part === '..') {
+      spliceOne(fromParts, i);
+      up++;
+    } else if (up) {
+      spliceOne(fromParts, i);
+      up--;
+    }
+  }
+
+  if (!mustEndAbs) for (; up--; up) {
+    fromParts.unshift('..');
+  }if (mustEndAbs && fromParts[0] !== '' && (!fromParts[0] || !isAbsolute(fromParts[0]))) fromParts.unshift('');
+
+  var result = fromParts.join('/');
+
+  if (hasTrailingSlash && result.substr(-1) !== '/') result += '/';
+
+  return result;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (resolvePathname);
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function valueEqual(a, b) {
+  if (a === b) return true;
+
+  if (a == null || b == null) return false;
+
+  if (Array.isArray(a)) {
+    return Array.isArray(b) && a.length === b.length && a.every(function (item, index) {
+      return valueEqual(item, b[index]);
+    });
+  }
+
+  var aType = typeof a === 'undefined' ? 'undefined' : _typeof(a);
+  var bType = typeof b === 'undefined' ? 'undefined' : _typeof(b);
+
+  if (aType !== bType) return false;
+
+  if (aType === 'object') {
+    var aValue = a.valueOf();
+    var bValue = b.valueOf();
+
+    if (aValue !== a || bValue !== b) return valueEqual(aValue, bValue);
+
+    var aKeys = Object.keys(a);
+    var bKeys = Object.keys(b);
+
+    if (aKeys.length !== bKeys.length) return false;
+
+    return aKeys.every(function (key) {
+      return valueEqual(a[key], b[key]);
+    });
+  }
+
+  return false;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (valueEqual);
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var canUseDOM = exports.canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+
+var addEventListener = exports.addEventListener = function addEventListener(node, event, listener) {
+  return node.addEventListener ? node.addEventListener(event, listener, false) : node.attachEvent('on' + event, listener);
+};
+
+var removeEventListener = exports.removeEventListener = function removeEventListener(node, event, listener) {
+  return node.removeEventListener ? node.removeEventListener(event, listener, false) : node.detachEvent('on' + event, listener);
+};
+
+var getConfirmation = exports.getConfirmation = function getConfirmation(message, callback) {
+  return callback(window.confirm(message));
+}; // eslint-disable-line no-alert
+
+/**
+ * Returns true if the HTML5 history API is supported. Taken from Modernizr.
+ *
+ * https://github.com/Modernizr/Modernizr/blob/master/LICENSE
+ * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/history.js
+ * changed to avoid false negatives for Windows Phones: https://github.com/reactjs/react-router/issues/586
+ */
+var supportsHistory = exports.supportsHistory = function supportsHistory() {
+  var ua = window.navigator.userAgent;
+
+  if ((ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) && ua.indexOf('Mobile Safari') !== -1 && ua.indexOf('Chrome') === -1 && ua.indexOf('Windows Phone') === -1) return false;
+
+  return window.history && 'pushState' in window.history;
+};
+
+/**
+ * Returns true if browser fires popstate on hash change.
+ * IE10 and IE11 do not.
+ */
+var supportsPopStateOnHashChange = exports.supportsPopStateOnHashChange = function supportsPopStateOnHashChange() {
+  return window.navigator.userAgent.indexOf('Trident') === -1;
+};
+
+/**
+ * Returns false if using go(n) with hash history causes a full page reload.
+ */
+var supportsGoWithoutReloadUsingHash = exports.supportsGoWithoutReloadUsingHash = function supportsGoWithoutReloadUsingHash() {
+  return window.navigator.userAgent.indexOf('Firefox') === -1;
+};
+
+/**
+ * Returns true if a given popstate event is an extraneous WebKit event.
+ * Accounts for the fact that Chrome on iOS fires real popstate events
+ * containing undefined state when pressing the back button.
+ */
+var isExtraneousPopstateEvent = exports.isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
+  return event.state === undefined && navigator.userAgent.indexOf('CriOS') === -1;
+};
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var isModifiedEvent = function isModifiedEvent(event) {
+  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+};
+
+/**
+ * The public API for rendering a history-aware <a>.
+ */
+
+var Link = function (_React$Component) {
+  _inherits(Link, _React$Component);
+
+  function Link() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Link);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.handleClick = function (event) {
+      if (_this.props.onClick) _this.props.onClick(event);
+
+      if (!event.defaultPrevented && // onClick prevented default
+      event.button === 0 && // ignore right clicks
+      !_this.props.target && // let browser handle "target=_blank" etc.
+      !isModifiedEvent(event) // ignore clicks with modifier keys
+      ) {
+          event.preventDefault();
+
+          var history = _this.context.router.history;
+          var _this$props = _this.props,
+              replace = _this$props.replace,
+              to = _this$props.to;
+
+
+          if (replace) {
+            history.replace(to);
+          } else {
+            history.push(to);
+          }
+        }
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  Link.prototype.render = function render() {
+    var _props = this.props,
+        replace = _props.replace,
+        to = _props.to,
+        innerRef = _props.innerRef,
+        props = _objectWithoutProperties(_props, ['replace', 'to', 'innerRef']); // eslint-disable-line no-unused-vars
+
+    __WEBPACK_IMPORTED_MODULE_2_invariant___default()(this.context.router, 'You should not use <Link> outside a <Router>');
+
+    var href = this.context.router.history.createHref(typeof to === 'string' ? { pathname: to } : to);
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('a', _extends({}, props, { onClick: this.handleClick, href: href, ref: innerRef }));
+  };
+
+  return Link;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+Link.propTypes = {
+  onClick: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  target: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+  replace: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  to: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object]).isRequired,
+  innerRef: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func])
+};
+Link.defaultProps = {
+  replace: false
+};
+Link.contextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
+    history: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
+      push: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
+      replace: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
+      createHref: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
+    }).isRequired
+  }).isRequired
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (Link);
+
+/***/ }),
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_Route__ = __webpack_require__(73);
+// Written in this round about way for babel-transform-imports
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_Route__["a" /* default */]);
+
+/***/ }),
+/* 73 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__matchPath__ = __webpack_require__(60);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+var isEmptyChildren = function isEmptyChildren(children) {
+  return __WEBPACK_IMPORTED_MODULE_2_react___default.a.Children.count(children) === 0;
+};
+
+/**
+ * The public API for matching a single path and rendering.
+ */
+
+var Route = function (_React$Component) {
+  _inherits(Route, _React$Component);
+
+  function Route() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Route);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.state = {
+      match: _this.computeMatch(_this.props, _this.context.router)
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  Route.prototype.getChildContext = function getChildContext() {
+    return {
+      router: _extends({}, this.context.router, {
+        route: {
+          location: this.props.location || this.context.router.route.location,
+          match: this.state.match
+        }
+      })
+    };
+  };
+
+  Route.prototype.computeMatch = function computeMatch(_ref, router) {
+    var computedMatch = _ref.computedMatch,
+        location = _ref.location,
+        path = _ref.path,
+        strict = _ref.strict,
+        exact = _ref.exact,
+        sensitive = _ref.sensitive;
+
+    if (computedMatch) return computedMatch; // <Switch> already computed the match for us
+
+    __WEBPACK_IMPORTED_MODULE_1_invariant___default()(router, 'You should not use <Route> or withRouter() outside a <Router>');
+
+    var route = router.route;
+
+    var pathname = (location || route.location).pathname;
+
+    return path ? Object(__WEBPACK_IMPORTED_MODULE_4__matchPath__["a" /* default */])(pathname, { path: path, strict: strict, exact: exact, sensitive: sensitive }) : route.match;
+  };
+
+  Route.prototype.componentWillMount = function componentWillMount() {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!(this.props.component && this.props.render), 'You should not use <Route component> and <Route render> in the same route; <Route render> will be ignored');
+
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!(this.props.component && this.props.children && !isEmptyChildren(this.props.children)), 'You should not use <Route component> and <Route children> in the same route; <Route children> will be ignored');
+
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!(this.props.render && this.props.children && !isEmptyChildren(this.props.children)), 'You should not use <Route render> and <Route children> in the same route; <Route children> will be ignored');
+  };
+
+  Route.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps, nextContext) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!(nextProps.location && !this.props.location), '<Route> elements should not change from uncontrolled to controlled (or vice versa). You initially used no "location" prop and then provided one on a subsequent render.');
+
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!(!nextProps.location && this.props.location), '<Route> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.');
+
+    this.setState({
+      match: this.computeMatch(nextProps, nextContext.router)
+    });
+  };
+
+  Route.prototype.render = function render() {
+    var match = this.state.match;
+    var _props = this.props,
+        children = _props.children,
+        component = _props.component,
+        render = _props.render;
+    var _context$router = this.context.router,
+        history = _context$router.history,
+        route = _context$router.route,
+        staticContext = _context$router.staticContext;
+
+    var location = this.props.location || route.location;
+    var props = { match: match, location: location, history: history, staticContext: staticContext };
+
+    return component ? // component prop gets first priority, only called if there's a match
+    match ? __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(component, props) : null : render ? // render prop is next, only called if there's a match
+    match ? render(props) : null : children ? // children come last, always called
+    typeof children === 'function' ? children(props) : !isEmptyChildren(children) ? __WEBPACK_IMPORTED_MODULE_2_react___default.a.Children.only(children) : null : null;
+  };
+
+  return Route;
+}(__WEBPACK_IMPORTED_MODULE_2_react___default.a.Component);
+
+Route.propTypes = {
+  computedMatch: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object, // private, from <Switch>
+  path: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.string,
+  exact: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.bool,
+  strict: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.bool,
+  sensitive: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.bool,
+  component: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
+  render: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func,
+  children: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.func, __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.node]),
+  location: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object
+};
+Route.contextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.shape({
+    history: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object.isRequired,
+    route: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object.isRequired,
+    staticContext: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object
+  })
+};
+Route.childContextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object.isRequired
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (Route);
+
+/***/ }),
+/* 74 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return canUseDOM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return addEventListener; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return removeEventListener; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getConfirmation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return supportsHistory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return supportsPopStateOnHashChange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return supportsGoWithoutReloadUsingHash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return isExtraneousPopstateEvent; });
+var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+
+var addEventListener = function addEventListener(node, event, listener) {
+  return node.addEventListener ? node.addEventListener(event, listener, false) : node.attachEvent('on' + event, listener);
+};
+
+var removeEventListener = function removeEventListener(node, event, listener) {
+  return node.removeEventListener ? node.removeEventListener(event, listener, false) : node.detachEvent('on' + event, listener);
+};
+
+var getConfirmation = function getConfirmation(message, callback) {
+  return callback(window.confirm(message));
+}; // eslint-disable-line no-alert
+
+/**
+ * Returns true if the HTML5 history API is supported. Taken from Modernizr.
+ *
+ * https://github.com/Modernizr/Modernizr/blob/master/LICENSE
+ * https://github.com/Modernizr/Modernizr/blob/master/feature-detects/history.js
+ * changed to avoid false negatives for Windows Phones: https://github.com/reactjs/react-router/issues/586
+ */
+var supportsHistory = function supportsHistory() {
+  var ua = window.navigator.userAgent;
+
+  if ((ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) && ua.indexOf('Mobile Safari') !== -1 && ua.indexOf('Chrome') === -1 && ua.indexOf('Windows Phone') === -1) return false;
+
+  return window.history && 'pushState' in window.history;
+};
+
+/**
+ * Returns true if browser fires popstate on hash change.
+ * IE10 and IE11 do not.
+ */
+var supportsPopStateOnHashChange = function supportsPopStateOnHashChange() {
+  return window.navigator.userAgent.indexOf('Trident') === -1;
+};
+
+/**
+ * Returns false if using go(n) with hash history causes a full page reload.
+ */
+var supportsGoWithoutReloadUsingHash = function supportsGoWithoutReloadUsingHash() {
+  return window.navigator.userAgent.indexOf('Firefox') === -1;
+};
+
+/**
+ * Returns true if a given popstate event is an extraneous WebKit event.
+ * Accounts for the fact that Chrome on iOS fires real popstate events
+ * containing undefined state when pressing the back button.
+ */
+var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
+  return event.state === undefined && navigator.userAgent.indexOf('CriOS') === -1;
+};
+
+/***/ }),
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const index_1 = __webpack_require__(56);
+exports.BackgroundColor = {
+    coral: { color: '#45f0f4', tint: '#c5eefa' },
+    babyblue: { color: '#4eb4f9', tint: '#dcebfc' },
+    topaz: { color: '#0ba09c', tint: '#d1eeeb' },
+    mintgreen: { color: '#43edac', tint: '#cdf5d4' },
+    limegreen: { color: '#aef72f', tint: '#d9f5cb' },
+    babypuke: { color: '#bcba5e', tint: '#eff1e0' },
+    chestnut: { color: '#a56429', tint: '#efe1da' },
+    strawberry: { color: '#ef4b62', tint: '#fcdede' },
+    pumpkin: { color: '#ffa039', tint: '#fae1ca' },
+    gold: { color: '#fcdf35', tint: '#faf4cf' },
+    sizzurp: { color: '#7c40ff', tint: '#dfdffa' },
+    bubblegum: { color: '#ef52d1', tint: '#fadff4' },
+    violet: { color: '#ba8aff', tint: '#ede2f5' },
+    thundergrey: { color: '#828282', tint: '#eee9e8' },
+    sapphire: { color: '#4c7aef', tint: '#a2c2eb' },
+    coralsunrise: { color: '#ef9088', tint: '#fde9e4' }
+};
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+const web3 = window.web3;
+/* harmony export (immutable) */ __webpack_exports__["web3"] = web3;
+
+
+
+/***/ }),
+/* 77 */,
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const index_1 = __webpack_require__(79);
 index_1.initReactAppInContainer('app');
 
 
 /***/ }),
-/* 56 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const ReactDOM = __webpack_require__(58);
-const App_1 = __webpack_require__(72);
+const React = __webpack_require__(0);
+const ReactDOM = __webpack_require__(81);
+const react_router_dom_1 = __webpack_require__(95);
+const KittyHatsWeb_1 = __webpack_require__(126);
+const KittyHatsCryptoGoods_1 = __webpack_require__(151);
 // This app will initially be initialized but invisible till a user clicks a marketplace button
 function initReactAppInContainer(appContainerId) {
-    ReactDOM.render(React.createElement(App_1.App, { container: appContainerId, version: '1.0.0' }), document.getElementById(appContainerId));
+    ReactDOM.render((React.createElement(react_router_dom_1.HashRouter, null,
+        React.createElement(react_router_dom_1.Switch, null,
+            React.createElement(react_router_dom_1.Route, { exact: true, path: '/', render: (props) => React.createElement(KittyHatsWeb_1.KittyHatsWeb, { container: appContainerId, version: '1.0.0' }) }),
+            React.createElement(react_router_dom_1.Route, { path: '/cg/:id', render: (props) => React.createElement(KittyHatsCryptoGoods_1.KittyHatsCryptoGoods, { props: props, container: appContainerId, version: '1.0.0' }) })))), document.getElementById(appContainerId));
 }
 exports.initReactAppInContainer = initReactAppInContainer;
 
 
 /***/ }),
-/* 57 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30271,12 +31763,12 @@ if (true) {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(46);
-var emptyObject = __webpack_require__(48);
-var invariant = __webpack_require__(16);
-var warning = __webpack_require__(17);
-var emptyFunction = __webpack_require__(14);
-var checkPropTypes = __webpack_require__(47);
+var _assign = __webpack_require__(21);
+var emptyObject = __webpack_require__(64);
+var invariant = __webpack_require__(7);
+var warning = __webpack_require__(8);
+var emptyFunction = __webpack_require__(12);
+var checkPropTypes = __webpack_require__(55);
 
 // TODO: this is special because it gets imported during build.
 
@@ -31614,7 +33106,7 @@ module.exports = react;
 
 
 /***/ }),
-/* 58 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31654,12 +33146,12 @@ if (false) {
   checkDCE();
   module.exports = require('./cjs/react-dom.production.min.js');
 } else {
-  module.exports = __webpack_require__(59);
+  module.exports = __webpack_require__(82);
 }
 
 
 /***/ }),
-/* 59 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31680,21 +33172,21 @@ if (true) {
   (function() {
 'use strict';
 
-var React = __webpack_require__(1);
-var invariant = __webpack_require__(16);
-var warning = __webpack_require__(17);
-var ExecutionEnvironment = __webpack_require__(60);
-var _assign = __webpack_require__(46);
-var emptyFunction = __webpack_require__(14);
-var EventListener = __webpack_require__(61);
-var getActiveElement = __webpack_require__(62);
-var shallowEqual = __webpack_require__(63);
-var containsNode = __webpack_require__(64);
-var focusNode = __webpack_require__(67);
-var emptyObject = __webpack_require__(48);
-var checkPropTypes = __webpack_require__(47);
-var hyphenateStyleName = __webpack_require__(68);
-var camelizeStyleName = __webpack_require__(70);
+var React = __webpack_require__(0);
+var invariant = __webpack_require__(7);
+var warning = __webpack_require__(8);
+var ExecutionEnvironment = __webpack_require__(83);
+var _assign = __webpack_require__(21);
+var emptyFunction = __webpack_require__(12);
+var EventListener = __webpack_require__(84);
+var getActiveElement = __webpack_require__(85);
+var shallowEqual = __webpack_require__(86);
+var containsNode = __webpack_require__(87);
+var focusNode = __webpack_require__(90);
+var emptyObject = __webpack_require__(64);
+var checkPropTypes = __webpack_require__(55);
+var hyphenateStyleName = __webpack_require__(91);
+var camelizeStyleName = __webpack_require__(93);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -47060,7 +48552,7 @@ module.exports = reactDom;
 
 
 /***/ }),
-/* 60 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47099,7 +48591,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 61 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47114,7 +48606,7 @@ module.exports = ExecutionEnvironment;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(14);
+var emptyFunction = __webpack_require__(12);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -47179,7 +48671,7 @@ var EventListener = {
 module.exports = EventListener;
 
 /***/ }),
-/* 62 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47221,7 +48713,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 63 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47292,7 +48784,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 64 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47307,7 +48799,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(65);
+var isTextNode = __webpack_require__(88);
 
 /*eslint-disable no-bitwise */
 
@@ -47335,7 +48827,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 65 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47350,7 +48842,7 @@ module.exports = containsNode;
  * @typechecks
  */
 
-var isNode = __webpack_require__(66);
+var isNode = __webpack_require__(89);
 
 /**
  * @param {*} object The object to check.
@@ -47363,7 +48855,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 66 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47391,7 +48883,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 67 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47421,7 +48913,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 68 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47436,7 +48928,7 @@ module.exports = focusNode;
 
 
 
-var hyphenate = __webpack_require__(69);
+var hyphenate = __webpack_require__(92);
 
 var msPattern = /^ms-/;
 
@@ -47463,7 +48955,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 69 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47499,7 +48991,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 70 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47514,7 +49006,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(71);
+var camelize = __webpack_require__(94);
 
 var msPattern = /^-ms-/;
 
@@ -47542,7 +49034,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 71 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47577,7 +49069,4333 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 72 */
+/* 95 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__ = __webpack_require__(96);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(102);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(71);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(104);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(107);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NavLink", function() { return __WEBPACK_IMPORTED_MODULE_4__NavLink__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Prompt__ = __webpack_require__(110);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(112);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(72);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(58);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__StaticRouter__ = __webpack_require__(118);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return __WEBPACK_IMPORTED_MODULE_9__StaticRouter__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Switch__ = __webpack_require__(120);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return __WEBPACK_IMPORTED_MODULE_10__Switch__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__matchPath__ = __webpack_require__(122);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return __WEBPACK_IMPORTED_MODULE_11__matchPath__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__withRouter__ = __webpack_require__(123);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return __WEBPACK_IMPORTED_MODULE_12__withRouter__["a"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createBrowserHistory__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createBrowserHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_createBrowserHistory__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(58);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+/**
+ * The public API for a <Router> that uses HTML5 history.
+ */
+
+var BrowserRouter = function (_React$Component) {
+  _inherits(BrowserRouter, _React$Component);
+
+  function BrowserRouter() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, BrowserRouter);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.history = __WEBPACK_IMPORTED_MODULE_3_history_createBrowserHistory___default()(_this.props), _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  BrowserRouter.prototype.componentWillMount = function componentWillMount() {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!this.props.history, '<BrowserRouter> ignores the history prop. To use a custom history, ' + 'use `import { Router }` instead of `import { BrowserRouter as Router }`.');
+  };
+
+  BrowserRouter.prototype.render = function render() {
+    return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Router__["a" /* default */], { history: this.history, children: this.props.children });
+  };
+
+  return BrowserRouter;
+}(__WEBPACK_IMPORTED_MODULE_1_react___default.a.Component);
+
+BrowserRouter.propTypes = {
+  basename: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+  forceRefresh: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.bool,
+  getUserConfirmation: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
+  keyLength: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  children: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.node
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (BrowserRouter);
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var emptyFunction = __webpack_require__(12);
+var invariant = __webpack_require__(7);
+var warning = __webpack_require__(8);
+var assign = __webpack_require__(21);
+
+var ReactPropTypesSecret = __webpack_require__(66);
+var checkPropTypes = __webpack_require__(98);
+
+module.exports = function(isValidElement, throwOnDirectAccess) {
+  /* global Symbol */
+  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
+
+  /**
+   * Returns the iterator method function contained on the iterable object.
+   *
+   * Be sure to invoke the function with the iterable as context:
+   *
+   *     var iteratorFn = getIteratorFn(myIterable);
+   *     if (iteratorFn) {
+   *       var iterator = iteratorFn.call(myIterable);
+   *       ...
+   *     }
+   *
+   * @param {?object} maybeIterable
+   * @return {?function}
+   */
+  function getIteratorFn(maybeIterable) {
+    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
+    if (typeof iteratorFn === 'function') {
+      return iteratorFn;
+    }
+  }
+
+  /**
+   * Collection of methods that allow declaration and validation of props that are
+   * supplied to React components. Example usage:
+   *
+   *   var Props = require('ReactPropTypes');
+   *   var MyArticle = React.createClass({
+   *     propTypes: {
+   *       // An optional string prop named "description".
+   *       description: Props.string,
+   *
+   *       // A required enum prop named "category".
+   *       category: Props.oneOf(['News','Photos']).isRequired,
+   *
+   *       // A prop named "dialog" that requires an instance of Dialog.
+   *       dialog: Props.instanceOf(Dialog).isRequired
+   *     },
+   *     render: function() { ... }
+   *   });
+   *
+   * A more formal specification of how these methods are used:
+   *
+   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
+   *   decl := ReactPropTypes.{type}(.isRequired)?
+   *
+   * Each and every declaration produces a function with the same signature. This
+   * allows the creation of custom validation functions. For example:
+   *
+   *  var MyLink = React.createClass({
+   *    propTypes: {
+   *      // An optional string or URI prop named "href".
+   *      href: function(props, propName, componentName) {
+   *        var propValue = props[propName];
+   *        if (propValue != null && typeof propValue !== 'string' &&
+   *            !(propValue instanceof URI)) {
+   *          return new Error(
+   *            'Expected a string or an URI for ' + propName + ' in ' +
+   *            componentName
+   *          );
+   *        }
+   *      }
+   *    },
+   *    render: function() {...}
+   *  });
+   *
+   * @internal
+   */
+
+  var ANONYMOUS = '<<anonymous>>';
+
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
+  var ReactPropTypes = {
+    array: createPrimitiveTypeChecker('array'),
+    bool: createPrimitiveTypeChecker('boolean'),
+    func: createPrimitiveTypeChecker('function'),
+    number: createPrimitiveTypeChecker('number'),
+    object: createPrimitiveTypeChecker('object'),
+    string: createPrimitiveTypeChecker('string'),
+    symbol: createPrimitiveTypeChecker('symbol'),
+
+    any: createAnyTypeChecker(),
+    arrayOf: createArrayOfTypeChecker,
+    element: createElementTypeChecker(),
+    instanceOf: createInstanceTypeChecker,
+    node: createNodeChecker(),
+    objectOf: createObjectOfTypeChecker,
+    oneOf: createEnumTypeChecker,
+    oneOfType: createUnionTypeChecker,
+    shape: createShapeTypeChecker,
+    exact: createStrictShapeTypeChecker,
+  };
+
+  /**
+   * inlined Object.is polyfill to avoid requiring consumers ship their own
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+   */
+  /*eslint-disable no-self-compare*/
+  function is(x, y) {
+    // SameValue algorithm
+    if (x === y) {
+      // Steps 1-5, 7-10
+      // Steps 6.b-6.e: +0 != -0
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      // Step 6.a: NaN == NaN
+      return x !== x && y !== y;
+    }
+  }
+  /*eslint-enable no-self-compare*/
+
+  /**
+   * We use an Error-like object for backward compatibility as people may call
+   * PropTypes directly and inspect their output. However, we don't use real
+   * Errors anymore. We don't inspect their stack anyway, and creating them
+   * is prohibitively expensive if they are created too often, such as what
+   * happens in oneOfType() for any type before the one that matched.
+   */
+  function PropTypeError(message) {
+    this.message = message;
+    this.stack = '';
+  }
+  // Make `instanceof Error` still work for returned errors.
+  PropTypeError.prototype = Error.prototype;
+
+  function createChainableTypeChecker(validate) {
+    if (true) {
+      var manualPropTypeCallCache = {};
+      var manualPropTypeWarningCount = 0;
+    }
+    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+      componentName = componentName || ANONYMOUS;
+      propFullName = propFullName || propName;
+
+      if (secret !== ReactPropTypesSecret) {
+        if (throwOnDirectAccess) {
+          // New behavior only for users of `prop-types` package
+          invariant(
+            false,
+            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+            'Use `PropTypes.checkPropTypes()` to call them. ' +
+            'Read more at http://fb.me/use-check-prop-types'
+          );
+        } else if ("staging" !== 'production' && typeof console !== 'undefined') {
+          // Old behavior for people using React.PropTypes
+          var cacheKey = componentName + ':' + propName;
+          if (
+            !manualPropTypeCallCache[cacheKey] &&
+            // Avoid spamming the console because they are often not actionable except for lib authors
+            manualPropTypeWarningCount < 3
+          ) {
+            warning(
+              false,
+              'You are manually calling a React.PropTypes validation ' +
+              'function for the `%s` prop on `%s`. This is deprecated ' +
+              'and will throw in the standalone `prop-types` package. ' +
+              'You may be seeing this warning due to a third-party PropTypes ' +
+              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.',
+              propFullName,
+              componentName
+            );
+            manualPropTypeCallCache[cacheKey] = true;
+            manualPropTypeWarningCount++;
+          }
+        }
+      }
+      if (props[propName] == null) {
+        if (isRequired) {
+          if (props[propName] === null) {
+            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
+          }
+          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
+        }
+        return null;
+      } else {
+        return validate(props, propName, componentName, location, propFullName);
+      }
+    }
+
+    var chainedCheckType = checkType.bind(null, false);
+    chainedCheckType.isRequired = checkType.bind(null, true);
+
+    return chainedCheckType;
+  }
+
+  function createPrimitiveTypeChecker(expectedType) {
+    function validate(props, propName, componentName, location, propFullName, secret) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== expectedType) {
+        // `propValue` being instance of, say, date/regexp, pass the 'object'
+        // check, but we can offer a more precise error message here rather than
+        // 'of type `object`'.
+        var preciseType = getPreciseType(propValue);
+
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createAnyTypeChecker() {
+    return createChainableTypeChecker(emptyFunction.thatReturnsNull);
+  }
+
+  function createArrayOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
+      }
+      var propValue = props[propName];
+      if (!Array.isArray(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
+      }
+      for (var i = 0; i < propValue.length; i++) {
+        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
+        if (error instanceof Error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createElementTypeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      if (!isValidElement(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createInstanceTypeChecker(expectedClass) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!(props[propName] instanceof expectedClass)) {
+        var expectedClassName = expectedClass.name || ANONYMOUS;
+        var actualClassName = getClassName(props[propName]);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createEnumTypeChecker(expectedValues) {
+    if (!Array.isArray(expectedValues)) {
+       true ? warning(false, 'Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
+      return emptyFunction.thatReturnsNull;
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      for (var i = 0; i < expectedValues.length; i++) {
+        if (is(propValue, expectedValues[i])) {
+          return null;
+        }
+      }
+
+      var valuesString = JSON.stringify(expectedValues);
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createObjectOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
+      }
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
+      }
+      for (var key in propValue) {
+        if (propValue.hasOwnProperty(key)) {
+          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+          if (error instanceof Error) {
+            return error;
+          }
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createUnionTypeChecker(arrayOfTypeCheckers) {
+    if (!Array.isArray(arrayOfTypeCheckers)) {
+       true ? warning(false, 'Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
+      return emptyFunction.thatReturnsNull;
+    }
+
+    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+      var checker = arrayOfTypeCheckers[i];
+      if (typeof checker !== 'function') {
+        warning(
+          false,
+          'Invalid argument supplied to oneOfType. Expected an array of check functions, but ' +
+          'received %s at index %s.',
+          getPostfixForTypeWarning(checker),
+          i
+        );
+        return emptyFunction.thatReturnsNull;
+      }
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+        var checker = arrayOfTypeCheckers[i];
+        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
+          return null;
+        }
+      }
+
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createNodeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!isNode(props[propName])) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      for (var key in shapeTypes) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          continue;
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createStrictShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      // We need to check all keys in case some are required but missing from
+      // props.
+      var allKeys = assign({}, props[propName], shapeTypes);
+      for (var key in allKeys) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          return new PropTypeError(
+            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`.' +
+            '\nBad object: ' + JSON.stringify(props[propName], null, '  ') +
+            '\nValid keys: ' +  JSON.stringify(Object.keys(shapeTypes), null, '  ')
+          );
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+
+    return createChainableTypeChecker(validate);
+  }
+
+  function isNode(propValue) {
+    switch (typeof propValue) {
+      case 'number':
+      case 'string':
+      case 'undefined':
+        return true;
+      case 'boolean':
+        return !propValue;
+      case 'object':
+        if (Array.isArray(propValue)) {
+          return propValue.every(isNode);
+        }
+        if (propValue === null || isValidElement(propValue)) {
+          return true;
+        }
+
+        var iteratorFn = getIteratorFn(propValue);
+        if (iteratorFn) {
+          var iterator = iteratorFn.call(propValue);
+          var step;
+          if (iteratorFn !== propValue.entries) {
+            while (!(step = iterator.next()).done) {
+              if (!isNode(step.value)) {
+                return false;
+              }
+            }
+          } else {
+            // Iterator will provide entry [k,v] tuples rather than values.
+            while (!(step = iterator.next()).done) {
+              var entry = step.value;
+              if (entry) {
+                if (!isNode(entry[1])) {
+                  return false;
+                }
+              }
+            }
+          }
+        } else {
+          return false;
+        }
+
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  function isSymbol(propType, propValue) {
+    // Native Symbol.
+    if (propType === 'symbol') {
+      return true;
+    }
+
+    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
+    if (propValue['@@toStringTag'] === 'Symbol') {
+      return true;
+    }
+
+    // Fallback for non-spec compliant Symbols which are polyfilled.
+    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Equivalent of `typeof` but with special handling for array and regexp.
+  function getPropType(propValue) {
+    var propType = typeof propValue;
+    if (Array.isArray(propValue)) {
+      return 'array';
+    }
+    if (propValue instanceof RegExp) {
+      // Old webkits (at least until Android 4.0) return 'function' rather than
+      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
+      // passes PropTypes.object.
+      return 'object';
+    }
+    if (isSymbol(propType, propValue)) {
+      return 'symbol';
+    }
+    return propType;
+  }
+
+  // This handles more types than `getPropType`. Only used for error messages.
+  // See `createPrimitiveTypeChecker`.
+  function getPreciseType(propValue) {
+    if (typeof propValue === 'undefined' || propValue === null) {
+      return '' + propValue;
+    }
+    var propType = getPropType(propValue);
+    if (propType === 'object') {
+      if (propValue instanceof Date) {
+        return 'date';
+      } else if (propValue instanceof RegExp) {
+        return 'regexp';
+      }
+    }
+    return propType;
+  }
+
+  // Returns a string that is postfixed to a warning about an invalid type.
+  // For example, "undefined" or "of type array"
+  function getPostfixForTypeWarning(value) {
+    var type = getPreciseType(value);
+    switch (type) {
+      case 'array':
+      case 'object':
+        return 'an ' + type;
+      case 'boolean':
+      case 'date':
+      case 'regexp':
+        return 'a ' + type;
+      default:
+        return type;
+    }
+  }
+
+  // Returns class name of the object, if any.
+  function getClassName(propValue) {
+    if (!propValue.constructor || !propValue.constructor.name) {
+      return ANONYMOUS;
+    }
+    return propValue.constructor.name;
+  }
+
+  ReactPropTypes.checkPropTypes = checkPropTypes;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+if (true) {
+  var invariant = __webpack_require__(7);
+  var warning = __webpack_require__(8);
+  var ReactPropTypesSecret = __webpack_require__(66);
+  var loggedTypeFailures = {};
+}
+
+/**
+ * Assert that the values match with the type specs.
+ * Error messages are memorized and will only be shown once.
+ *
+ * @param {object} typeSpecs Map of name to a ReactPropType
+ * @param {object} values Runtime values that need to be type-checked
+ * @param {string} location e.g. "prop", "context", "child context"
+ * @param {string} componentName Name of the component for error messages.
+ * @param {?Function} getStack Returns the component stack.
+ * @private
+ */
+function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+  if (true) {
+    for (var typeSpecName in typeSpecs) {
+      if (typeSpecs.hasOwnProperty(typeSpecName)) {
+        var error;
+        // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+        try {
+          // This is intentionally an invariant that gets caught. It's the same
+          // behavior as without this statement except with a better message.
+          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
+          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+        } catch (ex) {
+          error = ex;
+        }
+        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
+        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
+          // Only monitor this failure once because there tends to be a lot of the
+          // same error.
+          loggedTypeFailures[error.message] = true;
+
+          var stack = getStack ? getStack() : '';
+
+          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+        }
+      }
+    }
+  }
+}
+
+module.exports = checkPropTypes;
+
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _warning = __webpack_require__(2);
+
+var _warning2 = _interopRequireDefault(_warning);
+
+var _invariant = __webpack_require__(27);
+
+var _invariant2 = _interopRequireDefault(_invariant);
+
+var _LocationUtils = __webpack_require__(56);
+
+var _PathUtils = __webpack_require__(22);
+
+var _createTransitionManager = __webpack_require__(57);
+
+var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
+
+var _DOMUtils = __webpack_require__(69);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PopStateEvent = 'popstate';
+var HashChangeEvent = 'hashchange';
+
+var getHistoryState = function getHistoryState() {
+  try {
+    return window.history.state || {};
+  } catch (e) {
+    // IE 11 sometimes throws when accessing window.history.state
+    // See https://github.com/ReactTraining/history/pull/289
+    return {};
+  }
+};
+
+/**
+ * Creates a history object that uses the HTML5 history API including
+ * pushState, replaceState, and the popstate event.
+ */
+var createBrowserHistory = function createBrowserHistory() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  (0, _invariant2.default)(_DOMUtils.canUseDOM, 'Browser history needs a DOM');
+
+  var globalHistory = window.history;
+  var canUseHistory = (0, _DOMUtils.supportsHistory)();
+  var needsHashChangeListener = !(0, _DOMUtils.supportsPopStateOnHashChange)();
+
+  var _props$forceRefresh = props.forceRefresh,
+      forceRefresh = _props$forceRefresh === undefined ? false : _props$forceRefresh,
+      _props$getUserConfirm = props.getUserConfirmation,
+      getUserConfirmation = _props$getUserConfirm === undefined ? _DOMUtils.getConfirmation : _props$getUserConfirm,
+      _props$keyLength = props.keyLength,
+      keyLength = _props$keyLength === undefined ? 6 : _props$keyLength;
+
+  var basename = props.basename ? (0, _PathUtils.stripTrailingSlash)((0, _PathUtils.addLeadingSlash)(props.basename)) : '';
+
+  var getDOMLocation = function getDOMLocation(historyState) {
+    var _ref = historyState || {},
+        key = _ref.key,
+        state = _ref.state;
+
+    var _window$location = window.location,
+        pathname = _window$location.pathname,
+        search = _window$location.search,
+        hash = _window$location.hash;
+
+
+    var path = pathname + search + hash;
+
+    (0, _warning2.default)(!basename || (0, _PathUtils.hasBasename)(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".');
+
+    if (basename) path = (0, _PathUtils.stripBasename)(path, basename);
+
+    return (0, _LocationUtils.createLocation)(path, state, key);
+  };
+
+  var createKey = function createKey() {
+    return Math.random().toString(36).substr(2, keyLength);
+  };
+
+  var transitionManager = (0, _createTransitionManager2.default)();
+
+  var setState = function setState(nextState) {
+    _extends(history, nextState);
+
+    history.length = globalHistory.length;
+
+    transitionManager.notifyListeners(history.location, history.action);
+  };
+
+  var handlePopState = function handlePopState(event) {
+    // Ignore extraneous popstate events in WebKit.
+    if ((0, _DOMUtils.isExtraneousPopstateEvent)(event)) return;
+
+    handlePop(getDOMLocation(event.state));
+  };
+
+  var handleHashChange = function handleHashChange() {
+    handlePop(getDOMLocation(getHistoryState()));
+  };
+
+  var forceNextPop = false;
+
+  var handlePop = function handlePop(location) {
+    if (forceNextPop) {
+      forceNextPop = false;
+      setState();
+    } else {
+      var action = 'POP';
+
+      transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+        if (ok) {
+          setState({ action: action, location: location });
+        } else {
+          revertPop(location);
+        }
+      });
+    }
+  };
+
+  var revertPop = function revertPop(fromLocation) {
+    var toLocation = history.location;
+
+    // TODO: We could probably make this more reliable by
+    // keeping a list of keys we've seen in sessionStorage.
+    // Instead, we just default to 0 for keys we don't know.
+
+    var toIndex = allKeys.indexOf(toLocation.key);
+
+    if (toIndex === -1) toIndex = 0;
+
+    var fromIndex = allKeys.indexOf(fromLocation.key);
+
+    if (fromIndex === -1) fromIndex = 0;
+
+    var delta = toIndex - fromIndex;
+
+    if (delta) {
+      forceNextPop = true;
+      go(delta);
+    }
+  };
+
+  var initialLocation = getDOMLocation(getHistoryState());
+  var allKeys = [initialLocation.key];
+
+  // Public interface
+
+  var createHref = function createHref(location) {
+    return basename + (0, _PathUtils.createPath)(location);
+  };
+
+  var push = function push(path, state) {
+    (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored');
+
+    var action = 'PUSH';
+    var location = (0, _LocationUtils.createLocation)(path, state, createKey(), history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var href = createHref(location);
+      var key = location.key,
+          state = location.state;
+
+
+      if (canUseHistory) {
+        globalHistory.pushState({ key: key, state: state }, null, href);
+
+        if (forceRefresh) {
+          window.location.href = href;
+        } else {
+          var prevIndex = allKeys.indexOf(history.location.key);
+          var nextKeys = allKeys.slice(0, prevIndex === -1 ? 0 : prevIndex + 1);
+
+          nextKeys.push(location.key);
+          allKeys = nextKeys;
+
+          setState({ action: action, location: location });
+        }
+      } else {
+        (0, _warning2.default)(state === undefined, 'Browser history cannot push state in browsers that do not support HTML5 history');
+
+        window.location.href = href;
+      }
+    });
+  };
+
+  var replace = function replace(path, state) {
+    (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored');
+
+    var action = 'REPLACE';
+    var location = (0, _LocationUtils.createLocation)(path, state, createKey(), history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var href = createHref(location);
+      var key = location.key,
+          state = location.state;
+
+
+      if (canUseHistory) {
+        globalHistory.replaceState({ key: key, state: state }, null, href);
+
+        if (forceRefresh) {
+          window.location.replace(href);
+        } else {
+          var prevIndex = allKeys.indexOf(history.location.key);
+
+          if (prevIndex !== -1) allKeys[prevIndex] = location.key;
+
+          setState({ action: action, location: location });
+        }
+      } else {
+        (0, _warning2.default)(state === undefined, 'Browser history cannot replace state in browsers that do not support HTML5 history');
+
+        window.location.replace(href);
+      }
+    });
+  };
+
+  var go = function go(n) {
+    globalHistory.go(n);
+  };
+
+  var goBack = function goBack() {
+    return go(-1);
+  };
+
+  var goForward = function goForward() {
+    return go(1);
+  };
+
+  var listenerCount = 0;
+
+  var checkDOMListeners = function checkDOMListeners(delta) {
+    listenerCount += delta;
+
+    if (listenerCount === 1) {
+      (0, _DOMUtils.addEventListener)(window, PopStateEvent, handlePopState);
+
+      if (needsHashChangeListener) (0, _DOMUtils.addEventListener)(window, HashChangeEvent, handleHashChange);
+    } else if (listenerCount === 0) {
+      (0, _DOMUtils.removeEventListener)(window, PopStateEvent, handlePopState);
+
+      if (needsHashChangeListener) (0, _DOMUtils.removeEventListener)(window, HashChangeEvent, handleHashChange);
+    }
+  };
+
+  var isBlocked = false;
+
+  var block = function block() {
+    var prompt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var unblock = transitionManager.setPrompt(prompt);
+
+    if (!isBlocked) {
+      checkDOMListeners(1);
+      isBlocked = true;
+    }
+
+    return function () {
+      if (isBlocked) {
+        isBlocked = false;
+        checkDOMListeners(-1);
+      }
+
+      return unblock();
+    };
+  };
+
+  var listen = function listen(listener) {
+    var unlisten = transitionManager.appendListener(listener);
+    checkDOMListeners(1);
+
+    return function () {
+      checkDOMListeners(-1);
+      unlisten();
+    };
+  };
+
+  var history = {
+    length: globalHistory.length,
+    action: 'POP',
+    location: initialLocation,
+    createHref: createHref,
+    push: push,
+    replace: replace,
+    go: go,
+    goBack: goBack,
+    goForward: goForward,
+    block: block,
+    listen: listen
+  };
+
+  return history;
+};
+
+exports.default = createBrowserHistory;
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var emptyFunction = __webpack_require__(12);
+var invariant = __webpack_require__(7);
+var warning = __webpack_require__(8);
+var assign = __webpack_require__(21);
+
+var ReactPropTypesSecret = __webpack_require__(70);
+var checkPropTypes = __webpack_require__(101);
+
+module.exports = function(isValidElement, throwOnDirectAccess) {
+  /* global Symbol */
+  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
+  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
+
+  /**
+   * Returns the iterator method function contained on the iterable object.
+   *
+   * Be sure to invoke the function with the iterable as context:
+   *
+   *     var iteratorFn = getIteratorFn(myIterable);
+   *     if (iteratorFn) {
+   *       var iterator = iteratorFn.call(myIterable);
+   *       ...
+   *     }
+   *
+   * @param {?object} maybeIterable
+   * @return {?function}
+   */
+  function getIteratorFn(maybeIterable) {
+    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
+    if (typeof iteratorFn === 'function') {
+      return iteratorFn;
+    }
+  }
+
+  /**
+   * Collection of methods that allow declaration and validation of props that are
+   * supplied to React components. Example usage:
+   *
+   *   var Props = require('ReactPropTypes');
+   *   var MyArticle = React.createClass({
+   *     propTypes: {
+   *       // An optional string prop named "description".
+   *       description: Props.string,
+   *
+   *       // A required enum prop named "category".
+   *       category: Props.oneOf(['News','Photos']).isRequired,
+   *
+   *       // A prop named "dialog" that requires an instance of Dialog.
+   *       dialog: Props.instanceOf(Dialog).isRequired
+   *     },
+   *     render: function() { ... }
+   *   });
+   *
+   * A more formal specification of how these methods are used:
+   *
+   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
+   *   decl := ReactPropTypes.{type}(.isRequired)?
+   *
+   * Each and every declaration produces a function with the same signature. This
+   * allows the creation of custom validation functions. For example:
+   *
+   *  var MyLink = React.createClass({
+   *    propTypes: {
+   *      // An optional string or URI prop named "href".
+   *      href: function(props, propName, componentName) {
+   *        var propValue = props[propName];
+   *        if (propValue != null && typeof propValue !== 'string' &&
+   *            !(propValue instanceof URI)) {
+   *          return new Error(
+   *            'Expected a string or an URI for ' + propName + ' in ' +
+   *            componentName
+   *          );
+   *        }
+   *      }
+   *    },
+   *    render: function() {...}
+   *  });
+   *
+   * @internal
+   */
+
+  var ANONYMOUS = '<<anonymous>>';
+
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
+  var ReactPropTypes = {
+    array: createPrimitiveTypeChecker('array'),
+    bool: createPrimitiveTypeChecker('boolean'),
+    func: createPrimitiveTypeChecker('function'),
+    number: createPrimitiveTypeChecker('number'),
+    object: createPrimitiveTypeChecker('object'),
+    string: createPrimitiveTypeChecker('string'),
+    symbol: createPrimitiveTypeChecker('symbol'),
+
+    any: createAnyTypeChecker(),
+    arrayOf: createArrayOfTypeChecker,
+    element: createElementTypeChecker(),
+    instanceOf: createInstanceTypeChecker,
+    node: createNodeChecker(),
+    objectOf: createObjectOfTypeChecker,
+    oneOf: createEnumTypeChecker,
+    oneOfType: createUnionTypeChecker,
+    shape: createShapeTypeChecker,
+    exact: createStrictShapeTypeChecker,
+  };
+
+  /**
+   * inlined Object.is polyfill to avoid requiring consumers ship their own
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+   */
+  /*eslint-disable no-self-compare*/
+  function is(x, y) {
+    // SameValue algorithm
+    if (x === y) {
+      // Steps 1-5, 7-10
+      // Steps 6.b-6.e: +0 != -0
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      // Step 6.a: NaN == NaN
+      return x !== x && y !== y;
+    }
+  }
+  /*eslint-enable no-self-compare*/
+
+  /**
+   * We use an Error-like object for backward compatibility as people may call
+   * PropTypes directly and inspect their output. However, we don't use real
+   * Errors anymore. We don't inspect their stack anyway, and creating them
+   * is prohibitively expensive if they are created too often, such as what
+   * happens in oneOfType() for any type before the one that matched.
+   */
+  function PropTypeError(message) {
+    this.message = message;
+    this.stack = '';
+  }
+  // Make `instanceof Error` still work for returned errors.
+  PropTypeError.prototype = Error.prototype;
+
+  function createChainableTypeChecker(validate) {
+    if (true) {
+      var manualPropTypeCallCache = {};
+      var manualPropTypeWarningCount = 0;
+    }
+    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+      componentName = componentName || ANONYMOUS;
+      propFullName = propFullName || propName;
+
+      if (secret !== ReactPropTypesSecret) {
+        if (throwOnDirectAccess) {
+          // New behavior only for users of `prop-types` package
+          invariant(
+            false,
+            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+            'Use `PropTypes.checkPropTypes()` to call them. ' +
+            'Read more at http://fb.me/use-check-prop-types'
+          );
+        } else if ("staging" !== 'production' && typeof console !== 'undefined') {
+          // Old behavior for people using React.PropTypes
+          var cacheKey = componentName + ':' + propName;
+          if (
+            !manualPropTypeCallCache[cacheKey] &&
+            // Avoid spamming the console because they are often not actionable except for lib authors
+            manualPropTypeWarningCount < 3
+          ) {
+            warning(
+              false,
+              'You are manually calling a React.PropTypes validation ' +
+              'function for the `%s` prop on `%s`. This is deprecated ' +
+              'and will throw in the standalone `prop-types` package. ' +
+              'You may be seeing this warning due to a third-party PropTypes ' +
+              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.',
+              propFullName,
+              componentName
+            );
+            manualPropTypeCallCache[cacheKey] = true;
+            manualPropTypeWarningCount++;
+          }
+        }
+      }
+      if (props[propName] == null) {
+        if (isRequired) {
+          if (props[propName] === null) {
+            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
+          }
+          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
+        }
+        return null;
+      } else {
+        return validate(props, propName, componentName, location, propFullName);
+      }
+    }
+
+    var chainedCheckType = checkType.bind(null, false);
+    chainedCheckType.isRequired = checkType.bind(null, true);
+
+    return chainedCheckType;
+  }
+
+  function createPrimitiveTypeChecker(expectedType) {
+    function validate(props, propName, componentName, location, propFullName, secret) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== expectedType) {
+        // `propValue` being instance of, say, date/regexp, pass the 'object'
+        // check, but we can offer a more precise error message here rather than
+        // 'of type `object`'.
+        var preciseType = getPreciseType(propValue);
+
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createAnyTypeChecker() {
+    return createChainableTypeChecker(emptyFunction.thatReturnsNull);
+  }
+
+  function createArrayOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
+      }
+      var propValue = props[propName];
+      if (!Array.isArray(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
+      }
+      for (var i = 0; i < propValue.length; i++) {
+        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
+        if (error instanceof Error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createElementTypeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      if (!isValidElement(propValue)) {
+        var propType = getPropType(propValue);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createInstanceTypeChecker(expectedClass) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!(props[propName] instanceof expectedClass)) {
+        var expectedClassName = expectedClass.name || ANONYMOUS;
+        var actualClassName = getClassName(props[propName]);
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createEnumTypeChecker(expectedValues) {
+    if (!Array.isArray(expectedValues)) {
+       true ? warning(false, 'Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
+      return emptyFunction.thatReturnsNull;
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      for (var i = 0; i < expectedValues.length; i++) {
+        if (is(propValue, expectedValues[i])) {
+          return null;
+        }
+      }
+
+      var valuesString = JSON.stringify(expectedValues);
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createObjectOfTypeChecker(typeChecker) {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (typeof typeChecker !== 'function') {
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
+      }
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
+      }
+      for (var key in propValue) {
+        if (propValue.hasOwnProperty(key)) {
+          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+          if (error instanceof Error) {
+            return error;
+          }
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createUnionTypeChecker(arrayOfTypeCheckers) {
+    if (!Array.isArray(arrayOfTypeCheckers)) {
+       true ? warning(false, 'Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
+      return emptyFunction.thatReturnsNull;
+    }
+
+    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+      var checker = arrayOfTypeCheckers[i];
+      if (typeof checker !== 'function') {
+        warning(
+          false,
+          'Invalid argument supplied to oneOfType. Expected an array of check functions, but ' +
+          'received %s at index %s.',
+          getPostfixForTypeWarning(checker),
+          i
+        );
+        return emptyFunction.thatReturnsNull;
+      }
+    }
+
+    function validate(props, propName, componentName, location, propFullName) {
+      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
+        var checker = arrayOfTypeCheckers[i];
+        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
+          return null;
+        }
+      }
+
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createNodeChecker() {
+    function validate(props, propName, componentName, location, propFullName) {
+      if (!isNode(props[propName])) {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      for (var key in shapeTypes) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          continue;
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+    return createChainableTypeChecker(validate);
+  }
+
+  function createStrictShapeTypeChecker(shapeTypes) {
+    function validate(props, propName, componentName, location, propFullName) {
+      var propValue = props[propName];
+      var propType = getPropType(propValue);
+      if (propType !== 'object') {
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
+      }
+      // We need to check all keys in case some are required but missing from
+      // props.
+      var allKeys = assign({}, props[propName], shapeTypes);
+      for (var key in allKeys) {
+        var checker = shapeTypes[key];
+        if (!checker) {
+          return new PropTypeError(
+            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`.' +
+            '\nBad object: ' + JSON.stringify(props[propName], null, '  ') +
+            '\nValid keys: ' +  JSON.stringify(Object.keys(shapeTypes), null, '  ')
+          );
+        }
+        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
+        if (error) {
+          return error;
+        }
+      }
+      return null;
+    }
+
+    return createChainableTypeChecker(validate);
+  }
+
+  function isNode(propValue) {
+    switch (typeof propValue) {
+      case 'number':
+      case 'string':
+      case 'undefined':
+        return true;
+      case 'boolean':
+        return !propValue;
+      case 'object':
+        if (Array.isArray(propValue)) {
+          return propValue.every(isNode);
+        }
+        if (propValue === null || isValidElement(propValue)) {
+          return true;
+        }
+
+        var iteratorFn = getIteratorFn(propValue);
+        if (iteratorFn) {
+          var iterator = iteratorFn.call(propValue);
+          var step;
+          if (iteratorFn !== propValue.entries) {
+            while (!(step = iterator.next()).done) {
+              if (!isNode(step.value)) {
+                return false;
+              }
+            }
+          } else {
+            // Iterator will provide entry [k,v] tuples rather than values.
+            while (!(step = iterator.next()).done) {
+              var entry = step.value;
+              if (entry) {
+                if (!isNode(entry[1])) {
+                  return false;
+                }
+              }
+            }
+          }
+        } else {
+          return false;
+        }
+
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  function isSymbol(propType, propValue) {
+    // Native Symbol.
+    if (propType === 'symbol') {
+      return true;
+    }
+
+    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
+    if (propValue['@@toStringTag'] === 'Symbol') {
+      return true;
+    }
+
+    // Fallback for non-spec compliant Symbols which are polyfilled.
+    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
+      return true;
+    }
+
+    return false;
+  }
+
+  // Equivalent of `typeof` but with special handling for array and regexp.
+  function getPropType(propValue) {
+    var propType = typeof propValue;
+    if (Array.isArray(propValue)) {
+      return 'array';
+    }
+    if (propValue instanceof RegExp) {
+      // Old webkits (at least until Android 4.0) return 'function' rather than
+      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
+      // passes PropTypes.object.
+      return 'object';
+    }
+    if (isSymbol(propType, propValue)) {
+      return 'symbol';
+    }
+    return propType;
+  }
+
+  // This handles more types than `getPropType`. Only used for error messages.
+  // See `createPrimitiveTypeChecker`.
+  function getPreciseType(propValue) {
+    if (typeof propValue === 'undefined' || propValue === null) {
+      return '' + propValue;
+    }
+    var propType = getPropType(propValue);
+    if (propType === 'object') {
+      if (propValue instanceof Date) {
+        return 'date';
+      } else if (propValue instanceof RegExp) {
+        return 'regexp';
+      }
+    }
+    return propType;
+  }
+
+  // Returns a string that is postfixed to a warning about an invalid type.
+  // For example, "undefined" or "of type array"
+  function getPostfixForTypeWarning(value) {
+    var type = getPreciseType(value);
+    switch (type) {
+      case 'array':
+      case 'object':
+        return 'an ' + type;
+      case 'boolean':
+      case 'date':
+      case 'regexp':
+        return 'a ' + type;
+      default:
+        return type;
+    }
+  }
+
+  // Returns class name of the object, if any.
+  function getClassName(propValue) {
+    if (!propValue.constructor || !propValue.constructor.name) {
+      return ANONYMOUS;
+    }
+    return propValue.constructor.name;
+  }
+
+  ReactPropTypes.checkPropTypes = checkPropTypes;
+  ReactPropTypes.PropTypes = ReactPropTypes;
+
+  return ReactPropTypes;
+};
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+if (true) {
+  var invariant = __webpack_require__(7);
+  var warning = __webpack_require__(8);
+  var ReactPropTypesSecret = __webpack_require__(70);
+  var loggedTypeFailures = {};
+}
+
+/**
+ * Assert that the values match with the type specs.
+ * Error messages are memorized and will only be shown once.
+ *
+ * @param {object} typeSpecs Map of name to a ReactPropType
+ * @param {object} values Runtime values that need to be type-checked
+ * @param {string} location e.g. "prop", "context", "child context"
+ * @param {string} componentName Name of the component for error messages.
+ * @param {?Function} getStack Returns the component stack.
+ * @private
+ */
+function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+  if (true) {
+    for (var typeSpecName in typeSpecs) {
+      if (typeSpecs.hasOwnProperty(typeSpecName)) {
+        var error;
+        // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+        try {
+          // This is intentionally an invariant that gets caught. It's the same
+          // behavior as without this statement except with a better message.
+          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
+          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+        } catch (ex) {
+          error = ex;
+        }
+        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
+        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
+          // Only monitor this failure once because there tends to be a lot of the
+          // same error.
+          loggedTypeFailures[error.message] = true;
+
+          var stack = getStack ? getStack() : '';
+
+          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+        }
+      }
+    }
+  }
+}
+
+module.exports = checkPropTypes;
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createHashHistory__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createHashHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_createHashHistory__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(58);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+/**
+ * The public API for a <Router> that uses window.location.hash.
+ */
+
+var HashRouter = function (_React$Component) {
+  _inherits(HashRouter, _React$Component);
+
+  function HashRouter() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, HashRouter);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.history = __WEBPACK_IMPORTED_MODULE_3_history_createHashHistory___default()(_this.props), _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  HashRouter.prototype.componentWillMount = function componentWillMount() {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!this.props.history, '<HashRouter> ignores the history prop. To use a custom history, ' + 'use `import { Router }` instead of `import { HashRouter as Router }`.');
+  };
+
+  HashRouter.prototype.render = function render() {
+    return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Router__["a" /* default */], { history: this.history, children: this.props.children });
+  };
+
+  return HashRouter;
+}(__WEBPACK_IMPORTED_MODULE_1_react___default.a.Component);
+
+HashRouter.propTypes = {
+  basename: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.string,
+  getUserConfirmation: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
+  hashType: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.oneOf(['hashbang', 'noslash', 'slash']),
+  children: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.node
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (HashRouter);
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _warning = __webpack_require__(2);
+
+var _warning2 = _interopRequireDefault(_warning);
+
+var _invariant = __webpack_require__(27);
+
+var _invariant2 = _interopRequireDefault(_invariant);
+
+var _LocationUtils = __webpack_require__(56);
+
+var _PathUtils = __webpack_require__(22);
+
+var _createTransitionManager = __webpack_require__(57);
+
+var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
+
+var _DOMUtils = __webpack_require__(69);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var HashChangeEvent = 'hashchange';
+
+var HashPathCoders = {
+  hashbang: {
+    encodePath: function encodePath(path) {
+      return path.charAt(0) === '!' ? path : '!/' + (0, _PathUtils.stripLeadingSlash)(path);
+    },
+    decodePath: function decodePath(path) {
+      return path.charAt(0) === '!' ? path.substr(1) : path;
+    }
+  },
+  noslash: {
+    encodePath: _PathUtils.stripLeadingSlash,
+    decodePath: _PathUtils.addLeadingSlash
+  },
+  slash: {
+    encodePath: _PathUtils.addLeadingSlash,
+    decodePath: _PathUtils.addLeadingSlash
+  }
+};
+
+var getHashPath = function getHashPath() {
+  // We can't use window.location.hash here because it's not
+  // consistent across browsers - Firefox will pre-decode it!
+  var href = window.location.href;
+  var hashIndex = href.indexOf('#');
+  return hashIndex === -1 ? '' : href.substring(hashIndex + 1);
+};
+
+var pushHashPath = function pushHashPath(path) {
+  return window.location.hash = path;
+};
+
+var replaceHashPath = function replaceHashPath(path) {
+  var hashIndex = window.location.href.indexOf('#');
+
+  window.location.replace(window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path);
+};
+
+var createHashHistory = function createHashHistory() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  (0, _invariant2.default)(_DOMUtils.canUseDOM, 'Hash history needs a DOM');
+
+  var globalHistory = window.history;
+  var canGoWithoutReload = (0, _DOMUtils.supportsGoWithoutReloadUsingHash)();
+
+  var _props$getUserConfirm = props.getUserConfirmation,
+      getUserConfirmation = _props$getUserConfirm === undefined ? _DOMUtils.getConfirmation : _props$getUserConfirm,
+      _props$hashType = props.hashType,
+      hashType = _props$hashType === undefined ? 'slash' : _props$hashType;
+
+  var basename = props.basename ? (0, _PathUtils.stripTrailingSlash)((0, _PathUtils.addLeadingSlash)(props.basename)) : '';
+
+  var _HashPathCoders$hashT = HashPathCoders[hashType],
+      encodePath = _HashPathCoders$hashT.encodePath,
+      decodePath = _HashPathCoders$hashT.decodePath;
+
+
+  var getDOMLocation = function getDOMLocation() {
+    var path = decodePath(getHashPath());
+
+    (0, _warning2.default)(!basename || (0, _PathUtils.hasBasename)(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".');
+
+    if (basename) path = (0, _PathUtils.stripBasename)(path, basename);
+
+    return (0, _LocationUtils.createLocation)(path);
+  };
+
+  var transitionManager = (0, _createTransitionManager2.default)();
+
+  var setState = function setState(nextState) {
+    _extends(history, nextState);
+
+    history.length = globalHistory.length;
+
+    transitionManager.notifyListeners(history.location, history.action);
+  };
+
+  var forceNextPop = false;
+  var ignorePath = null;
+
+  var handleHashChange = function handleHashChange() {
+    var path = getHashPath();
+    var encodedPath = encodePath(path);
+
+    if (path !== encodedPath) {
+      // Ensure we always have a properly-encoded hash.
+      replaceHashPath(encodedPath);
+    } else {
+      var location = getDOMLocation();
+      var prevLocation = history.location;
+
+      if (!forceNextPop && (0, _LocationUtils.locationsAreEqual)(prevLocation, location)) return; // A hashchange doesn't always == location change.
+
+      if (ignorePath === (0, _PathUtils.createPath)(location)) return; // Ignore this change; we already setState in push/replace.
+
+      ignorePath = null;
+
+      handlePop(location);
+    }
+  };
+
+  var handlePop = function handlePop(location) {
+    if (forceNextPop) {
+      forceNextPop = false;
+      setState();
+    } else {
+      var action = 'POP';
+
+      transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+        if (ok) {
+          setState({ action: action, location: location });
+        } else {
+          revertPop(location);
+        }
+      });
+    }
+  };
+
+  var revertPop = function revertPop(fromLocation) {
+    var toLocation = history.location;
+
+    // TODO: We could probably make this more reliable by
+    // keeping a list of paths we've seen in sessionStorage.
+    // Instead, we just default to 0 for paths we don't know.
+
+    var toIndex = allPaths.lastIndexOf((0, _PathUtils.createPath)(toLocation));
+
+    if (toIndex === -1) toIndex = 0;
+
+    var fromIndex = allPaths.lastIndexOf((0, _PathUtils.createPath)(fromLocation));
+
+    if (fromIndex === -1) fromIndex = 0;
+
+    var delta = toIndex - fromIndex;
+
+    if (delta) {
+      forceNextPop = true;
+      go(delta);
+    }
+  };
+
+  // Ensure the hash is encoded properly before doing anything else.
+  var path = getHashPath();
+  var encodedPath = encodePath(path);
+
+  if (path !== encodedPath) replaceHashPath(encodedPath);
+
+  var initialLocation = getDOMLocation();
+  var allPaths = [(0, _PathUtils.createPath)(initialLocation)];
+
+  // Public interface
+
+  var createHref = function createHref(location) {
+    return '#' + encodePath(basename + (0, _PathUtils.createPath)(location));
+  };
+
+  var push = function push(path, state) {
+    (0, _warning2.default)(state === undefined, 'Hash history cannot push state; it is ignored');
+
+    var action = 'PUSH';
+    var location = (0, _LocationUtils.createLocation)(path, undefined, undefined, history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var path = (0, _PathUtils.createPath)(location);
+      var encodedPath = encodePath(basename + path);
+      var hashChanged = getHashPath() !== encodedPath;
+
+      if (hashChanged) {
+        // We cannot tell if a hashchange was caused by a PUSH, so we'd
+        // rather setState here and ignore the hashchange. The caveat here
+        // is that other hash histories in the page will consider it a POP.
+        ignorePath = path;
+        pushHashPath(encodedPath);
+
+        var prevIndex = allPaths.lastIndexOf((0, _PathUtils.createPath)(history.location));
+        var nextPaths = allPaths.slice(0, prevIndex === -1 ? 0 : prevIndex + 1);
+
+        nextPaths.push(path);
+        allPaths = nextPaths;
+
+        setState({ action: action, location: location });
+      } else {
+        (0, _warning2.default)(false, 'Hash history cannot PUSH the same path; a new entry will not be added to the history stack');
+
+        setState();
+      }
+    });
+  };
+
+  var replace = function replace(path, state) {
+    (0, _warning2.default)(state === undefined, 'Hash history cannot replace state; it is ignored');
+
+    var action = 'REPLACE';
+    var location = (0, _LocationUtils.createLocation)(path, undefined, undefined, history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var path = (0, _PathUtils.createPath)(location);
+      var encodedPath = encodePath(basename + path);
+      var hashChanged = getHashPath() !== encodedPath;
+
+      if (hashChanged) {
+        // We cannot tell if a hashchange was caused by a REPLACE, so we'd
+        // rather setState here and ignore the hashchange. The caveat here
+        // is that other hash histories in the page will consider it a POP.
+        ignorePath = path;
+        replaceHashPath(encodedPath);
+      }
+
+      var prevIndex = allPaths.indexOf((0, _PathUtils.createPath)(history.location));
+
+      if (prevIndex !== -1) allPaths[prevIndex] = path;
+
+      setState({ action: action, location: location });
+    });
+  };
+
+  var go = function go(n) {
+    (0, _warning2.default)(canGoWithoutReload, 'Hash history go(n) causes a full page reload in this browser');
+
+    globalHistory.go(n);
+  };
+
+  var goBack = function goBack() {
+    return go(-1);
+  };
+
+  var goForward = function goForward() {
+    return go(1);
+  };
+
+  var listenerCount = 0;
+
+  var checkDOMListeners = function checkDOMListeners(delta) {
+    listenerCount += delta;
+
+    if (listenerCount === 1) {
+      (0, _DOMUtils.addEventListener)(window, HashChangeEvent, handleHashChange);
+    } else if (listenerCount === 0) {
+      (0, _DOMUtils.removeEventListener)(window, HashChangeEvent, handleHashChange);
+    }
+  };
+
+  var isBlocked = false;
+
+  var block = function block() {
+    var prompt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var unblock = transitionManager.setPrompt(prompt);
+
+    if (!isBlocked) {
+      checkDOMListeners(1);
+      isBlocked = true;
+    }
+
+    return function () {
+      if (isBlocked) {
+        isBlocked = false;
+        checkDOMListeners(-1);
+      }
+
+      return unblock();
+    };
+  };
+
+  var listen = function listen(listener) {
+    var unlisten = transitionManager.appendListener(listener);
+    checkDOMListeners(1);
+
+    return function () {
+      checkDOMListeners(-1);
+      unlisten();
+    };
+  };
+
+  var history = {
+    length: globalHistory.length,
+    action: 'POP',
+    location: initialLocation,
+    createHref: createHref,
+    push: push,
+    replace: replace,
+    go: go,
+    goBack: goBack,
+    goForward: goForward,
+    block: block,
+    listen: listen
+  };
+
+  return history;
+};
+
+exports.default = createHashHistory;
+
+/***/ }),
+/* 104 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_MemoryRouter__ = __webpack_require__(105);
+// Written in this round about way for babel-transform-imports
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_MemoryRouter__["a" /* default */]);
+
+/***/ }),
+/* 105 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createMemoryHistory__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_history_createMemoryHistory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_history_createMemoryHistory__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Router__ = __webpack_require__(59);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+/**
+ * The public API for a <Router> that stores location in memory.
+ */
+
+var MemoryRouter = function (_React$Component) {
+  _inherits(MemoryRouter, _React$Component);
+
+  function MemoryRouter() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, MemoryRouter);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.history = __WEBPACK_IMPORTED_MODULE_3_history_createMemoryHistory___default()(_this.props), _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  MemoryRouter.prototype.componentWillMount = function componentWillMount() {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!this.props.history, '<MemoryRouter> ignores the history prop. To use a custom history, ' + 'use `import { Router }` instead of `import { MemoryRouter as Router }`.');
+  };
+
+  MemoryRouter.prototype.render = function render() {
+    return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Router__["a" /* default */], { history: this.history, children: this.props.children });
+  };
+
+  return MemoryRouter;
+}(__WEBPACK_IMPORTED_MODULE_1_react___default.a.Component);
+
+MemoryRouter.propTypes = {
+  initialEntries: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.array,
+  initialIndex: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  getUserConfirmation: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.func,
+  keyLength: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.number,
+  children: __WEBPACK_IMPORTED_MODULE_2_prop_types___default.a.node
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (MemoryRouter);
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _warning = __webpack_require__(2);
+
+var _warning2 = _interopRequireDefault(_warning);
+
+var _PathUtils = __webpack_require__(22);
+
+var _LocationUtils = __webpack_require__(56);
+
+var _createTransitionManager = __webpack_require__(57);
+
+var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var clamp = function clamp(n, lowerBound, upperBound) {
+  return Math.min(Math.max(n, lowerBound), upperBound);
+};
+
+/**
+ * Creates a history object that stores locations in memory.
+ */
+var createMemoryHistory = function createMemoryHistory() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var getUserConfirmation = props.getUserConfirmation,
+      _props$initialEntries = props.initialEntries,
+      initialEntries = _props$initialEntries === undefined ? ['/'] : _props$initialEntries,
+      _props$initialIndex = props.initialIndex,
+      initialIndex = _props$initialIndex === undefined ? 0 : _props$initialIndex,
+      _props$keyLength = props.keyLength,
+      keyLength = _props$keyLength === undefined ? 6 : _props$keyLength;
+
+
+  var transitionManager = (0, _createTransitionManager2.default)();
+
+  var setState = function setState(nextState) {
+    _extends(history, nextState);
+
+    history.length = history.entries.length;
+
+    transitionManager.notifyListeners(history.location, history.action);
+  };
+
+  var createKey = function createKey() {
+    return Math.random().toString(36).substr(2, keyLength);
+  };
+
+  var index = clamp(initialIndex, 0, initialEntries.length - 1);
+  var entries = initialEntries.map(function (entry) {
+    return typeof entry === 'string' ? (0, _LocationUtils.createLocation)(entry, undefined, createKey()) : (0, _LocationUtils.createLocation)(entry, undefined, entry.key || createKey());
+  });
+
+  // Public interface
+
+  var createHref = _PathUtils.createPath;
+
+  var push = function push(path, state) {
+    (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored');
+
+    var action = 'PUSH';
+    var location = (0, _LocationUtils.createLocation)(path, state, createKey(), history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var prevIndex = history.index;
+      var nextIndex = prevIndex + 1;
+
+      var nextEntries = history.entries.slice(0);
+      if (nextEntries.length > nextIndex) {
+        nextEntries.splice(nextIndex, nextEntries.length - nextIndex, location);
+      } else {
+        nextEntries.push(location);
+      }
+
+      setState({
+        action: action,
+        location: location,
+        index: nextIndex,
+        entries: nextEntries
+      });
+    });
+  };
+
+  var replace = function replace(path, state) {
+    (0, _warning2.default)(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored');
+
+    var action = 'REPLACE';
+    var location = (0, _LocationUtils.createLocation)(path, state, createKey(), history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      history.entries[history.index] = location;
+
+      setState({ action: action, location: location });
+    });
+  };
+
+  var go = function go(n) {
+    var nextIndex = clamp(history.index + n, 0, history.entries.length - 1);
+
+    var action = 'POP';
+    var location = history.entries[nextIndex];
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (ok) {
+        setState({
+          action: action,
+          location: location,
+          index: nextIndex
+        });
+      } else {
+        // Mimic the behavior of DOM histories by
+        // causing a render after a cancelled POP.
+        setState();
+      }
+    });
+  };
+
+  var goBack = function goBack() {
+    return go(-1);
+  };
+
+  var goForward = function goForward() {
+    return go(1);
+  };
+
+  var canGo = function canGo(n) {
+    var nextIndex = history.index + n;
+    return nextIndex >= 0 && nextIndex < history.entries.length;
+  };
+
+  var block = function block() {
+    var prompt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    return transitionManager.setPrompt(prompt);
+  };
+
+  var listen = function listen(listener) {
+    return transitionManager.appendListener(listener);
+  };
+
+  var history = {
+    length: entries.length,
+    action: 'POP',
+    location: entries[index],
+    index: index,
+    entries: entries,
+    createHref: createHref,
+    push: push,
+    replace: replace,
+    go: go,
+    goBack: goBack,
+    goForward: goForward,
+    canGo: canGo,
+    block: block,
+    listen: listen
+  };
+
+  return history;
+};
+
+exports.default = createMemoryHistory;
+
+/***/ }),
+/* 107 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Route__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Link__ = __webpack_require__(71);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+/**
+ * A <Link> wrapper that knows if it's "active" or not.
+ */
+var NavLink = function NavLink(_ref) {
+  var to = _ref.to,
+      exact = _ref.exact,
+      strict = _ref.strict,
+      location = _ref.location,
+      activeClassName = _ref.activeClassName,
+      className = _ref.className,
+      activeStyle = _ref.activeStyle,
+      style = _ref.style,
+      getIsActive = _ref.isActive,
+      ariaCurrent = _ref.ariaCurrent,
+      rest = _objectWithoutProperties(_ref, ['to', 'exact', 'strict', 'location', 'activeClassName', 'className', 'activeStyle', 'style', 'isActive', 'ariaCurrent']);
+
+  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Route__["a" /* default */], {
+    path: (typeof to === 'undefined' ? 'undefined' : _typeof(to)) === 'object' ? to.pathname : to,
+    exact: exact,
+    strict: strict,
+    location: location,
+    children: function children(_ref2) {
+      var location = _ref2.location,
+          match = _ref2.match;
+
+      var isActive = !!(getIsActive ? getIsActive(match, location) : match);
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Link__["a" /* default */], _extends({
+        to: to,
+        className: isActive ? [className, activeClassName].filter(function (i) {
+          return i;
+        }).join(' ') : className,
+        style: isActive ? _extends({}, style, activeStyle) : style,
+        'aria-current': isActive && ariaCurrent
+      }, rest));
+    }
+  });
+};
+
+NavLink.propTypes = {
+  to: __WEBPACK_IMPORTED_MODULE_3__Link__["a" /* default */].propTypes.to,
+  exact: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  strict: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  location: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  activeClassName: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+  className: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+  activeStyle: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  style: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+  isActive: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+  ariaCurrent: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOf(['page', 'step', 'location', 'true'])
+};
+
+NavLink.defaultProps = {
+  activeClassName: 'active',
+  ariaCurrent: 'true'
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (NavLink);
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isarray = __webpack_require__(109)
+
+/**
+ * Expose `pathToRegexp`.
+ */
+module.exports = pathToRegexp
+module.exports.parse = parse
+module.exports.compile = compile
+module.exports.tokensToFunction = tokensToFunction
+module.exports.tokensToRegExp = tokensToRegExp
+
+/**
+ * The main path matching regexp utility.
+ *
+ * @type {RegExp}
+ */
+var PATH_REGEXP = new RegExp([
+  // Match escaped characters that would otherwise appear in future matches.
+  // This allows the user to escape special characters that won't transform.
+  '(\\\\.)',
+  // Match Express-style parameters and un-named parameters with a prefix
+  // and optional suffixes. Matches appear as:
+  //
+  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
+  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
+  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
+  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
+].join('|'), 'g')
+
+/**
+ * Parse a string for the raw tokens.
+ *
+ * @param  {string}  str
+ * @param  {Object=} options
+ * @return {!Array}
+ */
+function parse (str, options) {
+  var tokens = []
+  var key = 0
+  var index = 0
+  var path = ''
+  var defaultDelimiter = options && options.delimiter || '/'
+  var res
+
+  while ((res = PATH_REGEXP.exec(str)) != null) {
+    var m = res[0]
+    var escaped = res[1]
+    var offset = res.index
+    path += str.slice(index, offset)
+    index = offset + m.length
+
+    // Ignore already escaped sequences.
+    if (escaped) {
+      path += escaped[1]
+      continue
+    }
+
+    var next = str[index]
+    var prefix = res[2]
+    var name = res[3]
+    var capture = res[4]
+    var group = res[5]
+    var modifier = res[6]
+    var asterisk = res[7]
+
+    // Push the current path onto the tokens.
+    if (path) {
+      tokens.push(path)
+      path = ''
+    }
+
+    var partial = prefix != null && next != null && next !== prefix
+    var repeat = modifier === '+' || modifier === '*'
+    var optional = modifier === '?' || modifier === '*'
+    var delimiter = res[2] || defaultDelimiter
+    var pattern = capture || group
+
+    tokens.push({
+      name: name || key++,
+      prefix: prefix || '',
+      delimiter: delimiter,
+      optional: optional,
+      repeat: repeat,
+      partial: partial,
+      asterisk: !!asterisk,
+      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
+    })
+  }
+
+  // Match any characters still remaining.
+  if (index < str.length) {
+    path += str.substr(index)
+  }
+
+  // If the path exists, push it onto the end.
+  if (path) {
+    tokens.push(path)
+  }
+
+  return tokens
+}
+
+/**
+ * Compile a string to a template function for the path.
+ *
+ * @param  {string}             str
+ * @param  {Object=}            options
+ * @return {!function(Object=, Object=)}
+ */
+function compile (str, options) {
+  return tokensToFunction(parse(str, options))
+}
+
+/**
+ * Prettier encoding of URI path segments.
+ *
+ * @param  {string}
+ * @return {string}
+ */
+function encodeURIComponentPretty (str) {
+  return encodeURI(str).replace(/[\/?#]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+  })
+}
+
+/**
+ * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
+ *
+ * @param  {string}
+ * @return {string}
+ */
+function encodeAsterisk (str) {
+  return encodeURI(str).replace(/[?#]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+  })
+}
+
+/**
+ * Expose a method for transforming tokens into the path function.
+ */
+function tokensToFunction (tokens) {
+  // Compile all the tokens into regexps.
+  var matches = new Array(tokens.length)
+
+  // Compile all the patterns before compilation.
+  for (var i = 0; i < tokens.length; i++) {
+    if (typeof tokens[i] === 'object') {
+      matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$')
+    }
+  }
+
+  return function (obj, opts) {
+    var path = ''
+    var data = obj || {}
+    var options = opts || {}
+    var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent
+
+    for (var i = 0; i < tokens.length; i++) {
+      var token = tokens[i]
+
+      if (typeof token === 'string') {
+        path += token
+
+        continue
+      }
+
+      var value = data[token.name]
+      var segment
+
+      if (value == null) {
+        if (token.optional) {
+          // Prepend partial segment prefixes.
+          if (token.partial) {
+            path += token.prefix
+          }
+
+          continue
+        } else {
+          throw new TypeError('Expected "' + token.name + '" to be defined')
+        }
+      }
+
+      if (isarray(value)) {
+        if (!token.repeat) {
+          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
+        }
+
+        if (value.length === 0) {
+          if (token.optional) {
+            continue
+          } else {
+            throw new TypeError('Expected "' + token.name + '" to not be empty')
+          }
+        }
+
+        for (var j = 0; j < value.length; j++) {
+          segment = encode(value[j])
+
+          if (!matches[i].test(segment)) {
+            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
+          }
+
+          path += (j === 0 ? token.prefix : token.delimiter) + segment
+        }
+
+        continue
+      }
+
+      segment = token.asterisk ? encodeAsterisk(value) : encode(value)
+
+      if (!matches[i].test(segment)) {
+        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
+      }
+
+      path += token.prefix + segment
+    }
+
+    return path
+  }
+}
+
+/**
+ * Escape a regular expression string.
+ *
+ * @param  {string} str
+ * @return {string}
+ */
+function escapeString (str) {
+  return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
+}
+
+/**
+ * Escape the capturing group by escaping special characters and meaning.
+ *
+ * @param  {string} group
+ * @return {string}
+ */
+function escapeGroup (group) {
+  return group.replace(/([=!:$\/()])/g, '\\$1')
+}
+
+/**
+ * Attach the keys as a property of the regexp.
+ *
+ * @param  {!RegExp} re
+ * @param  {Array}   keys
+ * @return {!RegExp}
+ */
+function attachKeys (re, keys) {
+  re.keys = keys
+  return re
+}
+
+/**
+ * Get the flags for a regexp from the options.
+ *
+ * @param  {Object} options
+ * @return {string}
+ */
+function flags (options) {
+  return options.sensitive ? '' : 'i'
+}
+
+/**
+ * Pull out keys from a regexp.
+ *
+ * @param  {!RegExp} path
+ * @param  {!Array}  keys
+ * @return {!RegExp}
+ */
+function regexpToRegexp (path, keys) {
+  // Use a negative lookahead to match only capturing groups.
+  var groups = path.source.match(/\((?!\?)/g)
+
+  if (groups) {
+    for (var i = 0; i < groups.length; i++) {
+      keys.push({
+        name: i,
+        prefix: null,
+        delimiter: null,
+        optional: false,
+        repeat: false,
+        partial: false,
+        asterisk: false,
+        pattern: null
+      })
+    }
+  }
+
+  return attachKeys(path, keys)
+}
+
+/**
+ * Transform an array into a regexp.
+ *
+ * @param  {!Array}  path
+ * @param  {Array}   keys
+ * @param  {!Object} options
+ * @return {!RegExp}
+ */
+function arrayToRegexp (path, keys, options) {
+  var parts = []
+
+  for (var i = 0; i < path.length; i++) {
+    parts.push(pathToRegexp(path[i], keys, options).source)
+  }
+
+  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options))
+
+  return attachKeys(regexp, keys)
+}
+
+/**
+ * Create a path regexp from string input.
+ *
+ * @param  {string}  path
+ * @param  {!Array}  keys
+ * @param  {!Object} options
+ * @return {!RegExp}
+ */
+function stringToRegexp (path, keys, options) {
+  return tokensToRegExp(parse(path, options), keys, options)
+}
+
+/**
+ * Expose a function for taking tokens and returning a RegExp.
+ *
+ * @param  {!Array}          tokens
+ * @param  {(Array|Object)=} keys
+ * @param  {Object=}         options
+ * @return {!RegExp}
+ */
+function tokensToRegExp (tokens, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options)
+    keys = []
+  }
+
+  options = options || {}
+
+  var strict = options.strict
+  var end = options.end !== false
+  var route = ''
+
+  // Iterate over the tokens and create our regexp string.
+  for (var i = 0; i < tokens.length; i++) {
+    var token = tokens[i]
+
+    if (typeof token === 'string') {
+      route += escapeString(token)
+    } else {
+      var prefix = escapeString(token.prefix)
+      var capture = '(?:' + token.pattern + ')'
+
+      keys.push(token)
+
+      if (token.repeat) {
+        capture += '(?:' + prefix + capture + ')*'
+      }
+
+      if (token.optional) {
+        if (!token.partial) {
+          capture = '(?:' + prefix + '(' + capture + '))?'
+        } else {
+          capture = prefix + '(' + capture + ')?'
+        }
+      } else {
+        capture = prefix + '(' + capture + ')'
+      }
+
+      route += capture
+    }
+  }
+
+  var delimiter = escapeString(options.delimiter || '/')
+  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter
+
+  // In non-strict mode we allow a slash at the end of match. If the path to
+  // match already ends with a slash, we remove it for consistency. The slash
+  // is valid at the end of a path match, not in the middle. This is important
+  // in non-ending mode, where "/test/" shouldn't match "/test//route".
+  if (!strict) {
+    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?'
+  }
+
+  if (end) {
+    route += '$'
+  } else {
+    // In non-ending mode, we need the capturing groups to match as much as
+    // possible by using a positive lookahead to the end or next path segment.
+    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)'
+  }
+
+  return attachKeys(new RegExp('^' + route, flags(options)), keys)
+}
+
+/**
+ * Normalize the given path string, returning a regular expression.
+ *
+ * An empty array can be passed in for the keys, which will hold the
+ * placeholder key descriptions. For example, using `/user/:id`, `keys` will
+ * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
+ *
+ * @param  {(string|RegExp|Array)} path
+ * @param  {(Array|Object)=}       keys
+ * @param  {Object=}               options
+ * @return {!RegExp}
+ */
+function pathToRegexp (path, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options)
+    keys = []
+  }
+
+  options = options || {}
+
+  if (path instanceof RegExp) {
+    return regexpToRegexp(path, /** @type {!Array} */ (keys))
+  }
+
+  if (isarray(path)) {
+    return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
+  }
+
+  return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
+}
+
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports) {
+
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+/* 110 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_Prompt__ = __webpack_require__(111);
+// Written in this round about way for babel-transform-imports
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_Prompt__["a" /* default */]);
+
+/***/ }),
+/* 111 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_invariant__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+/**
+ * The public API for prompting the user before navigating away
+ * from a screen with a component.
+ */
+
+var Prompt = function (_React$Component) {
+  _inherits(Prompt, _React$Component);
+
+  function Prompt() {
+    _classCallCheck(this, Prompt);
+
+    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+  }
+
+  Prompt.prototype.enable = function enable(message) {
+    if (this.unblock) this.unblock();
+
+    this.unblock = this.context.router.history.block(message);
+  };
+
+  Prompt.prototype.disable = function disable() {
+    if (this.unblock) {
+      this.unblock();
+      this.unblock = null;
+    }
+  };
+
+  Prompt.prototype.componentWillMount = function componentWillMount() {
+    __WEBPACK_IMPORTED_MODULE_2_invariant___default()(this.context.router, 'You should not use <Prompt> outside a <Router>');
+
+    if (this.props.when) this.enable(this.props.message);
+  };
+
+  Prompt.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    if (nextProps.when) {
+      if (!this.props.when || this.props.message !== nextProps.message) this.enable(nextProps.message);
+    } else {
+      this.disable();
+    }
+  };
+
+  Prompt.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.disable();
+  };
+
+  Prompt.prototype.render = function render() {
+    return null;
+  };
+
+  return Prompt;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+Prompt.propTypes = {
+  when: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  message: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string]).isRequired
+};
+Prompt.defaultProps = {
+  when: true
+};
+Prompt.contextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
+    history: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
+      block: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
+    }).isRequired
+  }).isRequired
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (Prompt);
+
+/***/ }),
+/* 112 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_Redirect__ = __webpack_require__(113);
+// Written in this round about way for babel-transform-imports
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_Redirect__["a" /* default */]);
+
+/***/ }),
+/* 113 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_invariant__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history__ = __webpack_require__(114);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+/**
+ * The public API for updating the location programmatically
+ * with a component.
+ */
+
+var Redirect = function (_React$Component) {
+  _inherits(Redirect, _React$Component);
+
+  function Redirect() {
+    _classCallCheck(this, Redirect);
+
+    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+  }
+
+  Redirect.prototype.isStatic = function isStatic() {
+    return this.context.router && this.context.router.staticContext;
+  };
+
+  Redirect.prototype.componentWillMount = function componentWillMount() {
+    __WEBPACK_IMPORTED_MODULE_3_invariant___default()(this.context.router, 'You should not use <Redirect> outside a <Router>');
+
+    if (this.isStatic()) this.perform();
+  };
+
+  Redirect.prototype.componentDidMount = function componentDidMount() {
+    if (!this.isStatic()) this.perform();
+  };
+
+  Redirect.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+    var prevTo = Object(__WEBPACK_IMPORTED_MODULE_4_history__["a" /* createLocation */])(prevProps.to);
+    var nextTo = Object(__WEBPACK_IMPORTED_MODULE_4_history__["a" /* createLocation */])(this.props.to);
+
+    if (Object(__WEBPACK_IMPORTED_MODULE_4_history__["b" /* locationsAreEqual */])(prevTo, nextTo)) {
+      __WEBPACK_IMPORTED_MODULE_2_warning___default()(false, 'You tried to redirect to the same route you\'re currently on: ' + ('"' + nextTo.pathname + nextTo.search + '"'));
+      return;
+    }
+
+    this.perform();
+  };
+
+  Redirect.prototype.perform = function perform() {
+    var history = this.context.router.history;
+    var _props = this.props,
+        push = _props.push,
+        to = _props.to;
+
+
+    if (push) {
+      history.push(to);
+    } else {
+      history.replace(to);
+    }
+  };
+
+  Redirect.prototype.render = function render() {
+    return null;
+  };
+
+  return Redirect;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+Redirect.propTypes = {
+  push: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+  from: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
+  to: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string, __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object]).isRequired
+};
+Redirect.defaultProps = {
+  push: false
+};
+Redirect.contextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
+    history: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
+      push: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired,
+      replace: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func.isRequired
+    }).isRequired,
+    staticContext: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
+  }).isRequired
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (Redirect);
+
+/***/ }),
+/* 114 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createBrowserHistory__ = __webpack_require__(115);
+/* unused harmony reexport createBrowserHistory */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__createHashHistory__ = __webpack_require__(116);
+/* unused harmony reexport createHashHistory */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__createMemoryHistory__ = __webpack_require__(117);
+/* unused harmony reexport createMemoryHistory */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocationUtils__ = __webpack_require__(28);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PathUtils__ = __webpack_require__(23);
+/* unused harmony reexport parsePath */
+/* unused harmony reexport createPath */
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+/* 115 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(74);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+
+
+var PopStateEvent = 'popstate';
+var HashChangeEvent = 'hashchange';
+
+var getHistoryState = function getHistoryState() {
+  try {
+    return window.history.state || {};
+  } catch (e) {
+    // IE 11 sometimes throws when accessing window.history.state
+    // See https://github.com/ReactTraining/history/pull/289
+    return {};
+  }
+};
+
+/**
+ * Creates a history object that uses the HTML5 history API including
+ * pushState, replaceState, and the popstate event.
+ */
+var createBrowserHistory = function createBrowserHistory() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  __WEBPACK_IMPORTED_MODULE_1_invariant___default()(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["b" /* canUseDOM */], 'Browser history needs a DOM');
+
+  var globalHistory = window.history;
+  var canUseHistory = Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["g" /* supportsHistory */])();
+  var needsHashChangeListener = !Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["h" /* supportsPopStateOnHashChange */])();
+
+  var _props$forceRefresh = props.forceRefresh,
+      forceRefresh = _props$forceRefresh === undefined ? false : _props$forceRefresh,
+      _props$getUserConfirm = props.getUserConfirmation,
+      getUserConfirmation = _props$getUserConfirm === undefined ? __WEBPACK_IMPORTED_MODULE_5__DOMUtils__["c" /* getConfirmation */] : _props$getUserConfirm,
+      _props$keyLength = props.keyLength,
+      keyLength = _props$keyLength === undefined ? 6 : _props$keyLength;
+
+  var basename = props.basename ? Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["g" /* stripTrailingSlash */])(Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["a" /* addLeadingSlash */])(props.basename)) : '';
+
+  var getDOMLocation = function getDOMLocation(historyState) {
+    var _ref = historyState || {},
+        key = _ref.key,
+        state = _ref.state;
+
+    var _window$location = window.location,
+        pathname = _window$location.pathname,
+        search = _window$location.search,
+        hash = _window$location.hash;
+
+
+    var path = pathname + search + hash;
+
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!basename || Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["c" /* hasBasename */])(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".');
+
+    if (basename) path = Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["e" /* stripBasename */])(path, basename);
+
+    return Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(path, state, key);
+  };
+
+  var createKey = function createKey() {
+    return Math.random().toString(36).substr(2, keyLength);
+  };
+
+  var transitionManager = Object(__WEBPACK_IMPORTED_MODULE_4__createTransitionManager__["a" /* default */])();
+
+  var setState = function setState(nextState) {
+    _extends(history, nextState);
+
+    history.length = globalHistory.length;
+
+    transitionManager.notifyListeners(history.location, history.action);
+  };
+
+  var handlePopState = function handlePopState(event) {
+    // Ignore extraneous popstate events in WebKit.
+    if (Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["d" /* isExtraneousPopstateEvent */])(event)) return;
+
+    handlePop(getDOMLocation(event.state));
+  };
+
+  var handleHashChange = function handleHashChange() {
+    handlePop(getDOMLocation(getHistoryState()));
+  };
+
+  var forceNextPop = false;
+
+  var handlePop = function handlePop(location) {
+    if (forceNextPop) {
+      forceNextPop = false;
+      setState();
+    } else {
+      var action = 'POP';
+
+      transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+        if (ok) {
+          setState({ action: action, location: location });
+        } else {
+          revertPop(location);
+        }
+      });
+    }
+  };
+
+  var revertPop = function revertPop(fromLocation) {
+    var toLocation = history.location;
+
+    // TODO: We could probably make this more reliable by
+    // keeping a list of keys we've seen in sessionStorage.
+    // Instead, we just default to 0 for keys we don't know.
+
+    var toIndex = allKeys.indexOf(toLocation.key);
+
+    if (toIndex === -1) toIndex = 0;
+
+    var fromIndex = allKeys.indexOf(fromLocation.key);
+
+    if (fromIndex === -1) fromIndex = 0;
+
+    var delta = toIndex - fromIndex;
+
+    if (delta) {
+      forceNextPop = true;
+      go(delta);
+    }
+  };
+
+  var initialLocation = getDOMLocation(getHistoryState());
+  var allKeys = [initialLocation.key];
+
+  // Public interface
+
+  var createHref = function createHref(location) {
+    return basename + Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(location);
+  };
+
+  var push = function push(path, state) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored');
+
+    var action = 'PUSH';
+    var location = Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(path, state, createKey(), history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var href = createHref(location);
+      var key = location.key,
+          state = location.state;
+
+
+      if (canUseHistory) {
+        globalHistory.pushState({ key: key, state: state }, null, href);
+
+        if (forceRefresh) {
+          window.location.href = href;
+        } else {
+          var prevIndex = allKeys.indexOf(history.location.key);
+          var nextKeys = allKeys.slice(0, prevIndex === -1 ? 0 : prevIndex + 1);
+
+          nextKeys.push(location.key);
+          allKeys = nextKeys;
+
+          setState({ action: action, location: location });
+        }
+      } else {
+        __WEBPACK_IMPORTED_MODULE_0_warning___default()(state === undefined, 'Browser history cannot push state in browsers that do not support HTML5 history');
+
+        window.location.href = href;
+      }
+    });
+  };
+
+  var replace = function replace(path, state) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored');
+
+    var action = 'REPLACE';
+    var location = Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(path, state, createKey(), history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var href = createHref(location);
+      var key = location.key,
+          state = location.state;
+
+
+      if (canUseHistory) {
+        globalHistory.replaceState({ key: key, state: state }, null, href);
+
+        if (forceRefresh) {
+          window.location.replace(href);
+        } else {
+          var prevIndex = allKeys.indexOf(history.location.key);
+
+          if (prevIndex !== -1) allKeys[prevIndex] = location.key;
+
+          setState({ action: action, location: location });
+        }
+      } else {
+        __WEBPACK_IMPORTED_MODULE_0_warning___default()(state === undefined, 'Browser history cannot replace state in browsers that do not support HTML5 history');
+
+        window.location.replace(href);
+      }
+    });
+  };
+
+  var go = function go(n) {
+    globalHistory.go(n);
+  };
+
+  var goBack = function goBack() {
+    return go(-1);
+  };
+
+  var goForward = function goForward() {
+    return go(1);
+  };
+
+  var listenerCount = 0;
+
+  var checkDOMListeners = function checkDOMListeners(delta) {
+    listenerCount += delta;
+
+    if (listenerCount === 1) {
+      Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["a" /* addEventListener */])(window, PopStateEvent, handlePopState);
+
+      if (needsHashChangeListener) Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["a" /* addEventListener */])(window, HashChangeEvent, handleHashChange);
+    } else if (listenerCount === 0) {
+      Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["e" /* removeEventListener */])(window, PopStateEvent, handlePopState);
+
+      if (needsHashChangeListener) Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["e" /* removeEventListener */])(window, HashChangeEvent, handleHashChange);
+    }
+  };
+
+  var isBlocked = false;
+
+  var block = function block() {
+    var prompt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var unblock = transitionManager.setPrompt(prompt);
+
+    if (!isBlocked) {
+      checkDOMListeners(1);
+      isBlocked = true;
+    }
+
+    return function () {
+      if (isBlocked) {
+        isBlocked = false;
+        checkDOMListeners(-1);
+      }
+
+      return unblock();
+    };
+  };
+
+  var listen = function listen(listener) {
+    var unlisten = transitionManager.appendListener(listener);
+    checkDOMListeners(1);
+
+    return function () {
+      checkDOMListeners(-1);
+      unlisten();
+    };
+  };
+
+  var history = {
+    length: globalHistory.length,
+    action: 'POP',
+    location: initialLocation,
+    createHref: createHref,
+    push: push,
+    replace: replace,
+    go: go,
+    goBack: goBack,
+    goForward: goForward,
+    block: block,
+    listen: listen
+  };
+
+  return history;
+};
+
+/* unused harmony default export */ var _unused_webpack_default_export = (createBrowserHistory);
+
+/***/ }),
+/* 116 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(74);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+
+
+var HashChangeEvent = 'hashchange';
+
+var HashPathCoders = {
+  hashbang: {
+    encodePath: function encodePath(path) {
+      return path.charAt(0) === '!' ? path : '!/' + Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["f" /* stripLeadingSlash */])(path);
+    },
+    decodePath: function decodePath(path) {
+      return path.charAt(0) === '!' ? path.substr(1) : path;
+    }
+  },
+  noslash: {
+    encodePath: __WEBPACK_IMPORTED_MODULE_3__PathUtils__["f" /* stripLeadingSlash */],
+    decodePath: __WEBPACK_IMPORTED_MODULE_3__PathUtils__["a" /* addLeadingSlash */]
+  },
+  slash: {
+    encodePath: __WEBPACK_IMPORTED_MODULE_3__PathUtils__["a" /* addLeadingSlash */],
+    decodePath: __WEBPACK_IMPORTED_MODULE_3__PathUtils__["a" /* addLeadingSlash */]
+  }
+};
+
+var getHashPath = function getHashPath() {
+  // We can't use window.location.hash here because it's not
+  // consistent across browsers - Firefox will pre-decode it!
+  var href = window.location.href;
+  var hashIndex = href.indexOf('#');
+  return hashIndex === -1 ? '' : href.substring(hashIndex + 1);
+};
+
+var pushHashPath = function pushHashPath(path) {
+  return window.location.hash = path;
+};
+
+var replaceHashPath = function replaceHashPath(path) {
+  var hashIndex = window.location.href.indexOf('#');
+
+  window.location.replace(window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path);
+};
+
+var createHashHistory = function createHashHistory() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+  __WEBPACK_IMPORTED_MODULE_1_invariant___default()(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["b" /* canUseDOM */], 'Hash history needs a DOM');
+
+  var globalHistory = window.history;
+  var canGoWithoutReload = Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["f" /* supportsGoWithoutReloadUsingHash */])();
+
+  var _props$getUserConfirm = props.getUserConfirmation,
+      getUserConfirmation = _props$getUserConfirm === undefined ? __WEBPACK_IMPORTED_MODULE_5__DOMUtils__["c" /* getConfirmation */] : _props$getUserConfirm,
+      _props$hashType = props.hashType,
+      hashType = _props$hashType === undefined ? 'slash' : _props$hashType;
+
+  var basename = props.basename ? Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["g" /* stripTrailingSlash */])(Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["a" /* addLeadingSlash */])(props.basename)) : '';
+
+  var _HashPathCoders$hashT = HashPathCoders[hashType],
+      encodePath = _HashPathCoders$hashT.encodePath,
+      decodePath = _HashPathCoders$hashT.decodePath;
+
+
+  var getDOMLocation = function getDOMLocation() {
+    var path = decodePath(getHashPath());
+
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!basename || Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["c" /* hasBasename */])(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".');
+
+    if (basename) path = Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["e" /* stripBasename */])(path, basename);
+
+    return Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(path);
+  };
+
+  var transitionManager = Object(__WEBPACK_IMPORTED_MODULE_4__createTransitionManager__["a" /* default */])();
+
+  var setState = function setState(nextState) {
+    _extends(history, nextState);
+
+    history.length = globalHistory.length;
+
+    transitionManager.notifyListeners(history.location, history.action);
+  };
+
+  var forceNextPop = false;
+  var ignorePath = null;
+
+  var handleHashChange = function handleHashChange() {
+    var path = getHashPath();
+    var encodedPath = encodePath(path);
+
+    if (path !== encodedPath) {
+      // Ensure we always have a properly-encoded hash.
+      replaceHashPath(encodedPath);
+    } else {
+      var location = getDOMLocation();
+      var prevLocation = history.location;
+
+      if (!forceNextPop && Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["b" /* locationsAreEqual */])(prevLocation, location)) return; // A hashchange doesn't always == location change.
+
+      if (ignorePath === Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(location)) return; // Ignore this change; we already setState in push/replace.
+
+      ignorePath = null;
+
+      handlePop(location);
+    }
+  };
+
+  var handlePop = function handlePop(location) {
+    if (forceNextPop) {
+      forceNextPop = false;
+      setState();
+    } else {
+      var action = 'POP';
+
+      transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+        if (ok) {
+          setState({ action: action, location: location });
+        } else {
+          revertPop(location);
+        }
+      });
+    }
+  };
+
+  var revertPop = function revertPop(fromLocation) {
+    var toLocation = history.location;
+
+    // TODO: We could probably make this more reliable by
+    // keeping a list of paths we've seen in sessionStorage.
+    // Instead, we just default to 0 for paths we don't know.
+
+    var toIndex = allPaths.lastIndexOf(Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(toLocation));
+
+    if (toIndex === -1) toIndex = 0;
+
+    var fromIndex = allPaths.lastIndexOf(Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(fromLocation));
+
+    if (fromIndex === -1) fromIndex = 0;
+
+    var delta = toIndex - fromIndex;
+
+    if (delta) {
+      forceNextPop = true;
+      go(delta);
+    }
+  };
+
+  // Ensure the hash is encoded properly before doing anything else.
+  var path = getHashPath();
+  var encodedPath = encodePath(path);
+
+  if (path !== encodedPath) replaceHashPath(encodedPath);
+
+  var initialLocation = getDOMLocation();
+  var allPaths = [Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(initialLocation)];
+
+  // Public interface
+
+  var createHref = function createHref(location) {
+    return '#' + encodePath(basename + Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(location));
+  };
+
+  var push = function push(path, state) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(state === undefined, 'Hash history cannot push state; it is ignored');
+
+    var action = 'PUSH';
+    var location = Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(path, undefined, undefined, history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var path = Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(location);
+      var encodedPath = encodePath(basename + path);
+      var hashChanged = getHashPath() !== encodedPath;
+
+      if (hashChanged) {
+        // We cannot tell if a hashchange was caused by a PUSH, so we'd
+        // rather setState here and ignore the hashchange. The caveat here
+        // is that other hash histories in the page will consider it a POP.
+        ignorePath = path;
+        pushHashPath(encodedPath);
+
+        var prevIndex = allPaths.lastIndexOf(Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(history.location));
+        var nextPaths = allPaths.slice(0, prevIndex === -1 ? 0 : prevIndex + 1);
+
+        nextPaths.push(path);
+        allPaths = nextPaths;
+
+        setState({ action: action, location: location });
+      } else {
+        __WEBPACK_IMPORTED_MODULE_0_warning___default()(false, 'Hash history cannot PUSH the same path; a new entry will not be added to the history stack');
+
+        setState();
+      }
+    });
+  };
+
+  var replace = function replace(path, state) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(state === undefined, 'Hash history cannot replace state; it is ignored');
+
+    var action = 'REPLACE';
+    var location = Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(path, undefined, undefined, history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var path = Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(location);
+      var encodedPath = encodePath(basename + path);
+      var hashChanged = getHashPath() !== encodedPath;
+
+      if (hashChanged) {
+        // We cannot tell if a hashchange was caused by a REPLACE, so we'd
+        // rather setState here and ignore the hashchange. The caveat here
+        // is that other hash histories in the page will consider it a POP.
+        ignorePath = path;
+        replaceHashPath(encodedPath);
+      }
+
+      var prevIndex = allPaths.indexOf(Object(__WEBPACK_IMPORTED_MODULE_3__PathUtils__["b" /* createPath */])(history.location));
+
+      if (prevIndex !== -1) allPaths[prevIndex] = path;
+
+      setState({ action: action, location: location });
+    });
+  };
+
+  var go = function go(n) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(canGoWithoutReload, 'Hash history go(n) causes a full page reload in this browser');
+
+    globalHistory.go(n);
+  };
+
+  var goBack = function goBack() {
+    return go(-1);
+  };
+
+  var goForward = function goForward() {
+    return go(1);
+  };
+
+  var listenerCount = 0;
+
+  var checkDOMListeners = function checkDOMListeners(delta) {
+    listenerCount += delta;
+
+    if (listenerCount === 1) {
+      Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["a" /* addEventListener */])(window, HashChangeEvent, handleHashChange);
+    } else if (listenerCount === 0) {
+      Object(__WEBPACK_IMPORTED_MODULE_5__DOMUtils__["e" /* removeEventListener */])(window, HashChangeEvent, handleHashChange);
+    }
+  };
+
+  var isBlocked = false;
+
+  var block = function block() {
+    var prompt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    var unblock = transitionManager.setPrompt(prompt);
+
+    if (!isBlocked) {
+      checkDOMListeners(1);
+      isBlocked = true;
+    }
+
+    return function () {
+      if (isBlocked) {
+        isBlocked = false;
+        checkDOMListeners(-1);
+      }
+
+      return unblock();
+    };
+  };
+
+  var listen = function listen(listener) {
+    var unlisten = transitionManager.appendListener(listener);
+    checkDOMListeners(1);
+
+    return function () {
+      checkDOMListeners(-1);
+      unlisten();
+    };
+  };
+
+  var history = {
+    length: globalHistory.length,
+    action: 'POP',
+    location: initialLocation,
+    createHref: createHref,
+    push: push,
+    replace: replace,
+    go: go,
+    goBack: goBack,
+    goForward: goForward,
+    block: block,
+    listen: listen
+  };
+
+  return history;
+};
+
+/* unused harmony default export */ var _unused_webpack_default_export = (createHashHistory);
+
+/***/ }),
+/* 117 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PathUtils__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__createTransitionManager__ = __webpack_require__(61);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+var clamp = function clamp(n, lowerBound, upperBound) {
+  return Math.min(Math.max(n, lowerBound), upperBound);
+};
+
+/**
+ * Creates a history object that stores locations in memory.
+ */
+var createMemoryHistory = function createMemoryHistory() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var getUserConfirmation = props.getUserConfirmation,
+      _props$initialEntries = props.initialEntries,
+      initialEntries = _props$initialEntries === undefined ? ['/'] : _props$initialEntries,
+      _props$initialIndex = props.initialIndex,
+      initialIndex = _props$initialIndex === undefined ? 0 : _props$initialIndex,
+      _props$keyLength = props.keyLength,
+      keyLength = _props$keyLength === undefined ? 6 : _props$keyLength;
+
+
+  var transitionManager = Object(__WEBPACK_IMPORTED_MODULE_3__createTransitionManager__["a" /* default */])();
+
+  var setState = function setState(nextState) {
+    _extends(history, nextState);
+
+    history.length = history.entries.length;
+
+    transitionManager.notifyListeners(history.location, history.action);
+  };
+
+  var createKey = function createKey() {
+    return Math.random().toString(36).substr(2, keyLength);
+  };
+
+  var index = clamp(initialIndex, 0, initialEntries.length - 1);
+  var entries = initialEntries.map(function (entry) {
+    return typeof entry === 'string' ? Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(entry, undefined, createKey()) : Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(entry, undefined, entry.key || createKey());
+  });
+
+  // Public interface
+
+  var createHref = __WEBPACK_IMPORTED_MODULE_1__PathUtils__["b" /* createPath */];
+
+  var push = function push(path, state) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored');
+
+    var action = 'PUSH';
+    var location = Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(path, state, createKey(), history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      var prevIndex = history.index;
+      var nextIndex = prevIndex + 1;
+
+      var nextEntries = history.entries.slice(0);
+      if (nextEntries.length > nextIndex) {
+        nextEntries.splice(nextIndex, nextEntries.length - nextIndex, location);
+      } else {
+        nextEntries.push(location);
+      }
+
+      setState({
+        action: action,
+        location: location,
+        index: nextIndex,
+        entries: nextEntries
+      });
+    });
+  };
+
+  var replace = function replace(path, state) {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!((typeof path === 'undefined' ? 'undefined' : _typeof(path)) === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored');
+
+    var action = 'REPLACE';
+    var location = Object(__WEBPACK_IMPORTED_MODULE_2__LocationUtils__["a" /* createLocation */])(path, state, createKey(), history.location);
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (!ok) return;
+
+      history.entries[history.index] = location;
+
+      setState({ action: action, location: location });
+    });
+  };
+
+  var go = function go(n) {
+    var nextIndex = clamp(history.index + n, 0, history.entries.length - 1);
+
+    var action = 'POP';
+    var location = history.entries[nextIndex];
+
+    transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
+      if (ok) {
+        setState({
+          action: action,
+          location: location,
+          index: nextIndex
+        });
+      } else {
+        // Mimic the behavior of DOM histories by
+        // causing a render after a cancelled POP.
+        setState();
+      }
+    });
+  };
+
+  var goBack = function goBack() {
+    return go(-1);
+  };
+
+  var goForward = function goForward() {
+    return go(1);
+  };
+
+  var canGo = function canGo(n) {
+    var nextIndex = history.index + n;
+    return nextIndex >= 0 && nextIndex < history.entries.length;
+  };
+
+  var block = function block() {
+    var prompt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    return transitionManager.setPrompt(prompt);
+  };
+
+  var listen = function listen(listener) {
+    return transitionManager.appendListener(listener);
+  };
+
+  var history = {
+    length: entries.length,
+    action: 'POP',
+    location: entries[index],
+    index: index,
+    entries: entries,
+    createHref: createHref,
+    push: push,
+    replace: replace,
+    go: go,
+    goBack: goBack,
+    goForward: goForward,
+    canGo: canGo,
+    block: block,
+    listen: listen
+  };
+
+  return history;
+};
+
+/* unused harmony default export */ var _unused_webpack_default_export = (createMemoryHistory);
+
+/***/ }),
+/* 118 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_StaticRouter__ = __webpack_require__(119);
+// Written in this round about way for babel-transform-imports
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_StaticRouter__["a" /* default */]);
+
+/***/ }),
+/* 119 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_history_PathUtils___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Router__ = __webpack_require__(59);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+var normalizeLocation = function normalizeLocation(object) {
+  var _object$pathname = object.pathname,
+      pathname = _object$pathname === undefined ? '/' : _object$pathname,
+      _object$search = object.search,
+      search = _object$search === undefined ? '' : _object$search,
+      _object$hash = object.hash,
+      hash = _object$hash === undefined ? '' : _object$hash;
+
+
+  return {
+    pathname: pathname,
+    search: search === '?' ? '' : search,
+    hash: hash === '#' ? '' : hash
+  };
+};
+
+var addBasename = function addBasename(basename, location) {
+  if (!basename) return location;
+
+  return _extends({}, location, {
+    pathname: Object(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__["addLeadingSlash"])(basename) + location.pathname
+  });
+};
+
+var stripBasename = function stripBasename(basename, location) {
+  if (!basename) return location;
+
+  var base = Object(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__["addLeadingSlash"])(basename);
+
+  if (location.pathname.indexOf(base) !== 0) return location;
+
+  return _extends({}, location, {
+    pathname: location.pathname.substr(base.length)
+  });
+};
+
+var createLocation = function createLocation(location) {
+  return typeof location === 'string' ? Object(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__["parsePath"])(location) : normalizeLocation(location);
+};
+
+var createURL = function createURL(location) {
+  return typeof location === 'string' ? location : Object(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__["createPath"])(location);
+};
+
+var staticHandler = function staticHandler(methodName) {
+  return function () {
+    __WEBPACK_IMPORTED_MODULE_1_invariant___default()(false, 'You cannot %s with <StaticRouter>', methodName);
+  };
+};
+
+var noop = function noop() {};
+
+/**
+ * The public top-level API for a "static" <Router>, so-called because it
+ * can't actually change the current location. Instead, it just records
+ * location changes in a context object. Useful mainly in testing and
+ * server-rendering scenarios.
+ */
+
+var StaticRouter = function (_React$Component) {
+  _inherits(StaticRouter, _React$Component);
+
+  function StaticRouter() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, StaticRouter);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.createHref = function (path) {
+      return Object(__WEBPACK_IMPORTED_MODULE_4_history_PathUtils__["addLeadingSlash"])(_this.props.basename + createURL(path));
+    }, _this.handlePush = function (location) {
+      var _this$props = _this.props,
+          basename = _this$props.basename,
+          context = _this$props.context;
+
+      context.action = 'PUSH';
+      context.location = addBasename(basename, createLocation(location));
+      context.url = createURL(context.location);
+    }, _this.handleReplace = function (location) {
+      var _this$props2 = _this.props,
+          basename = _this$props2.basename,
+          context = _this$props2.context;
+
+      context.action = 'REPLACE';
+      context.location = addBasename(basename, createLocation(location));
+      context.url = createURL(context.location);
+    }, _this.handleListen = function () {
+      return noop;
+    }, _this.handleBlock = function () {
+      return noop;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  StaticRouter.prototype.getChildContext = function getChildContext() {
+    return {
+      router: {
+        staticContext: this.props.context
+      }
+    };
+  };
+
+  StaticRouter.prototype.componentWillMount = function componentWillMount() {
+    __WEBPACK_IMPORTED_MODULE_0_warning___default()(!this.props.history, '<StaticRouter> ignores the history prop. To use a custom history, ' + 'use `import { Router }` instead of `import { StaticRouter as Router }`.');
+  };
+
+  StaticRouter.prototype.render = function render() {
+    var _props = this.props,
+        basename = _props.basename,
+        context = _props.context,
+        location = _props.location,
+        props = _objectWithoutProperties(_props, ['basename', 'context', 'location']);
+
+    var history = {
+      createHref: this.createHref,
+      action: 'POP',
+      location: stripBasename(basename, createLocation(location)),
+      push: this.handlePush,
+      replace: this.handleReplace,
+      go: staticHandler('go'),
+      goBack: staticHandler('goBack'),
+      goForward: staticHandler('goForward'),
+      listen: this.handleListen,
+      block: this.handleBlock
+    };
+
+    return __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Router__["a" /* default */], _extends({}, props, { history: history }));
+  };
+
+  return StaticRouter;
+}(__WEBPACK_IMPORTED_MODULE_2_react___default.a.Component);
+
+StaticRouter.propTypes = {
+  basename: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.string,
+  context: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object.isRequired,
+  location: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.oneOfType([__WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.string, __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object])
+};
+StaticRouter.defaultProps = {
+  basename: '',
+  location: '/'
+};
+StaticRouter.childContextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_3_prop_types___default.a.object.isRequired
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (StaticRouter);
+
+/***/ }),
+/* 120 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_Switch__ = __webpack_require__(121);
+// Written in this round about way for babel-transform-imports
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_Switch__["a" /* default */]);
+
+/***/ }),
+/* 121 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_invariant__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__matchPath__ = __webpack_require__(60);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+/**
+ * The public API for rendering the first <Route> that matches.
+ */
+
+var Switch = function (_React$Component) {
+  _inherits(Switch, _React$Component);
+
+  function Switch() {
+    _classCallCheck(this, Switch);
+
+    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+  }
+
+  Switch.prototype.componentWillMount = function componentWillMount() {
+    __WEBPACK_IMPORTED_MODULE_3_invariant___default()(this.context.router, 'You should not use <Switch> outside a <Router>');
+  };
+
+  Switch.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    __WEBPACK_IMPORTED_MODULE_2_warning___default()(!(nextProps.location && !this.props.location), '<Switch> elements should not change from uncontrolled to controlled (or vice versa). You initially used no "location" prop and then provided one on a subsequent render.');
+
+    __WEBPACK_IMPORTED_MODULE_2_warning___default()(!(!nextProps.location && this.props.location), '<Switch> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.');
+  };
+
+  Switch.prototype.render = function render() {
+    var route = this.context.router.route;
+    var children = this.props.children;
+
+    var location = this.props.location || route.location;
+
+    var match = void 0,
+        child = void 0;
+    __WEBPACK_IMPORTED_MODULE_0_react___default.a.Children.forEach(children, function (element) {
+      if (!__WEBPACK_IMPORTED_MODULE_0_react___default.a.isValidElement(element)) return;
+
+      var _element$props = element.props,
+          pathProp = _element$props.path,
+          exact = _element$props.exact,
+          strict = _element$props.strict,
+          sensitive = _element$props.sensitive,
+          from = _element$props.from;
+
+      var path = pathProp || from;
+
+      if (match == null) {
+        child = element;
+        match = path ? Object(__WEBPACK_IMPORTED_MODULE_4__matchPath__["a" /* default */])(location.pathname, { path: path, exact: exact, strict: strict, sensitive: sensitive }) : route.match;
+      }
+    });
+
+    return match ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.cloneElement(child, { location: location, computedMatch: match }) : null;
+  };
+
+  return Switch;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+Switch.contextTypes = {
+  router: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.shape({
+    route: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired
+  }).isRequired
+};
+Switch.propTypes = {
+  children: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.node,
+  location: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
+};
+
+
+/* harmony default export */ __webpack_exports__["a"] = (Switch);
+
+/***/ }),
+/* 122 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_matchPath__ = __webpack_require__(60);
+// Written in this round about way for babel-transform-imports
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_matchPath__["a" /* default */]);
+
+/***/ }),
+/* 123 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_withRouter__ = __webpack_require__(124);
+// Written in this round about way for babel-transform-imports
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_withRouter__["a" /* default */]);
+
+/***/ }),
+/* 124 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__ = __webpack_require__(125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(73);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+
+
+
+
+
+/**
+ * A public higher-order component to access the imperative API
+ */
+var withRouter = function withRouter(Component) {
+  var C = function C(props) {
+    var wrappedComponentRef = props.wrappedComponentRef,
+        remainingProps = _objectWithoutProperties(props, ['wrappedComponentRef']);
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__Route__["a" /* default */], { render: function render(routeComponentProps) {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Component, _extends({}, remainingProps, routeComponentProps, { ref: wrappedComponentRef }));
+      } });
+  };
+
+  C.displayName = 'withRouter(' + (Component.displayName || Component.name) + ')';
+  C.WrappedComponent = Component;
+  C.propTypes = {
+    wrappedComponentRef: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func
+  };
+
+  return __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics___default()(C, Component);
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (withRouter);
+
+/***/ }),
+/* 125 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright 2015, Yahoo! Inc.
+ * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
+ */
+(function (global, factory) {
+     true ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.hoistNonReactStatics = factory());
+}(this, (function () {
+    'use strict';
+    
+    var REACT_STATICS = {
+        childContextTypes: true,
+        contextTypes: true,
+        defaultProps: true,
+        displayName: true,
+        getDefaultProps: true,
+        getDerivedStateFromProps: true,
+        mixins: true,
+        propTypes: true,
+        type: true
+    };
+    
+    var KNOWN_STATICS = {
+        name: true,
+        length: true,
+        prototype: true,
+        caller: true,
+        callee: true,
+        arguments: true,
+        arity: true
+    };
+    
+    var defineProperty = Object.defineProperty;
+    var getOwnPropertyNames = Object.getOwnPropertyNames;
+    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+    var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+    var getPrototypeOf = Object.getPrototypeOf;
+    var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
+    
+    return function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
+        if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+            
+            if (objectPrototype) {
+                var inheritedComponent = getPrototypeOf(sourceComponent);
+                if (inheritedComponent && inheritedComponent !== objectPrototype) {
+                    hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
+                }
+            }
+            
+            var keys = getOwnPropertyNames(sourceComponent);
+            
+            if (getOwnPropertySymbols) {
+                keys = keys.concat(getOwnPropertySymbols(sourceComponent));
+            }
+            
+            for (var i = 0; i < keys.length; ++i) {
+                var key = keys[i];
+                if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
+                    var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
+                    try { // Avoid failures from read-only properties
+                        defineProperty(targetComponent, key, descriptor);
+                    } catch (e) {}
+                }
+            }
+            
+            return targetComponent;
+        }
+        
+        return targetComponent;
+    };
+})));
+
+
+/***/ }),
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -47591,22 +53409,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __webpack_require__(8);
-const $ = __webpack_require__(20);
-const _ = __webpack_require__(15);
-const React = __webpack_require__(1);
-const c = __webpack_require__(50);
-const log_1 = __webpack_require__(51);
-const utils_1 = __webpack_require__(7);
-const web3_1 = __webpack_require__(52);
-const Splash_1 = __webpack_require__(73);
+const axios_1 = __webpack_require__(15);
+const $ = __webpack_require__(24);
+const _ = __webpack_require__(14);
+const React = __webpack_require__(0);
+const c = __webpack_require__(75);
+const log_1 = __webpack_require__(62);
+const utils_1 = __webpack_require__(10);
+const web3_1 = __webpack_require__(76);
+const Splash_1 = __webpack_require__(127);
 // tslint:disable:jsx-no-multiline-js
-const Debug_1 = __webpack_require__(74);
-const KittyItem_1 = __webpack_require__(53);
-const KittyItemManager_1 = __webpack_require__(26);
-const halogenium_1 = __webpack_require__(75);
-const config_1 = __webpack_require__(5);
-class App extends React.Component {
+const Debug_1 = __webpack_require__(128);
+const KittyItem_1 = __webpack_require__(63);
+const KittyItemManager_1 = __webpack_require__(25);
+const halogenium_1 = __webpack_require__(129);
+const config_1 = __webpack_require__(6);
+class KittyHatsWeb extends React.Component {
     constructor(props) {
         // Start listening to the window events and watch for show events
         // Update the state accordingly..
@@ -48144,10 +53962,30 @@ class App extends React.Component {
                             position: 'fixed',
                             bottom: 0,
                             left: 0
-                        } })))));
+                        } }))),
+            React.createElement("div", null,
+                React.createElement("div", { style: { position: 'fixed', bottom: 0, height: '25px', width: '100%', display: 'flex', 'flexDirection': 'row-reverse', 'fontSize': '14px' } },
+                    React.createElement("div", null,
+                        React.createElement("span", { style: { marginRight: '32px' } }, " \u00A9 Salina Labs 2018")),
+                    React.createElement("div", null,
+                        React.createElement("a", { target: "_blank", href: "/privacy.html", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Privacy Policy")),
+                    React.createElement("div", null,
+                        React.createElement("a", { target: "_blank", href: "/tos.html", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Terms of Service")),
+                    React.createElement("div", null,
+                        React.createElement("a", { target: "_blank", href: "https://medium.com/@cryptokittyhawk/how-to-draw-a-hat-b640cd4783d7", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Artists")),
+                    React.createElement("div", null,
+                        React.createElement("a", { target: "_blank", href: "https://docs.google.com/document/d/1ZLfURiFvYRmcRozp-00C48Q63PjQz-uMrP9ehWrRg3k", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "White Pa-purr")),
+                    React.createElement("div", null,
+                        React.createElement("a", { target: "_blank", href: "https://discord.gg/uYzp3vr", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Discord")),
+                    React.createElement("div", null,
+                        React.createElement("a", { target: "_blank", href: "https://etherscan.io/address/0xfc9ec868f4c8c586d1bb7586870908cca53d5f38", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Etherscan")),
+                    React.createElement("div", null,
+                        React.createElement("a", { target: "_blank", href: "https://chrome.google.com/webstore/detail/kitty-hats/fhdpjkkmdmpdglambidhbckogfhhelok?authuser=1", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Chrome Extension")),
+                    React.createElement("div", null,
+                        React.createElement("a", { target: "_blank", href: "https://www.kittyexplorer.com/?source=kittyhats", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "KittyExplorer"))))));
     }
 }
-exports.App = App;
+exports.KittyHatsWeb = KittyHatsWeb;
 const styles = {
     item: {
         borderRadius: '2px',
@@ -48212,15 +54050,15 @@ const styles = {
 
 
 /***/ }),
-/* 73 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const _ = __webpack_require__(15);
-const React = __webpack_require__(1);
-const c = __webpack_require__(50);
+const _ = __webpack_require__(14);
+const React = __webpack_require__(0);
+const c = __webpack_require__(75);
 // tslint:disable:max-line-length
 class Splash extends React.Component {
     render() {
@@ -48260,7 +54098,7 @@ exports.Splash = Splash;
 
 
 /***/ }),
-/* 74 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48274,9 +54112,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const config_1 = __webpack_require__(5);
-const KittyItem_1 = __webpack_require__(53);
+const React = __webpack_require__(0);
+const config_1 = __webpack_require__(6);
+const KittyItem_1 = __webpack_require__(63);
 class Debug extends React.Component {
     constructor(props) {
         super(props);
@@ -48320,7 +54158,7 @@ exports.Debug = Debug;
 
 
 /***/ }),
-/* 75 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48331,67 +54169,67 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SyncLoader = exports.SquareLoader = exports.SkewLoader = exports.ScaleLoader = exports.RotateLoader = exports.RiseLoader = exports.RingLoader = exports.PulseLoader = exports.PacmanLoader = exports.MoonLoader = exports.GridLoader = exports.FadeLoader = exports.DotLoader = exports.ClipLoader = exports.BounceLoader = exports.BeatLoader = undefined;
 
-var _BeatLoader2 = __webpack_require__(76);
+var _BeatLoader2 = __webpack_require__(130);
 
 var _BeatLoader3 = _interopRequireDefault(_BeatLoader2);
 
-var _BounceLoader2 = __webpack_require__(82);
+var _BounceLoader2 = __webpack_require__(136);
 
 var _BounceLoader3 = _interopRequireDefault(_BounceLoader2);
 
-var _ClipLoader2 = __webpack_require__(83);
+var _ClipLoader2 = __webpack_require__(137);
 
 var _ClipLoader3 = _interopRequireDefault(_ClipLoader2);
 
-var _DotLoader2 = __webpack_require__(84);
+var _DotLoader2 = __webpack_require__(138);
 
 var _DotLoader3 = _interopRequireDefault(_DotLoader2);
 
-var _FadeLoader2 = __webpack_require__(85);
+var _FadeLoader2 = __webpack_require__(139);
 
 var _FadeLoader3 = _interopRequireDefault(_FadeLoader2);
 
-var _GridLoader2 = __webpack_require__(86);
+var _GridLoader2 = __webpack_require__(140);
 
 var _GridLoader3 = _interopRequireDefault(_GridLoader2);
 
-var _MoonLoader2 = __webpack_require__(87);
+var _MoonLoader2 = __webpack_require__(141);
 
 var _MoonLoader3 = _interopRequireDefault(_MoonLoader2);
 
-var _PacmanLoader2 = __webpack_require__(88);
+var _PacmanLoader2 = __webpack_require__(142);
 
 var _PacmanLoader3 = _interopRequireDefault(_PacmanLoader2);
 
-var _PulseLoader2 = __webpack_require__(89);
+var _PulseLoader2 = __webpack_require__(143);
 
 var _PulseLoader3 = _interopRequireDefault(_PulseLoader2);
 
-var _RingLoader2 = __webpack_require__(90);
+var _RingLoader2 = __webpack_require__(144);
 
 var _RingLoader3 = _interopRequireDefault(_RingLoader2);
 
-var _RiseLoader2 = __webpack_require__(91);
+var _RiseLoader2 = __webpack_require__(145);
 
 var _RiseLoader3 = _interopRequireDefault(_RiseLoader2);
 
-var _RotateLoader2 = __webpack_require__(92);
+var _RotateLoader2 = __webpack_require__(146);
 
 var _RotateLoader3 = _interopRequireDefault(_RotateLoader2);
 
-var _ScaleLoader2 = __webpack_require__(93);
+var _ScaleLoader2 = __webpack_require__(147);
 
 var _ScaleLoader3 = _interopRequireDefault(_ScaleLoader2);
 
-var _SkewLoader2 = __webpack_require__(94);
+var _SkewLoader2 = __webpack_require__(148);
 
 var _SkewLoader3 = _interopRequireDefault(_SkewLoader2);
 
-var _SquareLoader2 = __webpack_require__(95);
+var _SquareLoader2 = __webpack_require__(149);
 
 var _SquareLoader3 = _interopRequireDefault(_SquareLoader2);
 
-var _SyncLoader2 = __webpack_require__(96);
+var _SyncLoader2 = __webpack_require__(150);
 
 var _SyncLoader3 = _interopRequireDefault(_SyncLoader2);
 
@@ -48416,7 +54254,7 @@ exports.SyncLoader = _SyncLoader3.default;
 
 
 /***/ }),
-/* 76 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48430,19 +54268,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -48579,7 +54417,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 77 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48592,13 +54430,13 @@ module.exports = exports['default'];
 
 
 
-var emptyFunction = __webpack_require__(14);
-var invariant = __webpack_require__(16);
-var warning = __webpack_require__(17);
-var assign = __webpack_require__(46);
+var emptyFunction = __webpack_require__(12);
+var invariant = __webpack_require__(7);
+var warning = __webpack_require__(8);
+var assign = __webpack_require__(21);
 
-var ReactPropTypesSecret = __webpack_require__(49);
-var checkPropTypes = __webpack_require__(47);
+var ReactPropTypesSecret = __webpack_require__(65);
+var checkPropTypes = __webpack_require__(55);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -49128,13 +54966,13 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 /***/ }),
-/* 78 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var builtinStyle = __webpack_require__(79);
+var builtinStyle = __webpack_require__(133);
 var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
 var domVendorPrefix;
 
@@ -49172,7 +55010,7 @@ module.exports = function(prop, isSupportTest) {
 
 
 /***/ }),
-/* 79 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49182,7 +55020,7 @@ module.exports = document.createElement('div').style;
 
 
 /***/ }),
-/* 80 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49208,7 +55046,7 @@ module.exports = function(css) {
 
 
 /***/ }),
-/* 81 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49228,7 +55066,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 82 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49242,19 +55080,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -49393,7 +55231,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 83 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49407,19 +55245,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -49548,7 +55386,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 84 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49562,19 +55400,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -49740,7 +55578,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 85 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49754,19 +55592,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -49969,7 +55807,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 86 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -49983,19 +55821,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -50153,7 +55991,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 87 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50167,19 +56005,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -50329,7 +56167,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 88 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50341,19 +56179,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -50522,7 +56360,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 89 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50534,19 +56372,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -50698,7 +56536,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 90 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50710,19 +56548,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -50905,7 +56743,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 91 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -50917,19 +56755,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -51116,7 +56954,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 92 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51128,19 +56966,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -51299,7 +57137,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 93 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51311,19 +57149,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -51478,7 +57316,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 94 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51490,19 +57328,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -51651,7 +57489,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 95 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51663,19 +57501,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -51824,7 +57662,7 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 96 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51836,19 +57674,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(2);
+var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _appendVendorPrefix = __webpack_require__(3);
+var _appendVendorPrefix = __webpack_require__(4);
 
 var _appendVendorPrefix2 = _interopRequireDefault(_appendVendorPrefix);
 
-var _insertKeyframesRule = __webpack_require__(4);
+var _insertKeyframesRule = __webpack_require__(5);
 
 var _insertKeyframesRule2 = _interopRequireDefault(_insertKeyframesRule);
 
@@ -51994,6 +57832,733 @@ SyncLoader.defaultProps = {
   margin: '2px' };
 exports.default = SyncLoader;
 module.exports = exports['default'];
+
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(152);
+const $ = __webpack_require__(24);
+const _ = __webpack_require__(14);
+const React = __webpack_require__(0);
+const log_1 = __webpack_require__(62);
+const utils_1 = __webpack_require__(10);
+const KittyItem_1 = __webpack_require__(63);
+const KittyItemManager_1 = __webpack_require__(25);
+const config_1 = __webpack_require__(6);
+class KittyHatsCryptoGoods extends React.Component {
+    constructor(props) {
+        // Start listening to the window events and watch for show events
+        // Update the state accordingly..
+        super(props);
+        log_1.log(config_1.default);
+        if (utils_1.isNonNull(props.container)) {
+            this.containerElement = $(`#${props.container}`);
+        }
+        this.state = {
+            kittyId: null,
+            page: '/marketplace',
+            firstTimeUser: true,
+            isLoading: true,
+            kittyData: null,
+            popupVisible: false,
+            isInIframe: utils_1.isInIframe()
+        };
+    }
+    componentWillMount() {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.fetchListing();
+            var __this = this;
+            var propsCast = __this.props;
+            var id = propsCast.props.match.params.id;
+            yield this.setState({ kittyId: id });
+            try {
+                yield fetch(`https://api.cryptokitties.co/kitties/${id}`, {
+                    method: 'get',
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    __this.setState({ kittyData: data });
+                });
+            }
+            catch (e) {
+                return e; // TODO provide a useful error message
+            }
+            yield this.fetchAppliedToKitty();
+        });
+    }
+    fetchAppliedToKitty() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const applied = {};
+            const { kittyId } = this.state;
+            this.setState({ appliedToKitty: undefined });
+            const result = yield KittyItemManager_1.KittyItemManager.getKittyItems([kittyId]);
+            const appliedItems = result[kittyId];
+            for (const categoryName in config_1.default.categories) {
+                if (categoryName === undefined) {
+                    continue;
+                }
+                const category = config_1.default.categories[categoryName];
+                for (const item of category.items) {
+                    if (appliedItems.indexOf(item.assetUrl) > -1) {
+                        applied[item.tokenAddress] = true;
+                    }
+                    else {
+                        applied[item.tokenAddress] = false;
+                    }
+                }
+            }
+            this.setState({ appliedToKitty: applied });
+            this.validateAppliedToKitty();
+        });
+    }
+    fetchListing() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const listing = yield KittyItem_1.KittyItem.getListed();
+            this.setState({ listing });
+        });
+    }
+    validateAppliedToKitty() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { kittyId, appliedToKitty } = this.state;
+            const applied = {};
+            for (const categoryName in config_1.default.categories) {
+                if (categoryName === undefined) {
+                    continue;
+                }
+                const category = config_1.default.categories[categoryName];
+                for (const item of category.items) {
+                    const isApplied = yield KittyItem_1.KittyItem.applied(kittyId, item.tokenAddress);
+                    if (isApplied !== appliedToKitty[item.tokenAddress]) {
+                        log_1.log(`Mismatch on ${item.tokenAddress}`);
+                        applied[item.tokenAddress] = isApplied;
+                    }
+                }
+            }
+            // If there was a mismatch on one of the items, update the state to use blockchain copy
+            // and invalidate the cache
+            if (Object.keys(applied).length > 0) {
+                this.setState({
+                    appliedToKitty: Object.assign({}, appliedToKitty, applied)
+                });
+                const invalidateSuccess = yield KittyItemManager_1.KittyItemManager.invalidateCache(kittyId);
+                log_1.log(`Cache invalidate success ${invalidateSuccess}`);
+            }
+        });
+    }
+    render() {
+        const { account } = this.state;
+        // tslint:disable-next-line:max-line-length
+        const { kittyId, kittyData, listing, selectedItem, appliedToKitty, kittyCoreOwner, ownerKitties, isInIframe } = this.state;
+        const isSpecial = kittyData && kittyData.fancy_type !== null;
+        const appliedItems = [];
+        if (utils_1.isNonNull(listing) && utils_1.isNonNull(appliedToKitty)) {
+            for (const catName in listing) {
+                if (catName === undefined) {
+                    continue;
+                }
+                const cat = listing[catName];
+                for (const item of cat.items) {
+                    if (appliedToKitty[item.tokenAddress] === true) {
+                        appliedItems.push(item);
+                    }
+                }
+            }
+        }
+        const appliedDadaItem = _.find(appliedItems, (e) => e.assetUrl.indexOf('dada') > -1);
+        return (React.createElement("div", null,
+            React.createElement("div", { style: { display: 'flex', flexDirection: 'row', marginTop: '1vh' } },
+                React.createElement("div", { style: Object.assign({}, styles.previewContainer) },
+                    React.createElement("img", { 
+                        // tslint:disable-next-line:max-line-length
+                        src: (utils_1.isNonNull(kittyData) ? kittyData.image_url : 'img/nullcat.svg'), style: {
+                            maxWidth: '550px',
+                            width: '80%',
+                            position: 'absolute',
+                            borderRadius: '6px'
+                        } }),
+                    (appliedItems.length > 0 && !isSpecial) &&
+                        _.map(_.filter(appliedItems, (element) => element.assetUrl.indexOf('dada') === -1), (element) => {
+                            if (utils_1.isNull(element)) {
+                                return null;
+                            }
+                            return React.createElement("img", { key: element.tokenAddress, src: `img/asset/${element.assetUrl}.svg`, style: { width: '80%', maxWidth: '550px', position: 'absolute' } });
+                        }),
+                    (() => {
+                        // If a dada item is applied render an easel
+                        if (utils_1.isNull(appliedDadaItem)) {
+                            return null;
+                        }
+                        const imageUrl = 'img/asset/easel.svg';
+                        if (utils_1.isNonNull(appliedDadaItem)) {
+                            return React.createElement("img", { src: imageUrl, style: { width: '80%', position: 'absolute', maxWidth: '550px' } });
+                        }
+                    })(),
+                    (() => {
+                        if (utils_1.isNull(appliedDadaItem)) {
+                            return null;
+                        }
+                        const dadaArtUrl = `img/asset/${appliedDadaItem.assetUrl}.png`;
+                        return React.createElement("img", { src: dadaArtUrl, style: { width: '27%', marginTop: '31.8%', marginLeft: '1%', position: 'absolute', maxWidth: '550px' } });
+                    })(),
+                    (() => {
+                        if (utils_1.isNull(appliedDadaItem)) {
+                            return null;
+                        }
+                        const dadaPlacardUrl = `img/asset/${appliedDadaItem.assetUrl.replace('dada', 'dada-placard')}.svg`;
+                        return React.createElement("img", { src: dadaPlacardUrl, style: { width: '80%', position: 'absolute', maxWidth: '550px' } });
+                    })()))));
+    }
+}
+exports.KittyHatsCryptoGoods = KittyHatsCryptoGoods;
+const styles = {
+    item: {
+        borderRadius: '2px',
+        background: 'rgb(255,254,254)',
+        height: '270px',
+        width: '200px',
+        paddingTop: '5px',
+        paddingLeft: '10px',
+        marginRight: '5px',
+    },
+    itemImage: {
+        cursor: 'pointer',
+        height: '120px',
+        width: '120px',
+        boxShadow: '0px 1px 0px rgba(0,0,0,0.2)',
+        background: 'white',
+        borderRadius: '8px',
+        border: '1px solid #f3f3f3',
+        overflow: 'hidden',
+    },
+    categoryHeader: {
+        marginTop: '6px',
+        marginBottom: '6px',
+        fontFamily: 'Calibre,Helvetica,Arial,sans-serif',
+        fontSize: '2.0rem',
+        color: 'rgb(165, 163, 163)',
+        fontWeight: 500
+    },
+    previewContainer: {
+        width: '40%',
+        fontWeight: '500',
+        position: 'relative'
+    },
+    itemTitle: {
+        fontFamily: 'Calibre,Helvetica,Arial,sans-serif',
+        height: '2.7rem',
+        fontSize: '1.8rem',
+        color: '#2a2825',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        fontWeight: '500',
+        cursor: 'pointer'
+    },
+    pill: {
+        color: 'white',
+        height: '20px',
+        lineHeight: '20px',
+        background: 'rgb(251, 163, 112)',
+        borderRadius: '20px',
+        fontSize: '14px',
+        textAlign: 'center',
+        marginRight: '3px',
+        fontWeight: '700',
+        paddingLeft: '5px',
+        paddingRight: '5px'
+    },
+    quantityPill: {
+        color: '#9c9c9c',
+        background: 'rgb(230, 230, 230)'
+    }
+};
+
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports) {
+
+(function(self) {
+  'use strict';
+
+  if (self.fetch) {
+    return
+  }
+
+  var support = {
+    searchParams: 'URLSearchParams' in self,
+    iterable: 'Symbol' in self && 'iterator' in Symbol,
+    blob: 'FileReader' in self && 'Blob' in self && (function() {
+      try {
+        new Blob()
+        return true
+      } catch(e) {
+        return false
+      }
+    })(),
+    formData: 'FormData' in self,
+    arrayBuffer: 'ArrayBuffer' in self
+  }
+
+  if (support.arrayBuffer) {
+    var viewClasses = [
+      '[object Int8Array]',
+      '[object Uint8Array]',
+      '[object Uint8ClampedArray]',
+      '[object Int16Array]',
+      '[object Uint16Array]',
+      '[object Int32Array]',
+      '[object Uint32Array]',
+      '[object Float32Array]',
+      '[object Float64Array]'
+    ]
+
+    var isDataView = function(obj) {
+      return obj && DataView.prototype.isPrototypeOf(obj)
+    }
+
+    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
+      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
+    }
+  }
+
+  function normalizeName(name) {
+    if (typeof name !== 'string') {
+      name = String(name)
+    }
+    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+      throw new TypeError('Invalid character in header field name')
+    }
+    return name.toLowerCase()
+  }
+
+  function normalizeValue(value) {
+    if (typeof value !== 'string') {
+      value = String(value)
+    }
+    return value
+  }
+
+  // Build a destructive iterator for the value list
+  function iteratorFor(items) {
+    var iterator = {
+      next: function() {
+        var value = items.shift()
+        return {done: value === undefined, value: value}
+      }
+    }
+
+    if (support.iterable) {
+      iterator[Symbol.iterator] = function() {
+        return iterator
+      }
+    }
+
+    return iterator
+  }
+
+  function Headers(headers) {
+    this.map = {}
+
+    if (headers instanceof Headers) {
+      headers.forEach(function(value, name) {
+        this.append(name, value)
+      }, this)
+    } else if (Array.isArray(headers)) {
+      headers.forEach(function(header) {
+        this.append(header[0], header[1])
+      }, this)
+    } else if (headers) {
+      Object.getOwnPropertyNames(headers).forEach(function(name) {
+        this.append(name, headers[name])
+      }, this)
+    }
+  }
+
+  Headers.prototype.append = function(name, value) {
+    name = normalizeName(name)
+    value = normalizeValue(value)
+    var oldValue = this.map[name]
+    this.map[name] = oldValue ? oldValue+','+value : value
+  }
+
+  Headers.prototype['delete'] = function(name) {
+    delete this.map[normalizeName(name)]
+  }
+
+  Headers.prototype.get = function(name) {
+    name = normalizeName(name)
+    return this.has(name) ? this.map[name] : null
+  }
+
+  Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(normalizeName(name))
+  }
+
+  Headers.prototype.set = function(name, value) {
+    this.map[normalizeName(name)] = normalizeValue(value)
+  }
+
+  Headers.prototype.forEach = function(callback, thisArg) {
+    for (var name in this.map) {
+      if (this.map.hasOwnProperty(name)) {
+        callback.call(thisArg, this.map[name], name, this)
+      }
+    }
+  }
+
+  Headers.prototype.keys = function() {
+    var items = []
+    this.forEach(function(value, name) { items.push(name) })
+    return iteratorFor(items)
+  }
+
+  Headers.prototype.values = function() {
+    var items = []
+    this.forEach(function(value) { items.push(value) })
+    return iteratorFor(items)
+  }
+
+  Headers.prototype.entries = function() {
+    var items = []
+    this.forEach(function(value, name) { items.push([name, value]) })
+    return iteratorFor(items)
+  }
+
+  if (support.iterable) {
+    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+  }
+
+  function consumed(body) {
+    if (body.bodyUsed) {
+      return Promise.reject(new TypeError('Already read'))
+    }
+    body.bodyUsed = true
+  }
+
+  function fileReaderReady(reader) {
+    return new Promise(function(resolve, reject) {
+      reader.onload = function() {
+        resolve(reader.result)
+      }
+      reader.onerror = function() {
+        reject(reader.error)
+      }
+    })
+  }
+
+  function readBlobAsArrayBuffer(blob) {
+    var reader = new FileReader()
+    var promise = fileReaderReady(reader)
+    reader.readAsArrayBuffer(blob)
+    return promise
+  }
+
+  function readBlobAsText(blob) {
+    var reader = new FileReader()
+    var promise = fileReaderReady(reader)
+    reader.readAsText(blob)
+    return promise
+  }
+
+  function readArrayBufferAsText(buf) {
+    var view = new Uint8Array(buf)
+    var chars = new Array(view.length)
+
+    for (var i = 0; i < view.length; i++) {
+      chars[i] = String.fromCharCode(view[i])
+    }
+    return chars.join('')
+  }
+
+  function bufferClone(buf) {
+    if (buf.slice) {
+      return buf.slice(0)
+    } else {
+      var view = new Uint8Array(buf.byteLength)
+      view.set(new Uint8Array(buf))
+      return view.buffer
+    }
+  }
+
+  function Body() {
+    this.bodyUsed = false
+
+    this._initBody = function(body) {
+      this._bodyInit = body
+      if (!body) {
+        this._bodyText = ''
+      } else if (typeof body === 'string') {
+        this._bodyText = body
+      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+        this._bodyBlob = body
+      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+        this._bodyFormData = body
+      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+        this._bodyText = body.toString()
+      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
+        this._bodyArrayBuffer = bufferClone(body.buffer)
+        // IE 10-11 can't handle a DataView body.
+        this._bodyInit = new Blob([this._bodyArrayBuffer])
+      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
+        this._bodyArrayBuffer = bufferClone(body)
+      } else {
+        throw new Error('unsupported BodyInit type')
+      }
+
+      if (!this.headers.get('content-type')) {
+        if (typeof body === 'string') {
+          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+        } else if (this._bodyBlob && this._bodyBlob.type) {
+          this.headers.set('content-type', this._bodyBlob.type)
+        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+        }
+      }
+    }
+
+    if (support.blob) {
+      this.blob = function() {
+        var rejected = consumed(this)
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return Promise.resolve(this._bodyBlob)
+        } else if (this._bodyArrayBuffer) {
+          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as blob')
+        } else {
+          return Promise.resolve(new Blob([this._bodyText]))
+        }
+      }
+
+      this.arrayBuffer = function() {
+        if (this._bodyArrayBuffer) {
+          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
+        } else {
+          return this.blob().then(readBlobAsArrayBuffer)
+        }
+      }
+    }
+
+    this.text = function() {
+      var rejected = consumed(this)
+      if (rejected) {
+        return rejected
+      }
+
+      if (this._bodyBlob) {
+        return readBlobAsText(this._bodyBlob)
+      } else if (this._bodyArrayBuffer) {
+        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
+      } else if (this._bodyFormData) {
+        throw new Error('could not read FormData body as text')
+      } else {
+        return Promise.resolve(this._bodyText)
+      }
+    }
+
+    if (support.formData) {
+      this.formData = function() {
+        return this.text().then(decode)
+      }
+    }
+
+    this.json = function() {
+      return this.text().then(JSON.parse)
+    }
+
+    return this
+  }
+
+  // HTTP methods whose capitalization should be normalized
+  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+  function normalizeMethod(method) {
+    var upcased = method.toUpperCase()
+    return (methods.indexOf(upcased) > -1) ? upcased : method
+  }
+
+  function Request(input, options) {
+    options = options || {}
+    var body = options.body
+
+    if (input instanceof Request) {
+      if (input.bodyUsed) {
+        throw new TypeError('Already read')
+      }
+      this.url = input.url
+      this.credentials = input.credentials
+      if (!options.headers) {
+        this.headers = new Headers(input.headers)
+      }
+      this.method = input.method
+      this.mode = input.mode
+      if (!body && input._bodyInit != null) {
+        body = input._bodyInit
+        input.bodyUsed = true
+      }
+    } else {
+      this.url = String(input)
+    }
+
+    this.credentials = options.credentials || this.credentials || 'omit'
+    if (options.headers || !this.headers) {
+      this.headers = new Headers(options.headers)
+    }
+    this.method = normalizeMethod(options.method || this.method || 'GET')
+    this.mode = options.mode || this.mode || null
+    this.referrer = null
+
+    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+      throw new TypeError('Body not allowed for GET or HEAD requests')
+    }
+    this._initBody(body)
+  }
+
+  Request.prototype.clone = function() {
+    return new Request(this, { body: this._bodyInit })
+  }
+
+  function decode(body) {
+    var form = new FormData()
+    body.trim().split('&').forEach(function(bytes) {
+      if (bytes) {
+        var split = bytes.split('=')
+        var name = split.shift().replace(/\+/g, ' ')
+        var value = split.join('=').replace(/\+/g, ' ')
+        form.append(decodeURIComponent(name), decodeURIComponent(value))
+      }
+    })
+    return form
+  }
+
+  function parseHeaders(rawHeaders) {
+    var headers = new Headers()
+    // Replace instances of \r\n and \n followed by at least one space or horizontal tab with a space
+    // https://tools.ietf.org/html/rfc7230#section-3.2
+    var preProcessedHeaders = rawHeaders.replace(/\r?\n[\t ]+/g, ' ')
+    preProcessedHeaders.split(/\r?\n/).forEach(function(line) {
+      var parts = line.split(':')
+      var key = parts.shift().trim()
+      if (key) {
+        var value = parts.join(':').trim()
+        headers.append(key, value)
+      }
+    })
+    return headers
+  }
+
+  Body.call(Request.prototype)
+
+  function Response(bodyInit, options) {
+    if (!options) {
+      options = {}
+    }
+
+    this.type = 'default'
+    this.status = options.status === undefined ? 200 : options.status
+    this.ok = this.status >= 200 && this.status < 300
+    this.statusText = 'statusText' in options ? options.statusText : 'OK'
+    this.headers = new Headers(options.headers)
+    this.url = options.url || ''
+    this._initBody(bodyInit)
+  }
+
+  Body.call(Response.prototype)
+
+  Response.prototype.clone = function() {
+    return new Response(this._bodyInit, {
+      status: this.status,
+      statusText: this.statusText,
+      headers: new Headers(this.headers),
+      url: this.url
+    })
+  }
+
+  Response.error = function() {
+    var response = new Response(null, {status: 0, statusText: ''})
+    response.type = 'error'
+    return response
+  }
+
+  var redirectStatuses = [301, 302, 303, 307, 308]
+
+  Response.redirect = function(url, status) {
+    if (redirectStatuses.indexOf(status) === -1) {
+      throw new RangeError('Invalid status code')
+    }
+
+    return new Response(null, {status: status, headers: {location: url}})
+  }
+
+  self.Headers = Headers
+  self.Request = Request
+  self.Response = Response
+
+  self.fetch = function(input, init) {
+    return new Promise(function(resolve, reject) {
+      var request = new Request(input, init)
+      var xhr = new XMLHttpRequest()
+
+      xhr.onload = function() {
+        var options = {
+          status: xhr.status,
+          statusText: xhr.statusText,
+          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
+        }
+        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
+        var body = 'response' in xhr ? xhr.response : xhr.responseText
+        resolve(new Response(body, options))
+      }
+
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.ontimeout = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.open(request.method, request.url, true)
+
+      if (request.credentials === 'include') {
+        xhr.withCredentials = true
+      } else if (request.credentials === 'omit') {
+        xhr.withCredentials = false
+      }
+
+      if ('responseType' in xhr && support.blob) {
+        xhr.responseType = 'blob'
+      }
+
+      request.headers.forEach(function(value, name) {
+        xhr.setRequestHeader(name, value)
+      })
+
+      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+    })
+  }
+  self.fetch.polyfill = true
+})(typeof self !== 'undefined' ? self : this);
 
 
 /***/ })

@@ -42,9 +42,11 @@ interface IAppState {
 interface IAppProps {
 	version?: string;
 	container?: HTMLElement;
+        props?: any;
 	// We dont need props since we're interacting through standard window events.
 	// To get a clean seperation of interaface in and out of the app
 }
+
 export class KittyHatsCryptoGoods extends React.Component<IAppProps, IAppState> {
 	private containerElement: JQuery<HTMLElement>;
 	public constructor(props) {
@@ -70,10 +72,11 @@ export class KittyHatsCryptoGoods extends React.Component<IAppProps, IAppState> 
         public async componentWillMount(){
           await this.fetchListing();
 
-          var id =this.props.props.match.params.id
-          await this.setState({kittyId: id});
+          var __this = this;
+          var propsCast = __this.props as any;
 
-          var _this = this;
+          var id = propsCast.props.match.params.id;
+          await this.setState({kittyId: id});
 
           try {
             await fetch(`https://api.cryptokitties.co/kitties/${id}`, {
@@ -84,7 +87,7 @@ export class KittyHatsCryptoGoods extends React.Component<IAppProps, IAppState> 
             }).then(function(response) {
               return response.json()
             }).then(function(data){
-              _this.setState({kittyData:data});
+              __this.setState({kittyData:data});
             });
           } catch(e) {
             return e; // TODO provide a useful error message

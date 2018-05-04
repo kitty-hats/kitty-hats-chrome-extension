@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import * as ShallowRenderer from 'react-test-renderer/shallow';
-import { App } from '../App';
+import { KittyHatsWeb } from '../KittyHatsWeb';
 
 import mock from 'xhr-mock';
 
@@ -27,7 +27,7 @@ afterAll(() => {
 describe('Client basics', () => {
 	global.chrome = { extension: { getURL: jest.fn() }};
 	it('App should render', () => {
-		renderer.render(<App/>, null);
+		renderer.render(<KittyHatsWeb/>, null);
 		const result: {} = renderer.getRenderOutput();
 		expect(result).toBeTruthy();
 		expect.assertions(1);
