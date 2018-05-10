@@ -64,13 +64,15 @@ export class KittyHatsCryptoGoods extends React.Component<IAppProps, IAppState> 
 			isLoading: true,
                         kittyData: null,
 			popupVisible: false,
-			isInIframe: checkIsInIframe()
+			isInIframe: checkIsInIframe(),
 		};
 
 	}
    
         public async componentWillMount(){
           await this.fetchListing();
+
+          (window as any).allItemsLoaded = false;
 
           var __this = this;
           var propsCast = __this.props as any;
@@ -116,6 +118,7 @@ export class KittyHatsCryptoGoods extends React.Component<IAppProps, IAppState> 
 			}
 		}
 		this.setState({ appliedToKitty: applied });
+                (window as any).allItemsLoaded = true;
 		this.validateAppliedToKitty();
 	}
 

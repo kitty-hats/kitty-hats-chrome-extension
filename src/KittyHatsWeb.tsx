@@ -128,7 +128,7 @@ export class KittyHatsWeb extends React.Component<IAppProps, IAppState> {
             var kittyData = this.state.kittyData;
             (window as any).CryptoGoods.open({
                 payload: {
-                    image_url: kittyData.image_url
+                    image_url: `http://18.206.4.224/${kittyData.id}.png?ts=${Date.now()}`
                 }
             });
         }

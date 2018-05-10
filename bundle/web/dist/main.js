@@ -596,7 +596,7 @@ const environments = {
             KittyCoreExample
         } })
 };
-const config = environments["staging"];
+const config = environments["prod"];
 exports.default = config;
 
 
@@ -18120,7 +18120,7 @@ module.exports = function xhrAdapter(config) {
     // For IE 8/9 CORS support
     // Only supports POST and GET calls and doesn't returns the response headers.
     // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("staging" !== 'test' &&
+    if ("prod" !== 'test' &&
         typeof window !== 'undefined' &&
         window.XDomainRequest && !('withCredentials' in request) &&
         !isURLSameOrigin(config.url)) {
@@ -49364,7 +49364,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             'Use `PropTypes.checkPropTypes()` to call them. ' +
             'Read more at http://fb.me/use-check-prop-types'
           );
-        } else if ("staging" !== 'production' && typeof console !== 'undefined') {
+        } else if ("prod" !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (
@@ -50292,7 +50292,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             'Use `PropTypes.checkPropTypes()` to call them. ' +
             'Read more at http://fb.me/use-check-prop-types'
           );
-        } else if ("staging" !== 'production' && typeof console !== 'undefined') {
+        } else if ("prod" !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (
@@ -53499,7 +53499,7 @@ class KittyHatsWeb extends React.Component {
         var kittyData = this.state.kittyData;
         window.CryptoGoods.open({
             payload: {
-                image_url: kittyData.image_url
+                image_url: `http://18.206.4.224/${kittyData.id}.png?ts=${Date.now()}`
             }
         });
     }
@@ -53966,7 +53966,7 @@ class KittyHatsWeb extends React.Component {
             React.createElement("div", null,
                 React.createElement("div", { style: { position: 'fixed', bottom: 0, height: '25px', width: '100%', display: 'flex', 'flexDirection': 'row-reverse', 'fontSize': '14px' } },
                     React.createElement("div", null,
-                        React.createElement("span", { style: { marginRight: '32px' } }, " \u00A9 Salina Labs 2018")),
+                        React.createElement("span", { style: { marginRight: '44px' } }, " \u00A9 Salina Labs 2018")),
                     React.createElement("div", null,
                         React.createElement("a", { target: "_blank", href: "/privacy.html", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Privacy Policy")),
                     React.createElement("div", null,
@@ -54586,7 +54586,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             'Use `PropTypes.checkPropTypes()` to call them. ' +
             'Read more at http://fb.me/use-check-prop-types'
           );
-        } else if ("staging" !== 'production' && typeof console !== 'undefined') {
+        } else if ("prod" !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (
@@ -57874,12 +57874,13 @@ class KittyHatsCryptoGoods extends React.Component {
             isLoading: true,
             kittyData: null,
             popupVisible: false,
-            isInIframe: utils_1.isInIframe()
+            isInIframe: utils_1.isInIframe(),
         };
     }
     componentWillMount() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.fetchListing();
+            window.allItemsLoaded = false;
             var __this = this;
             var propsCast = __this.props;
             var id = propsCast.props.match.params.id;
@@ -57924,6 +57925,7 @@ class KittyHatsCryptoGoods extends React.Component {
                 }
             }
             this.setState({ appliedToKitty: applied });
+            window.allItemsLoaded = true;
             this.validateAppliedToKitty();
         });
     }

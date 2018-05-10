@@ -412,7 +412,7 @@ const environments = {
             KittyCoreExample
         } })
 };
-const config = environments["staging"];
+const config = environments["prod"];
 exports.default = config;
 
 
@@ -17680,7 +17680,7 @@ module.exports = function xhrAdapter(config) {
     // For IE 8/9 CORS support
     // Only supports POST and GET calls and doesn't returns the response headers.
     // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("staging" !== 'test' &&
+    if ("prod" !== 'test' &&
         typeof window !== 'undefined' &&
         window.XDomainRequest && !('withCredentials' in request) &&
         !isURLSameOrigin(config.url)) {
