@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 360 360" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:1.5;">
+    <g transform="matrix(4.01523,0,0,4.09845,-203.756,-507.358)">
+        <g id="Transparent-Layer" serif:id="Transparent Layer">
+            <rect x="50.746" y="123.793" width="89.659" height="87.838" style="fill:rgb(235,235,235);fill-opacity:0;"/>
+        </g>
+    </g>
+    <g id="Angel-Halo--gold-" serif:id="Angel Halo (gold)" transform="matrix(0.438815,0,0,0.419409,-445.181,-12.3166)">
+        <g transform="matrix(1.04947,-0.0093852,0.009534,0.963215,-54.5699,-153.89)">
+            <ellipse cx="1405.43" cy="536.164" rx="304" ry="79.333" style="fill:none;stroke:rgb(255,239,133);stroke-opacity:0.47451;stroke-width:148.87px;"/>
+        </g>
+        <g transform="matrix(1.83141,0,2.69626e-16,1.89612,1101,204.643)">
+            <ellipse cx="176.131" cy="263.059" rx="149.507" ry="36.865" style="fill:rgb(0,0,1);fill-opacity:0.305882;"/>
+        </g>
+        <g transform="matrix(0.994844,-0.00889665,0.0109836,1.10966,18.5973,-217.142)">
+            <ellipse cx="1405.43" cy="536.164" rx="304" ry="79.333" style="fill:none;stroke:rgb(49,50,61);stroke-width:77.5px;"/>
+        </g>
+        <g transform="matrix(0.889379,-0.0079535,0.015314,1.54716,176.557,-493.486)">
+            <ellipse cx="1391" cy="557.164" rx="339" ry="57.333" style="fill:none;stroke:rgb(247,188,86);stroke-width:37.32px;"/>
+        </g>
+        <g transform="matrix(0.900009,-0.00804856,0.0152009,1.53574,162.176,-482.739)">
+            <ellipse cx="1391" cy="557.164" rx="339" ry="57.333" style="fill:none;stroke:rgb(255,239,133);stroke-width:37.4px;"/>
+        </g>
+        <g transform="matrix(0.900009,-0.00804856,0.015083,1.52383,162.307,-469.528)">
+            <ellipse cx="1391" cy="557.164" rx="339" ry="57.333" style="fill:none;stroke:rgb(247,188,86);stroke-width:37.62px;"/>
+        </g>
+        <g transform="matrix(0.885836,-0.00792181,0.0150879,1.52432,182.079,-463.96)">
+            <ellipse cx="1391" cy="557.164" rx="339" ry="57.333" style="fill:none;stroke:rgb(255,160,58);stroke-width:37.77px;"/>
+        </g>
+        <g transform="matrix(-0.875122,-0.0383639,-0.0437686,0.794262,2664.81,-35.6024)">
+            <path d="M1088.56,580.439C1087.19,579.073 1076.29,570.834 1076.75,565.23C1077.13,560.487 1089.96,552.53 1093.43,550.873" style="fill:none;stroke:rgb(49,50,61);stroke-width:8.27px;stroke-linejoin:round;"/>
+        </g>
+        <g transform="matrix(1.01198,-0.0860661,0.0776181,0.836108,14.4204,-2.8105)">
+            <path d="M1088.56,580.439C1087.19,579.073 1076.29,570.834 1076.75,565.23C1077.13,560.487 1089.96,552.53 1093.43,550.873" style="fill:none;stroke:rgb(49,50,61);stroke-width:7.41px;stroke-linejoin:round;"/>
+        </g>
+    </g>
+</svg>
