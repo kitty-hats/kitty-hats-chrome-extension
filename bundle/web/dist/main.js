@@ -596,7 +596,7 @@ const environments = {
             KittyCoreExample
         } })
 };
-const config = environments["prod"];
+const config = environments["staging"];
 exports.default = config;
 
 
@@ -18120,7 +18120,7 @@ module.exports = function xhrAdapter(config) {
     // For IE 8/9 CORS support
     // Only supports POST and GET calls and doesn't returns the response headers.
     // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("prod" !== 'test' &&
+    if ("staging" !== 'test' &&
         typeof window !== 'undefined' &&
         window.XDomainRequest && !('withCredentials' in request) &&
         !isURLSameOrigin(config.url)) {
@@ -49364,7 +49364,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             'Use `PropTypes.checkPropTypes()` to call them. ' +
             'Read more at http://fb.me/use-check-prop-types'
           );
-        } else if ("prod" !== 'production' && typeof console !== 'undefined') {
+        } else if ("staging" !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (
@@ -50292,7 +50292,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             'Use `PropTypes.checkPropTypes()` to call them. ' +
             'Read more at http://fb.me/use-check-prop-types'
           );
-        } else if ("prod" !== 'production' && typeof console !== 'undefined') {
+        } else if ("staging" !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (
@@ -53981,9 +53981,9 @@ class KittyHatsWeb extends React.Component {
                     React.createElement("div", null,
                         React.createElement("a", { target: "_blank", href: "https://etherscan.io/address/0xfc9ec868f4c8c586d1bb7586870908cca53d5f38", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Etherscan")),
                     React.createElement("div", null,
-                        React.createElement("a", { target: "_blank", href: "https://chrome.google.com/webstore/detail/kitty-hats/gfadonhfgbchdemgmcneipmjpjnpookn", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Chrome Extension")),
+                        React.createElement("a", { target: "_blank", href: "https://www.kittyexplorer.com/?source=kittyhats", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "KittyExplorer")),
                     React.createElement("div", null,
-                        React.createElement("a", { target: "_blank", href: "https://www.kittyexplorer.com/?source=kittyhats", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "KittyExplorer"))))));
+                        React.createElement("a", { target: "_blank", href: "https://chrome.google.com/webstore/detail/kitty-hats/fhdpjkkmdmpdglambidhbckogfhhelok?authuser=1", style: { marginRight: '20px', color: '#4babff', fontWeight: 500 } }, "Install our Chrome Extension"))))));
     }
 }
 exports.KittyHatsWeb = KittyHatsWeb;
@@ -54086,12 +54086,12 @@ class Splash extends React.Component {
                     React.createElement("h1", { style: { letterSpacing: '-3.23px', lineHeight: 1.2, fontSize: '3em' } }, " Hats, apparel and accessories "),
                     React.createElement("h1", { style: { letterSpacing: '-3.23px', lineHeight: 1.2, fontSize: '3em' } }, " for your CryptoKitties "),
                     (window.web3 !== undefined ?
-                        (React.createElement("h4", { style: { fontSize: '1.7em', fontWeight: 300, marginTop: '50px' } }, " To get started, unlock Metamask "))
+                        (React.createElement("h4", { style: { fontSize: '1.7em', fontWeight: 300, marginTop: '50px' } }, " To get started, unlock MetaMask "))
                         : React.createElement("div", { style: { marginTop: '30px' } },
                             " ",
-                            React.createElement("a", { href: 'https://cryptokitties.co/', target: '_blank', className: 'Button Button--love Button--largest Button--cta' }, " CryptoKitties "),
+                            React.createElement("a", { href: 'https://metamask.io/', target: '_blank', className: 'Button Button--buy Button--largest Button--cta' }, " Install MetaMask "),
                             " ",
-                            React.createElement("a", { href: 'https://metamask.io/', target: '_blank', className: 'Button Button--buy Button--largest Button--cta' }, " Install Metamask "),
+                            React.createElement("a", { href: 'https://chrome.google.com/webstore/detail/kitty-hats/gfadonhfgbchdemgmcneipmjpjnpookn', target: '_blank', className: 'Button Button--love Button--largest Button--cta' }, " Get the KittyHats Chrome Extension "),
                             " "))))));
     }
 }
@@ -54587,7 +54587,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             'Use `PropTypes.checkPropTypes()` to call them. ' +
             'Read more at http://fb.me/use-check-prop-types'
           );
-        } else if ("prod" !== 'production' && typeof console !== 'undefined') {
+        } else if ("staging" !== 'production' && typeof console !== 'undefined') {
           // Old behavior for people using React.PropTypes
           var cacheKey = componentName + ':' + propName;
           if (

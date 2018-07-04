@@ -829,7 +829,7 @@ export class KittyHatsWeb extends React.Component<IAppProps, IAppState> {
                                         	</div>
 
                                         	<div><a target="_blank"
-                                        	        href="https://chrome.google.com/webstore/detail/kitty-hats/fhdpjkkmdmpdglambidhbckogfhhelok?authuser=1"
+                                        	        href="https://chrome.google.com/webstore/detail/kitty-hats/gfadonhfgbchdemgmcneipmjpjnpookn"
                                         	        style={{marginRight:'20px',color:'#4babff',fontWeight:500}}>
                                         	        Install our Chrome Extension
                                         	        </a>
