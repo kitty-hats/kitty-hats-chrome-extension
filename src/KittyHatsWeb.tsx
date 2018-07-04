@@ -822,16 +822,20 @@ export class KittyHatsWeb extends React.Component<IAppProps, IAppState> {
                                         	</div>
 
                                         	<div><a target="_blank"
+<<<<<<< HEAD
+                                        	        href="https://www.kittyexplorer.com/?source=kittyhats"
+=======
                                         	        href="https://chrome.google.com/webstore/detail/kitty-hats/gfadonhfgbchdemgmcneipmjpjnpookn"
+>>>>>>> c3ae9cc528b1b3f66698b3808875f97d5952e366
                                         	        style={{marginRight:'20px',color:'#4babff',fontWeight:500}}>
-                                        	        Chrome Extension
+                                        	        KittyExplorer
                                         	        </a>
                                         	</div>
 
                                         	<div><a target="_blank"
-                                        	        href="https://www.kittyexplorer.com/?source=kittyhats"
+                                        	        href="https://chrome.google.com/webstore/detail/kitty-hats/fhdpjkkmdmpdglambidhbckogfhhelok?authuser=1"
                                         	        style={{marginRight:'20px',color:'#4babff',fontWeight:500}}>
-                                        	        KittyExplorer
+                                        	        Install our Chrome Extension
                                         	        </a>
                                         	</div>
                 			</div>

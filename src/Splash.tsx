@@ -33,8 +33,8 @@ export class Splash extends React.Component<{}, {}> {
 					<h1 style={{letterSpacing: '-3.23px', lineHeight: 1.2, fontSize: '3em'}}> Hats, apparel and accessories </h1>
 					<h1 style={{letterSpacing: '-3.23px', lineHeight: 1.2, fontSize: '3em'}}> for your CryptoKitties </h1>
 					{((window as any).web3 !== undefined ?
-						(<h4 style={{ fontSize: '1.7em', fontWeight: 300, marginTop: '50px'}}> To get started, unlock Metamask </h4>)
-						: <div style={{ marginTop: '30px'}}> <a href='https://cryptokitties.co/' target='_blank' className='Button Button--love Button--largest Button--cta'> CryptoKitties </a> <a href='https://metamask.io/' target='_blank' className='Button Button--buy Button--largest Button--cta'> Install Metamask </a> </div> )
+						(<h4 style={{ fontSize: '1.7em', fontWeight: 300, marginTop: '50px'}}> To get started, unlock MetaMask </h4>)
+						: <div style={{ marginTop: '30px'}}> <a href='https://metamask.io/' target='_blank' className='Button Button--buy Button--largest Button--cta'> Install MetaMask </a> <a href='https://chrome.google.com/webstore/detail/kitty-hats/gfadonhfgbchdemgmcneipmjpjnpookn' target='_blank' className='Button Button--love Button--largest Button--cta'> Get the KittyHats Chrome Extension </a> </div> )
 					}
 				</div>
 			</div>
